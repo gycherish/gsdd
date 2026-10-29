@@ -39,12 +39,12 @@ This skill's main question is: when the completed tasks are viewed together, do 
 
 **If no arguments provided**:
 - Parse conversation history for `/kiro-impl` commands to detect recently implemented features and tasks
-- Scan `.kiro/specs/` for features with completed tasks `[x]`
+- Scan `docs/specs/` for features with completed tasks `[x]`
 - Report detected implementations (e.g., "user-auth: 1.1, 1.2, 1.3")
 
 **If feature provided** (feature specified, tasks empty):
 - Use specified feature
-- Detect all completed tasks `[x]` in `.kiro/specs/{feature}/tasks.md`
+- Detect all completed tasks `[x]` in `docs/specs/{feature}/tasks.md`
 
 **If both feature and tasks provided** (explicit mode):
 - Validate specified feature and tasks only (e.g., `user-auth 1.1,1.2`)
@@ -53,10 +53,10 @@ This skill's main question is: when the completed tasks are viewed together, do 
 
 Reuse steering/spec context already available from conversation; load missing context below for each detected feature.
 Select skills for the current task even when steering/spec context is already available:
-- Read `.kiro/specs/<feature>/spec.json` for metadata
-- Read `.kiro/specs/<feature>/requirements.md` for requirements
-- Read `.kiro/specs/<feature>/design.md` for design structure
-- Read `.kiro/specs/<feature>/tasks.md` for task list and Implementation Notes
+- Read `docs/specs/<feature>/spec.json` for metadata
+- Read `docs/specs/<feature>/requirements.md` for requirements
+- Read `docs/specs/<feature>/design.md` for design structure
+- Read `docs/specs/<feature>/tasks.md` for task list and Implementation Notes
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to the validated boundaries, runtime prerequisites, integrations, domain rules, security/performance constraints, or team conventions that affect the GO/NO-GO call
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.

@@ -19,7 +19,7 @@ allowed-tools: Read, Glob, Grep, Agent
 
 ### Step 1: Read Roadmap and Validate
 
-1. Read `.kiro/steering/roadmap.md`
+1. Read `docs/steering/roadmap.md`
 2. Parse the `## Specs (dependency order)` section to extract:
    - Feature names
    - One-line descriptions
@@ -29,7 +29,7 @@ allowed-tools: Read, Glob, Grep, Agent
    - `## Existing Spec Updates`
    - `## Direct Implementation Candidates`
    Do not include these in dependency-wave execution; they are awareness-only inputs for sequencing and consistency review.
-4. For each pending feature in `## Specs (dependency order)`, verify `.kiro/specs/<feature>/brief.md` exists
+4. For each pending feature in `## Specs (dependency order)`, verify `docs/specs/<feature>/brief.md` exists
 5. If any brief.md is missing, stop and report: "Missing brief.md for: [list]. Run `/kiro-discovery` to generate briefs first."
 
 ### Step 2: Build Dependency Waves
@@ -62,8 +62,8 @@ For each wave, dispatch all features in the wave as **parallel subagents** via t
 Create a complete specification for feature "{feature-name}".
 Bind the feature argument in each phase to "{feature-name}" (including `$1` or `{feature}` references). This batch uses the existing fast-track mode: supply `-y` to design and tasks before entering their approval checks. Required phase review gates still apply.
 
-1. Read the brief at .kiro/specs/{feature-name}/brief.md for feature context
-2. Read the roadmap at .kiro/steering/roadmap.md for project context
+1. Read the brief at docs/specs/{feature-name}/brief.md for feature context
+2. Read the roadmap at docs/steering/roadmap.md for project context
 3. Execute the full spec pipeline. For each phase, read the corresponding skill's SKILL.md for complete instructions (templates, rules, review gates):
    a. Initialize: If spec.json already exists, reuse that spec without reinitializing or renaming it. Otherwise read .claude/skills/kiro-spec-init/SKILL.md; use the brief as the project description and initialize spec.json and requirements.md in the existing brief directory. Later phases may update their own artifacts.
    b. Generate requirements: Read .claude/skills/kiro-spec-requirements/SKILL.md and execute for feature "{feature-name}"
@@ -89,10 +89,10 @@ After all waves complete, dispatch a **single subagent** for cross-spec consiste
 You are a cross-spec reviewer. Read ALL generated specs and check for consistency across the entire project.
 
 Read these files for every feature in the roadmap:
-- .kiro/specs/*/design.md (primary: contains interfaces, data models, architecture)
-- .kiro/specs/*/requirements.md (for scope and acceptance criteria)
-- .kiro/specs/*/tasks.md (for boundary annotations only -- read _Boundary:_ lines, skip task descriptions)
-- .kiro/steering/roadmap.md
+- docs/specs/*/design.md (primary: contains interfaces, data models, architecture)
+- docs/specs/*/requirements.md (for scope and acceptance criteria)
+- docs/specs/*/tasks.md (for boundary annotations only -- read _Boundary:_ lines, skip task descriptions)
+- docs/steering/roadmap.md
 
 Reading priority: Focus on design.md files (they contain interfaces, data models, architecture). For requirements.md, focus on section headings and acceptance criteria. For tasks.md, focus on _Boundary:_ annotations.
 
@@ -128,7 +128,7 @@ Output format:
 
 ### Step 5: Finalize
 
-1. Glob `.kiro/specs/*/tasks.md` to verify all specs exist
+1. Glob `docs/specs/*/tasks.md` to verify all specs exist
 2. For each completed spec, read spec.json to confirm phase and approvals
 3. Update roadmap.md: mark completed specs as `[x]`
 4. If roadmap.md includes `Existing Spec Updates` or `Direct Implementation Candidates`, leave them untouched and mention them as remaining follow-up items unless already explicitly completed elsewhere

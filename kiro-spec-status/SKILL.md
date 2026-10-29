@@ -17,11 +17,11 @@ argument-hint: <feature-name>
 ## Execution Steps
 
 ### Step 1: Load Spec Context
-- Read `.kiro/specs/$ARGUMENTS/spec.json` for metadata and phase status
-- Read `.kiro/specs/$ARGUMENTS/brief.md` if it exists
+- Read `docs/specs/$ARGUMENTS/spec.json` for metadata and phase status
+- Read `docs/specs/$ARGUMENTS/brief.md` if it exists
 - Read existing files: `requirements.md`, `design.md`, `tasks.md` (if they exist)
-- Check `.kiro/specs/$ARGUMENTS/` directory for available files
-- Read `.kiro/steering/roadmap.md` if it exists and this spec appears in it
+- Check `docs/specs/$ARGUMENTS/` directory for available files
+- Read `docs/steering/roadmap.md` if it exists and this spec appears in it
 
 ### Step 2: Analyze Status
 
@@ -56,7 +56,7 @@ Create report in the language specified in spec.json covering:
 ### Error Scenarios
 
 **Spec Not Found**:
-- **Message**: "No spec found for `$ARGUMENTS`. Check available specs in `.kiro/specs/`"
+- **Message**: "No spec found for `$ARGUMENTS`. Check available specs in `docs/specs/`"
 - **Action**: List available spec directories
 
 **Incomplete Spec**:
@@ -67,4 +67,4 @@ Create report in the language specified in spec.json covering:
 
 To see all available specs:
 - Run with no argument or use wildcard
-- Shows all specs in `.kiro/specs/` with their status
+- Shows all specs in `docs/specs/` with their status

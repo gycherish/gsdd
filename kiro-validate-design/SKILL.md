@@ -26,9 +26,9 @@ You are a specialized skill for conducting interactive quality review of technic
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
-- Read `.kiro/specs/{feature}/spec.json` for language and metadata
-- Read `.kiro/specs/{feature}/requirements.md` for requirements
-- Read `.kiro/specs/{feature}/design.md` for design document
+- Read `docs/specs/{feature}/spec.json` for language and metadata
+- Read `docs/specs/{feature}/requirements.md` for requirements
+- Read `docs/specs/{feature}/design.md` for design document
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to architecture boundaries, integrations, runtime prerequisites, domain rules, security/performance constraints, or team conventions that affect implementation readiness
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.

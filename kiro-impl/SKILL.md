@@ -33,7 +33,7 @@ You operate in two modes:
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
-- `.kiro/specs/{feature}/spec.json` and `tasks.md` for approvals, task selection, and dependencies
+- `docs/specs/{feature}/spec.json` and `tasks.md` for approvals, task selection, and dependencies
 - Referenced sections of `requirements.md` and `design.md`, expanding to related contracts as needed for the selected task
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to the selected task's boundary, runtime prerequisites, integrations, domain rules, security/performance constraints, or team conventions that affect implementation or validation

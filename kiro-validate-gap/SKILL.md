@@ -26,8 +26,8 @@ You are a specialized skill for analyzing the implementation gap between require
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
-- Read `.kiro/specs/{feature}/spec.json` for language and metadata
-- Read `.kiro/specs/{feature}/requirements.md` for requirements
+- Read `docs/specs/{feature}/spec.json` for language and metadata
+- Read `docs/specs/{feature}/requirements.md` for requirements
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to the feature's domain rules, integrations, runtime prerequisites, compliance/security constraints, or existing product boundaries
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
@@ -59,7 +59,7 @@ After all parallel research completes, synthesize findings for gap analysis.
 
 **Write the gap analysis to disk so it survives session boundaries and can be referenced during design phase.**
 
-- Use the Write tool to save the gap analysis to `.kiro/specs/{feature}/research.md`
+- Use the Write tool to save the gap analysis to `docs/specs/{feature}/research.md`
 - If the file already exists, append the new analysis (separated by a horizontal rule `---`) rather than overwriting previous research
 - Verify the file was written by reading it back
 

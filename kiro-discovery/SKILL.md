@@ -20,12 +20,12 @@ argument-hint: <idea-or-request>
 
 Gather **only metadata** to determine the action path. Do NOT read full file contents yet.
 
-- **Specs inventory**: Glob `.kiro/specs/*/spec.json`, read each spec.json for `name`, `phase` fields and `approvals` status. Note feature names and their current status.
-- **Steering existence**: Check which files exist in `.kiro/steering/` (product.md, tech.md, structure.md, roadmap.md). Do NOT read their contents yet.
-- **Roadmap check**: If `.kiro/steering/roadmap.md` exists, read it. This contains project-level context (approach, scope, constraints, spec list) from a previous discovery session. Use it to restore project context.
+- **Specs inventory**: Glob `docs/specs/*/spec.json`, read each spec.json for `name`, `phase` fields and `approvals` status. Note feature names and their current status.
+- **Steering existence**: Check which files exist in `docs/steering/` (product.md, tech.md, structure.md, roadmap.md). Do NOT read their contents yet.
+- **Roadmap check**: If `docs/steering/roadmap.md` exists, read it. This contains project-level context (approach, scope, constraints, spec list) from a previous discovery session. Use it to restore project context.
 - **Top-level structure**: List the project root directory to note key directories and files. Do NOT recurse into subdirectories.
 
-This step should consume minimal context. If `specs/` is empty and no steering exists, note "greenfield project" and move to Step 2.
+This step should consume minimal context. If `docs/specs/` is empty and no steering exists, note "greenfield project" and move to Step 2.
 
 ### Step 2: Determine Action Path
 
@@ -124,7 +124,7 @@ If the viability check reveals issues, present them to the user and revisit the 
 
 **For Path C (single spec)**:
 
-Use the Write tool to create `.kiro/specs/<feature-name>/brief.md` with this structure:
+Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this structure:
 
 ```
 # Brief: <feature-name>
@@ -167,8 +167,8 @@ Use the Write tool to create `.kiro/specs/<feature-name>/brief.md` with this str
 **For Path D (multi-spec decomposition)**:
 
 Use the Write tool to create:
-- `.kiro/steering/roadmap.md`
-- `.kiro/specs/<feature>/brief.md` for every feature listed under `## Specs (dependency order)`
+- `docs/steering/roadmap.md`
+- `docs/specs/<feature>/brief.md` for every feature listed under `## Specs (dependency order)`
 
 Use this roadmap structure:
 
@@ -200,7 +200,7 @@ Use this roadmap structure:
 - [ ] feature-c -- [one-line description]. Dependencies: feature-a, feature-b
 ```
 
-Then create `.kiro/specs/<feature>/brief.md` for **every** feature listed under `## Specs (dependency order)` using the Path C brief format. This enables parallel spec creation via `/kiro-spec-batch`.
+Then create `docs/specs/<feature>/brief.md` for **every** feature listed under `## Specs (dependency order)` using the Path C brief format. This enables parallel spec creation via `/kiro-spec-batch`.
 
 **For Path E (mixed decomposition)**:
 

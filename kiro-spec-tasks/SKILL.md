@@ -23,8 +23,8 @@ metadata:
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
-- `.kiro/specs/{feature}/spec.json`, `requirements.md`, `design.md`
-- `.kiro/specs/{feature}/tasks.md` (if exists, for merge mode)
+- `docs/specs/{feature}/spec.json`, `requirements.md`, `design.md`
+- `docs/specs/{feature}/tasks.md` (if exists, for merge mode)
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to requirements coverage, design boundaries, runtime prerequisites, or team conventions that affect task executability
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
@@ -105,7 +105,7 @@ Before writing `tasks.md`, run one lightweight independent sanity review of the 
 Proceed only when the Task Plan Review Gate is satisfied and the latest task-graph sanity verdict is `PASS`. The `-y` flag never bypasses these review gates.
 
 **Write tasks.md**:
-- Create/update `.kiro/specs/{feature}/tasks.md`
+- Create/update `docs/specs/{feature}/tasks.md`
 - Update spec.json metadata:
   - Set `phase: "tasks-generated"`
   - Set `approvals.tasks.generated: true, approved: false`
@@ -140,7 +140,7 @@ Proceed only when the Task Plan Review Gate is satisfied and the latest task-gra
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm tasks generated at `.kiro/specs/{feature}/tasks.md`
+1. **Status**: Confirm tasks generated at `docs/specs/{feature}/tasks.md`
 2. **Task Summary**:
    - Total: X major tasks, Y sub-tasks
    - All Z requirements covered
@@ -167,7 +167,7 @@ Provide brief summary in the language specified in spec.json:
 
 **Missing Requirements or Design**:
 - **Stop Execution**: Both documents must exist
-- **User Message**: "Missing requirements.md or design.md at `.kiro/specs/{feature}/`"
+- **User Message**: "Missing requirements.md or design.md at `docs/specs/{feature}/`"
 - **Suggested Action**: "Complete requirements and design phases first"
 
 **Incomplete Requirements Coverage**:

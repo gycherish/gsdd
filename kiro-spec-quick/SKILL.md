@@ -54,7 +54,7 @@ Execute these 4 phases in order:
 **Core Logic**:
 
 1. **Check for Brief**:
-   - If `.kiro/specs/{feature-name}/brief.md` exists (created by `/kiro-discovery`), read it for discovery context (problem, approach, scope, constraints)
+   - If `docs/specs/{feature-name}/brief.md` exists (created by `/kiro-discovery`), read it for discovery context (problem, approach, scope, constraints)
    - Use brief content as the project description instead of `$ARGUMENTS`
 
 2. **Generate Feature Name**:
@@ -63,12 +63,12 @@ Execute these 4 phases in order:
    - Keep name concise (2-4 words ideally)
 
 3. **Check Uniqueness**:
-   - Use Glob to check `.kiro/specs/*/`
+   - Use Glob to check `docs/specs/*/`
    - If directory exists with only `brief.md` (no `spec.json`), use that directory (discovery created it)
    - Otherwise if feature name exists, append `-2`, `-3`, etc.
 
 4. **Create Directory**:
-   - Use Bash: `mkdir -p .kiro/specs/{feature-name}` (skip if already exists from discovery)
+   - Use Bash: `mkdir -p docs/specs/{feature-name}` (skip if already exists from discovery)
 
 5. **Initialize Files from Templates**:
 
@@ -88,11 +88,11 @@ Execute these 4 phases in order:
 
    c. Write files using Write tool:
    ```
-   - .kiro/specs/{feature-name}/spec.json
-   - .kiro/specs/{feature-name}/requirements.md
+   - docs/specs/{feature-name}/spec.json
+   - docs/specs/{feature-name}/requirements.md
    ```
 
-6. **Output Progress**: "Phase 1/4 complete: Spec initialized at .kiro/specs/{feature-name}/"
+6. **Output Progress**: "Phase 1/4 complete: Spec initialized at docs/specs/{feature-name}/"
 
 **Automatic Mode**: IMMEDIATELY continue to Phase 2.
 
@@ -197,7 +197,7 @@ Final sanity review still runs.
 
 After each phase, show brief progress:
 ```
-Spec initialized at .kiro/specs/{feature}/
+Spec initialized at docs/specs/{feature}/
 Requirements generated → Continuing to design...
 Design generated → Continuing to tasks...
 ```
@@ -210,10 +210,10 @@ Provide output in the language specified in `spec.json`:
 Quick Spec Generation Complete!
 
 Generated Files:
-- specs/{feature}/spec.json
-- specs/{feature}/requirements.md ({X} requirements)
-- specs/{feature}/design.md ({Y} components, {Z} endpoints)
-- specs/{feature}/tasks.md ({N} tasks)
+- docs/specs/{feature}/spec.json
+- docs/specs/{feature}/requirements.md ({X} requirements)
+- docs/specs/{feature}/design.md ({Y} components, {Z} endpoints)
+- docs/specs/{feature}/tasks.md ({N} tasks)
 
 Skipped: /kiro-validate-gap, /kiro-validate-design
 

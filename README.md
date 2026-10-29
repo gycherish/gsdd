@@ -86,7 +86,7 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 | 功能级验收 | `/kiro-validate-impl <功能>` |
 | 查看进度 | `/kiro-spec-status <功能>` |
 
-规格产出写在项目的 `.kiro/` 下（`steering/`、`specs/<功能>/`），属于项目自己的内容，应提交到项目仓库。
+规格产出写在项目的 `docs/` 下：`docs/steering/` 存放项目记忆，`docs/specs/<功能>/` 存放各功能的规格。它们属于项目自己的内容，应提交到项目仓库。
 
 **4. 更新到 gsdd 最新版本**：
 

@@ -5,16 +5,16 @@ Kiro-style Spec-Driven Development on an agentic SDLC
 ## Project Context
 
 ### Paths
-- Steering: `.kiro/steering/`
-- Specs: `.kiro/specs/`
+- Steering: `docs/steering/`
+- Specs: `docs/specs/`
 
 ### Steering vs Specification
 
-**Steering** (`.kiro/steering/`) - Guide AI with project-wide rules and context
-**Specs** (`.kiro/specs/`) - Formalize development process for individual features
+**Steering** (`docs/steering/`) - Guide AI with project-wide rules and context
+**Specs** (`docs/specs/`) - Formalize development process for individual features
 
 ### Active Specifications
-- Check `.kiro/specs/` for active specifications
+- Check `docs/specs/` for active specifications
 - Use `/kiro-spec-status [feature-name]` to check progress
 
 ## Development Guidelines
@@ -59,7 +59,7 @@ Skills are located in `.claude/skills/kiro-*/SKILL.md`
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
 
 ## Steering Configuration
-- For spec and implementation work, load the core steering files below from `.kiro/steering/`. Reuse current context rather than rereading unchanged files.
+- For spec and implementation work, load the core steering files below from `docs/steering/`. Reuse current context rather than rereading unchanged files.
 - Load additional steering only when required by project rules or relevant to the task.
 - Default files: `product.md`, `tech.md`, `structure.md`
 - Custom files are supported (managed via `/kiro-steering-custom`)

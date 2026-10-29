@@ -23,8 +23,8 @@ metadata:
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
-- `.kiro/specs/{feature}/spec.json`, `requirements.md`, `design.md` (if exists)
-- `.kiro/specs/{feature}/research.md` (if exists, contains gap analysis from `/kiro-validate-gap`)
+- `docs/specs/{feature}/spec.json`, `requirements.md`, `design.md` (if exists)
+- `docs/specs/{feature}/research.md` (if exists, contains gap analysis from `/kiro-validate-gap`)
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to requirement coverage, architecture boundaries, integrations, runtime prerequisites, security/performance constraints, or team conventions that affect implementation readiness
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
@@ -87,7 +87,7 @@ After all findings return, synthesize in main context before proceeding.
    - Boundary candidates, out-of-boundary decisions, and likely revalidation triggers
 
 4. **Persist Findings to Research Log**:
-   - Create or update `.kiro/specs/{feature}/research.md` using the shared template
+   - Create or update `docs/specs/{feature}/research.md` using the shared template
    - Summarize discovery scope and key findings
    - Record investigations with sources and implications
    - Document architecture pattern evaluation, design decisions, and risks
@@ -105,7 +105,7 @@ After all findings return, synthesize in main context before proceeding.
 ### Step 4: Generate Design Draft
 
 1. **Generate Design Draft**:
-   - **Follow specs/design.md template structure and generation instructions strictly**
+   - **Follow `templates/specs/design.md` (in this skill's directory) template structure and generation instructions strictly**
    - **Boundary-first requirement**: Before expanding supporting sections, make the boundary explicit. The draft must clearly define what this spec owns, what it does not own, which dependencies are allowed, and what changes would require downstream revalidation.
    - **Integrate all discovery findings and synthesis outcomes**: Use researched information (APIs, patterns, technologies) and synthesis decisions (generalizations, build-vs-adopt, simplifications) throughout component definitions, architecture decisions, and integration points
    - **File Structure Plan** (required): Populate the File Structure Plan section with concrete file paths and responsibilities. Analyze the codebase to determine which files need to be created vs. modified. Each file must have one clear responsibility. This section directly drives task `_Boundary:_` annotations and implementation Task Briefs — vague file structures produce vague implementations.
@@ -126,7 +126,7 @@ After all findings return, synthesize in main context before proceeding.
 ### Step 6: Finalize Design Document
 
 1. **Write Final Design**:
-   - Write `.kiro/specs/{feature}/design.md` only after the design review gate passes
+   - Write `docs/specs/{feature}/design.md` only after the design review gate passes
    - Write research.md with discovery findings and synthesis outcomes (if not already written)
 
 2. **Update Metadata** in spec.json:
@@ -151,7 +151,7 @@ After all findings return, synthesize in main context before proceeding.
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm design document generated at `.kiro/specs/{feature}/design.md`
+1. **Status**: Confirm design document generated at `docs/specs/{feature}/design.md`
 2. **Discovery Type**: Which discovery process was executed (full/light/minimal)
 3. **Key Findings**: 2-3 critical insights from discovery that shaped the design
 4. **Review Gate**: Confirm the design review gate passed
@@ -173,7 +173,7 @@ Provide brief summary in the language specified in spec.json:
 
 **Missing Requirements**:
 - **Stop Execution**: Requirements document must exist
-- **User Message**: "No requirements.md found at `.kiro/specs/{feature}/requirements.md`"
+- **User Message**: "No requirements.md found at `docs/specs/{feature}/requirements.md`"
 - **Suggested Action**: "Run `/kiro-spec-requirements {feature}` to generate requirements first"
 
 **Template Missing**:
