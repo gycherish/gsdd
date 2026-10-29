@@ -87,7 +87,7 @@ Execute these 4 phases in order:
    {{FEATURE_NAME}} → feature-name
    {{TIMESTAMP}} → current ISO 8601 timestamp (use `date -u +"%Y-%m-%dT%H:%M:%SZ"`)
    {{PROJECT_DESCRIPTION}} → description
-   {{LANG_CODE}} → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input
+   {{LANG_CODE}} → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input.
    ```
 
    c. Write files using Write tool:
