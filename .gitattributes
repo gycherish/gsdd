@@ -1,0 +1,2 @@
+# 技能与模板统一用 LF 换行，避免 Windows 上 autocrlf 在各平台间产生无意义 diff
+* text=auto eol=lf
