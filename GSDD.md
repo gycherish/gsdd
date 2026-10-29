@@ -17,9 +17,6 @@ gsdd: Spec-Driven Development on an agentic SDLC
 - Check `docs/specs/` for active specifications
 - Use `/gsdd-spec-status [feature-name]` to check progress
 
-## Development Guidelines
-- Think in English, generate responses in Simplified Chinese. All Markdown content written to project files (e.g., requirements.md, design.md, tasks.md, research.md, validation reports) MUST be written in the target language configured for this specification (see spec.json.language).
-
 ## Minimal Workflow
 - Phase 0 (optional): `/gsdd-steering`, `/gsdd-steering-custom`
 - Discovery: `/gsdd-discovery "idea"` — determines action path, writes brief.md + roadmap.md for multi-spec projects

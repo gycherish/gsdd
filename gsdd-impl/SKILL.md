@@ -8,6 +8,10 @@ argument-hint: <feature-name> [task-numbers] [--review required|inline|off]
 
 # gsdd-impl Skill
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 ## Role
 You operate in two modes:
 - **Autonomous mode** (no task numbers): Dispatch a fresh subagent per task, with independent review after each
@@ -109,12 +113,11 @@ For each task (one at a time):
 **c) Review the task**:
 - If review mode is `required`:
   - Read `templates/reviewer-prompt.md` from this skill's directory
-  - Resolve `../gsdd-review/SKILL.md` relative to this skill's directory and pass its absolute path as `REVIEW_PROTOCOL_PATH`
   - Construct a review prompt with:
     - The task description and relevant spec section numbers
     - Paths to spec files (requirements.md, design.md) so the reviewer can read them directly
     - The implementer's status report (for reference only — reviewer must verify independently)
-  - The reviewer must apply the `gsdd-review` protocol to this task-local review.
+  - The reviewer must apply the `gsdd-review` skill to this task-local review.
   - Preserve the existing task-specific context: task text, spec refs, `_Boundary:_` scope, validation commands, implementer report, and the actual `git diff` as the primary source of truth.
   - The reviewer subagent will run `git diff` itself to read the actual code changes and verify against the spec
   - Dispatch via **Agent tool** as a fresh subagent
@@ -147,10 +150,9 @@ For each task (one at a time):
 **g) Debug subagent** (triggered by BLOCKED, NEEDS_CONTEXT unresolved, or REJECTED after 2 remediation rounds):
 
 - Read `templates/debugger-prompt.md` from this skill's directory
-- Resolve `../gsdd-debug/SKILL.md` relative to this skill's directory and pass its absolute path as `DEBUG_PROTOCOL_PATH`
 - Supply the task brief/boundary, exact spec references, failure output, reviewer findings, current changed files/diff, and relevant Implementation Notes/runtime constraints
 - Include attempted fixes and their observed results concisely, without copying the failed workers' conversation history
-- Dispatch via **Agent tool** as a fresh subagent; it reads the canonical `gsdd-debug` procedure itself
+- Dispatch via **Agent tool** as a fresh subagent; it applies the `gsdd-debug` skill itself
 
 **Handle debug report**:
 - Require a `## Debug Report` and parse its exact `- NEXT_ACTION:` field (`RETRY_TASK | BLOCK_TASK | STOP_FOR_HUMAN`). If the protocol or a valid report is missing, stop this feature and report the missing input; do not guess a next action or dispatch another implementer.

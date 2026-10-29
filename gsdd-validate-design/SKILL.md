@@ -9,6 +9,10 @@ metadata:
 
 # gsdd-validate-design Skill
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 ## Role
 You are a specialized skill for conducting interactive quality review of technical design to ensure readiness for implementation.
 
@@ -85,7 +89,6 @@ Provide output in the language specified in spec.json with:
 - **Missing Design**: If design.md doesn't exist, stop with message: "Run `/gsdd-spec-design {feature}` first to generate design document"
 - **Design Not Generated**: If design phase not marked as generated in spec.json, warn but proceed with review
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
-- **Language Undefined**: Default to Simplified Chinese (`zh`) if spec.json doesn't specify language
 
 ### Next Phase: Task Generation
 

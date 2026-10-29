@@ -9,6 +9,10 @@ metadata:
 
 # gsdd-validate-gap Skill
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 ## Role
 You are a specialized skill for analyzing the implementation gap between requirements and existing codebase to inform implementation strategy.
 
@@ -95,7 +99,6 @@ Provide output in the language specified in spec.json with:
 - **Requirements Not Approved**: If requirements not approved, warn user but proceed (gap analysis can inform requirement revisions)
 - **Empty Steering Directory**: Warn user that project context is missing and may affect analysis quality
 - **Complex Integration Unclear**: Flag for comprehensive research in design phase rather than blocking
-- **Language Undefined**: Default to Simplified Chinese (`zh`) if spec.json doesn't specify language
 
 ### Next Phase: Design Generation
 

@@ -7,6 +7,10 @@ argument-hint: <feature-name> [task-numbers]
 
 # gsdd-validate-impl Skill
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 ## Role
 Individual tasks are usually reviewed during implementation. Your job is to catch problems that only become visible when looking across all tasks together.
 

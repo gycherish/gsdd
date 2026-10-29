@@ -71,7 +71,7 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 @.claude/skills/GSDD.md
 ```
 
-它提供流程速查，并指示 Claude 用简体中文回复、用规格设定的语言写规格文档。不导入也能用技能，只是少了这份背景。
+它提供流程速查，便于平时的对话了解整套流程。技能本身自带语言和格式规则，不导入也能正确工作。
 
 **3. 开始使用**，常用顺序：
 
@@ -112,10 +112,12 @@ git commit -m "chore: update gsdd"
 | EARS 写法、各评审关的判定标准 | 对应技能下的 `rules/` |
 | 实现、评审、排错子代理的行为 | `gsdd-impl/templates/`、`gsdd-review/SKILL.md`、`gsdd-debug/SKILL.md` |
 | 新增技能 | 新建一个含 `SKILL.md` 的目录 |
-| 项目说明与输出语言 | `GSDD.md` |
+| 流程速查 | `GSDD.md` |
+| 所有技能共用的语言、格式规则 | 各技能开头的 Language / Format precedence 区块 |
 
 修改时注意：
 
+- **技能开头的通用规则区块保持一致**：每个技能开头都有一段相同的 Language 和 Format precedence 规则，让技能单独调用时也能正确工作。修改时要在所有技能中一起替换。
 - **每个技能保持自包含**：技能引用的规则、模板放在它自己的目录下，用"本技能目录下的 `rules/…`、`templates/…`"这种写法引用。同一份规则被多个技能使用时，各存一份，修改时一并更新。
 - **子代理交接格式不能改名**：`gsdd-impl` 只认固定的报告块和字段，改名后父流程会解析失败、卡住。
 
@@ -126,10 +128,7 @@ git commit -m "chore: update gsdd"
   | `## Debug Report` | `- NEXT_ACTION:` |
   | `## Validation Report` | `- DECISION:` |
 
-- **注意技能之间的路径引用**：
-  - `gsdd-spec-batch` 写死了 `.claude/skills/<技能>/SKILL.md`。
-  - `gsdd-impl` 用 `../gsdd-review/SKILL.md` 这类相对路径定位协议文件。
-  - 改技能目录名时要同步修改这些引用，否则会悄悄断链。
+- **技能之间按名字引用**：`gsdd-spec-batch`、`gsdd-spec-quick`、`gsdd-impl` 通过技能名调用其他技能（如 `gsdd-spec-init`、`gsdd-review`）。改技能名时要同步修改这些引用。
 - **影响大的技能建议禁止模型自动调用**：在头部声明 `disable-model-invocation: true`，只允许手动触发。
 - **改完要实测**：技能是给模型读的提示词，效果只能靠实际运行验证。建议准备一个样例项目，挂上修改后的 gsdd，跑一个小功能走完全流程，对比修改前后的产出。
 

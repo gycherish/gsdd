@@ -7,6 +7,10 @@ argument-hint: <project-description>
 
 # Spec Initialization
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 <instructions>
 ## Core Task
 Generate a unique feature name from the project description ($ARGUMENTS) and initialize the specification structure.
@@ -23,7 +27,7 @@ Generate a unique feature name from the project description ($ARGUMENTS) and ini
      - `{{FEATURE_NAME}}` → generated feature name
      - `{{TIMESTAMP}}` → current ISO 8601 timestamp
      - `{{PROJECT_DESCRIPTION}}` → from brief.md if available, otherwise $ARGUMENTS
-     - `{{LANG_CODE}}` → language code (detect from user's input language, default to `zh`)
+     - `{{LANG_CODE}}` → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input
    - Write `spec.json` and `requirements.md` to spec directory
 
 ## Important Constraints
@@ -42,7 +46,7 @@ Provide output in the language specified in `spec.json` with the following struc
 - Use Markdown headings (##, ###)
 - Wrap commands in code blocks
 - Keep total output concise (under 250 words)
-- Use clear, professional language per `spec.json.language`
+- Use clear, professional language per the `language` field in `spec.json`
 
 ## Safety & Fallback
 - **Ambiguous Feature Name**: If feature name generation is unclear, propose 2-3 options and ask user to select

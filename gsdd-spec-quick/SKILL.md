@@ -7,6 +7,10 @@ argument-hint: <project-description> [--auto]
 
 # Quick Spec Generator
 
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+>
+> **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
+
 <instructions>
 ## CRITICAL: Automatic Mode Execution Rules
 
@@ -83,7 +87,7 @@ Execute these 4 phases in order:
    {{FEATURE_NAME}} → feature-name
    {{TIMESTAMP}} → current ISO 8601 timestamp (use `date -u +"%Y-%m-%dT%H:%M:%SZ"`)
    {{PROJECT_DESCRIPTION}} → description
-   {{LANG_CODE}} → language code (detect from user's input language, default to `zh`)
+   {{LANG_CODE}} → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input
    ```
 
    c. Write files using Write tool:
@@ -104,7 +108,7 @@ Execute these 4 phases in order:
 
 #### Phase 2: Generate Requirements
 
-Invoke `/gsdd-spec-requirements {feature-name}` via the Skill tool.
+Invoke the `gsdd-spec-requirements` skill with `{feature-name}`.
 
 Wait for completion. IGNORE any "Next Step" message (it is for standalone usage).
 
@@ -120,7 +124,7 @@ Wait for completion. IGNORE any "Next Step" message (it is for standalone usage)
 
 #### Phase 3: Generate Design
 
-Invoke `/gsdd-spec-design {feature-name} -y` via the Skill tool. The `-y` flag auto-approves requirements.
+Invoke the `gsdd-spec-design` skill with `{feature-name} -y`. The `-y` flag auto-approves requirements.
 
 Wait for completion. IGNORE any "Next Step" message.
 
@@ -136,7 +140,7 @@ Wait for completion. IGNORE any "Next Step" message.
 
 #### Phase 4: Generate Tasks
 
-Invoke `/gsdd-spec-tasks {feature-name} -y` via the Skill tool.
+Invoke the `gsdd-spec-tasks` skill with `{feature-name} -y`.
 
 Note: `-y` flag auto-approves requirements, design, and tasks.
 
