@@ -9,9 +9,8 @@ gsdd 是一套用于 Claude Code 的规格驱动开发（SDD）流程：先把�
 ## 流程概览
 
 ```
-项目记忆（steering）
-      ↓
-需求梳理（discovery）── 判断是扩展已有规格、直接实现、写一份规格，还是拆成多份
+新项目：需求梳理（discovery）── 第一轮需求分析；确认的产品、技术、结构决策由 steering 技能记入项目记忆
+已有项目：项目记忆（steering，从代码初建）→ 需求梳理（discovery）
       ↓
 规格：需求 → 设计 → 任务（每一阶段都有评审关和人工审批）
       ↓
@@ -37,9 +36,9 @@ gsdd/                       ← 挂载后即项目的 .claude/skills/
 
 | 类别 | 技能 | 作用 |
 | --- | --- | --- |
-| 项目记忆 | `gsdd-steering` | 建立或更新项目级背景（产品、技术、结构） |
+| 项目记忆 | `gsdd-steering` | 维护项目级背景（产品、技术、结构）：记录其他技能确认的决策、从代码初建、与代码同步 |
 | | `gsdd-steering-custom` | 增加领域专项文档（API 规范、安全、测试等） |
-| 需求梳理 | `gsdd-discovery` | 判断需求的处理方式，必要时拆成多份规格并排好依赖顺序 |
+| 需求梳理 | `gsdd-discovery` | 判断需求的处理方式，必要时拆成多份规格并排好依赖顺序；新项目下即第一轮需求分析，确认的项目级决策交由 `gsdd-steering` 记录 |
 | 规格 | `gsdd-spec-init` | 建立规格目录与状态文件 |
 | | `gsdd-spec-requirements` | 生成 EARS 格式的需求 |
 | | `gsdd-spec-design` | 生成技术设计与调研记录 |
@@ -73,11 +72,15 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 
 它提供流程速查，便于平时的对话了解整套流程。技能本身自带语言和格式规则，不导入也能正确工作。
 
-**3. 开始使用**，常用顺序：
+**3. 开始使用**，起步方式分两种：
+
+- **新项目**：直接运行 `/gsdd-discovery <想法或需求文档>`。它做第一轮需求分析，过程中确认的产品、技术、结构决策会交由 `gsdd-steering` 写入项目记忆，不需要先单独建立项目记忆。写出代码后，可再运行 `/gsdd-steering` 让项目记忆与代码保持一致。
+- **已有项目**：先运行 `/gsdd-steering` 从代码建立项目记忆，再用 `/gsdd-discovery` 或 `/gsdd-spec-init` 开始新需求。
+
+之后的常用命令：
 
 | 步骤 | 命令 |
 | --- | --- |
-| 建立项目记忆（可选） | `/gsdd-steering` |
 | 判断需求怎么拆 | `/gsdd-discovery <想法>` |
 | 单份规格逐步生成 | `/gsdd-spec-init` → `/gsdd-spec-requirements` → `/gsdd-spec-design` → `/gsdd-spec-tasks` |
 | 单份规格一次生成 | `/gsdd-spec-quick <功能>` |
@@ -86,7 +89,7 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 | 功能级验收 | `/gsdd-validate-impl <功能>` |
 | 查看进度 | `/gsdd-spec-status <功能>` |
 
-规格产出写在项目的 `docs/` 下：`docs/steering/` 存放项目记忆，`docs/specs/<功能>/` 存放各功能的规格。它们属于项目自己的内容，应提交到项目仓库。
+规格产出写在项目的 `docs/` 下：`docs/steering/` 存放项目记忆（`roadmap.md` 为开发计划，也放在这里），`docs/specs/<功能>/` 存放各功能的规格。它们属于项目自己的内容，应提交到项目仓库。
 
 **4. 更新到 gsdd 最新版本**：
 

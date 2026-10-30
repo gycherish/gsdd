@@ -18,8 +18,11 @@ gsdd: Spec-Driven Development on an agentic SDLC
 - Use `/gsdd-spec-status [feature-name]` to check progress
 
 ## Minimal Workflow
-- Phase 0 (optional): `/gsdd-steering`, `/gsdd-steering-custom`
-- Discovery: `/gsdd-discovery "idea"` — determines action path, writes brief.md + roadmap.md for multi-spec projects
+- Getting started depends on the project:
+  - New project: `/gsdd-discovery "idea"` first — the first requirements analysis; confirmed product, technology, and structure decisions are recorded into steering through `gsdd-steering`. Once code exists, `/gsdd-steering` keeps steering in sync with it.
+  - Existing project: `/gsdd-steering` first (bootstrap steering from the codebase), then `/gsdd-discovery "idea"` or `/gsdd-spec-init`
+- Optional: `/gsdd-steering-custom` for specialized steering documents
+- Discovery: `/gsdd-discovery "idea"` — determines action path, writes brief.md + roadmap.md (development plan) for multi-spec projects, and records confirmed project-level decisions into steering
 - Phase 1 (Specification):
   - Single spec: `/gsdd-spec-quick {feature} [--auto]` or step by step:
     - `/gsdd-spec-init "description"`

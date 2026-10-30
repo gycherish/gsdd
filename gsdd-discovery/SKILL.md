@@ -2,7 +2,7 @@
 name: gsdd-discovery
 description: Entry point for new work. Determines the best action path or work decomposition (update existing spec, create new spec, mixed decomposition, or no spec needed) and refines ideas through structured dialogue.
 disable-model-invocation: true
-allowed-tools: Read, Write, Glob, Grep, Agent, WebSearch, WebFetch, AskUserQuestion
+allowed-tools: Read, Write, Glob, Grep, Agent, Skill, WebSearch, WebFetch, AskUserQuestion
 argument-hint: <idea-or-request>
 ---
 
@@ -28,8 +28,11 @@ Gather **only metadata** to determine the action path. Do NOT read full file con
 - **Steering existence**: Check which files exist in `docs/steering/` (product.md, tech.md, structure.md, roadmap.md). Do NOT read their contents yet.
 - **Roadmap check**: If `docs/steering/roadmap.md` exists, read it. This contains project-level context (approach, scope, constraints, spec list) from a previous discovery session. Use it to restore project context.
 - **Top-level structure**: List the project root directory to note key directories and files. Do NOT recurse into subdirectories.
+- **User-provided material**: If the request references documents (e.g., a requirements document), read them.
 
-This step should consume minimal context. If `docs/specs/` is empty and no steering exists, note "greenfield project" and move to Step 2.
+This step should consume minimal context. If `docs/specs/` is empty, no core steering exists, and the repository has no source code, note "greenfield project" and move to Step 2.
+
+**Greenfield project**: This run is the first requirements analysis. Product, technology, and structure decisions do not exist yet; they are made during this analysis and recorded into steering through Step 7. Do not ask the user to run `/gsdd-steering` first.
 
 ### Step 2: Determine Action Path
 
@@ -73,6 +76,7 @@ For Path A/B, recommend the next action and stop.
 - The subagent uses Read/Glob/Grep to explore, then returns findings. Only the summary enters the main context.
 - For Path D/E, also ask the subagent to identify natural domain boundaries, existing module separation, and which areas look like existing-spec extensions vs new boundaries.
 - Skip subagent dispatch for small/obvious requests where the top-level directory listing from Step 1 is sufficient.
+- In a greenfield project there is no codebase to explore: rely on the user-provided material and the dialogue instead.
 
 **Context budget**: Keep total content loaded into main context under ~500 lines. The subagent handles the heavy exploration.
 
@@ -91,6 +95,8 @@ Ask clarifying questions **sequentially** (not all at once), prioritizing bounda
 Ask only questions whose answers you cannot infer from the context already loaded. Skip questions that steering documents already answer. If the user already provided a clear description, skip to Step 5.
 The goal is NOT to assign final owners yet. The goal is to discover the cleanest responsibility boundaries that can later become specs, tasks, and review scopes.
 
+**Greenfield project**: Also cover the product-level questions needed to understand the product: product goals, target users, target platforms, product positioning and the constraints it implies, and key quality constraints (e.g., performance, security, compliance). Also settle the scope of the first deliverable release; that scope belongs to the roadmap, not to steering. Ask them in the same one-at-a-time manner, skipping anything the user-provided material already answers.
+
 ### Step 5: Propose Approaches
 
 Propose **2-3 concrete approaches** with trade-offs:
@@ -106,6 +112,8 @@ If technical research is needed (unfamiliar framework, library evaluation), disp
 
 Recommend one approach and explain why.
 
+**Greenfield project**: The approaches cover the overall architecture and technology choices, not just this feature.
+
 **After the user selects an approach**, dispatch a subagent to verify viability before proceeding to Step 6. Example prompt: "Verify the viability of this technical approach: [chosen tech stack / key libraries]. Check: (1) Are these technologies still actively maintained? (2) Any license incompatibilities (e.g., GPL contamination)? (3) Do the components actually work together for [use case]? (4) Any known showstoppers (critical bugs, security vulnerabilities, platform limitations)? Return only issues found, or 'No issues found' if everything checks out."
 
 If the viability check reveals issues, present them to the user and revisit the approach selection. If no issues, proceed to Step 6.
@@ -120,9 +128,20 @@ If the viability check reveals issues, present them to the user and revisit the 
   - Truly small direct-implementation items are listed separately instead of being forced into a spec
   - Dependencies between specs/workstreams are explicit
   - Consider vertical slices (end-to-end value) vs horizontal layers (one layer at a time) based on the project needs
+- **Greenfield project**: Decompose only the first deliverable release (e.g., an MVP). Later releases are decomposed by future discovery runs and appended to the roadmap as new phases.
 - Confirm the final direction
 
-### Step 7: Write Files to Disk
+### Step 7: Record Project-Level Decisions
+
+If this session confirmed project-level decisions (decisions that hold for the whole project rather than a single feature), invoke the `gsdd-steering` skill and hand over those decisions so it records them into steering. Do not write steering files directly, and do not decide where in steering a decision goes: steering content and format are owned by `gsdd-steering`.
+
+- Hand over only confirmed decisions, each with its rationale and any rejected alternatives; list known undecided items separately as open questions
+- In a greenfield project, this step creates the initial steering
+- In an existing project, use it when a decision changes project-level facts (e.g., adopting a new technology component)
+- If `gsdd-steering` reports a conflict with existing steering, or decisions it could not place, resolve them with the user before continuing
+- Skip this step when no project-level decision was made
+
+### Step 8: Write Files to Disk
 
 **CRITICAL: You MUST use the Write tool to create these files BEFORE suggesting any next command. Conversation text does not survive session boundaries. If you skip this step, all discovery analysis is lost when the session ends.**
 
@@ -176,23 +195,28 @@ Use the Write tool to create:
 
 Use this roadmap structure:
 
+The roadmap is a development plan. Do not restate product or technology facts that are recorded in steering; reference the steering file instead (e.g., "Technology stack: see `docs/steering/tech.md`").
+
+- **Approach Decision** covers only how this phase is split and sequenced (e.g., which spec goes first and why, vertical vs horizontal slicing). Technology and architecture choices, including their rejected alternatives, are recorded in steering via Step 7; do not repeat them here.
+- **Scope** lists what this phase delivers and what is deferred to later phases. It is a plan for this phase, not a permanent list of excluded features.
+
 ```
 # Roadmap
 
 ## Overview
-[Project goal and chosen approach -- 1-2 paragraphs]
+[Goal of this phase and how the work is split -- 1-2 paragraphs; reference steering for product and technology facts]
 
 ## Approach Decision
-- **Chosen**: [approach name and summary]
+- **Chosen**: [how this phase is split and sequenced]
 - **Why**: [key reasoning]
-- **Rejected alternatives**: [what was considered and why it was rejected]
+- **Rejected alternatives**: [other ways of splitting or sequencing this phase, and why they were rejected]
 
 ## Scope
-- **In**: [what the overall project includes]
-- **Out**: [what is explicitly excluded]
+- **In**: [what this phase delivers]
+- **Deferred**: [what is left for later phases]
 
 ## Constraints
-[technology, compatibility, timeline, or other project-wide constraints]
+[constraints specific to this phase, e.g., timeline or ordering; project-wide constraints live in steering]
 
 ## Boundary Strategy
 - **Why this split**: [why these spec boundaries improve independence]
@@ -235,7 +259,7 @@ Use the Write tool to create the next new spec's brief.md. Update roadmap.md wit
 
 After writing, verify the files exist by reading them back.
 
-### Step 8: Suggest Next Steps
+### Step 9: Suggest Next Steps
 
 Suggest the next command and stop. Do NOT automatically run downstream spec generation from this skill.
 
@@ -264,3 +288,7 @@ If the decomposition contains only existing-spec updates plus direct implementat
 - Write brief.md for the next spec only (just-in-time)
 - Update roadmap.md if scope/ordering changed based on implementation experience
 - Append new specs as a new phase if the request expands the project, don't overwrite existing content
+
+**Greenfield Without Steering**:
+- Do not require `/gsdd-steering` before discovery; record decisions through Step 7 during this session
+- If the user cannot decide something yet, keep it as an open question rather than assuming
