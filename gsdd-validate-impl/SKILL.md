@@ -66,10 +66,10 @@ Select skills for the current task even when steering/spec context is already av
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
 
 **Discover canonical validation commands**:
-- Inspect repository-local sources of truth in this order: project scripts/manifests (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, app manifests), task runners (`Makefile`, `justfile`), CI/workflow files, existing e2e/integration configs, then `README*`
+- Inspect the repository's own build, test, and task definitions (build system configuration, task runners, CI/workflow files, existing e2e/integration configs), then `README*`
 - Derive a feature-level validation set for this repo: `TEST_COMMANDS`, `BUILD_COMMANDS`, and `SMOKE_COMMANDS`
 - Prefer commands already used by repo automation over ad hoc shell pipelines
-- For `SMOKE_COMMANDS`, choose the lightest trustworthy runtime-liveness check for the app shape (for example: root URL load, Electron launch, CLI `--help`, service health endpoint, mobile simulator/e2e harness if one already exists)
+- For `SMOKE_COMMANDS`, choose the lightest trustworthy runtime-liveness check for the app shape (for example: launch the built program or service and confirm it reaches a ready state, run a CLI with `--help`, query a health check, or use an existing e2e harness)
 - If multiple candidates exist, prefer the command with the smallest setup cost that still exercises the real built artifact
 
 ### Step 3: Execute Integration Validation
@@ -107,7 +107,7 @@ These checks apply at the feature level. Use command output as the primary signa
 
 **D. Runtime Liveness (Smoke Boot)**
 - Run the discovered canonical smoke command that proves the built artifact actually starts and reaches its first usable state.
-- Examples if relevant: open the root URL in a headless browser and require zero boot-time console errors; launch Electron and wait for the main process ready signal and first renderer load; run a CLI with `--help`; start a service and hit its health endpoint.
+- Examples if relevant: launch the built program and wait for its ready state with no boot-time errors; run a CLI with `--help`; start a service and query its health check.
 - If boot produces a runtime crash, unhandled exception, module-load failure, native ABI mismatch, or missing required env/config → NO-GO.
 - If no trustworthy smoke command can be identified, or the required runtime environment is unavailable → `MANUAL_VERIFY_REQUIRED`
 

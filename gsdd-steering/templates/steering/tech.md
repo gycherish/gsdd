@@ -6,9 +6,9 @@
 
 ## Core Technologies
 
-- **Language**: [e.g., TypeScript, Python]
-- **Framework**: [e.g., React, Next.js, Django]
-- **Runtime**: [e.g., Node.js 20+]
+- **Language**: [Primary language(s) and standard/version]
+- **Framework**: [Framework(s), if any]
+- **Runtime / Platform**: [Target runtime(s) and platform(s)]
 
 ## Key Libraries
 
@@ -16,14 +16,14 @@
 
 ## Development Standards
 
-### Type Safety
-[e.g., TypeScript strict mode, no `any`]
+### Typing & Interfaces
+[Typing and interface conventions the project has adopted]
 
 ### Code Quality
-[e.g., ESLint, Prettier rules]
+[Static analysis, formatting, and review conventions the project has adopted]
 
 ### Testing
-[e.g., Jest, coverage requirements]
+[Test frameworks, test levels, and coverage expectations the project has adopted]
 
 ## Development Environment
 

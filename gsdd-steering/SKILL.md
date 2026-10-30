@@ -55,7 +55,7 @@ Check `docs/steering/` status:
 #### Parallel Research
 
 The following research areas are independent and can be executed in parallel:
-1. **Product analysis**: README, package.json, documentation files for purpose, value, core capabilities
+1. **Product analysis**: README, project manifests, documentation files for purpose, value, core capabilities
 2. **Tech analysis**: Config files, dependencies, frameworks for technology patterns and decisions
 3. **Structure analysis**: Directory tree, naming conventions, import patterns for organization
 
@@ -129,7 +129,7 @@ Review and approve as Source of Truth.
 Steering Updated
 
 ## Changes:
-- tech.md: React 18 → 19
+- tech.md: Core library upgraded to a new major version
 - structure.md: Added API pattern
 
 ## Code Drift:
@@ -142,8 +142,8 @@ Steering Updated
 ## Examples
 
 ### Bootstrap
-**Input**: Empty steering, React TypeScript project
-**Output**: 3 files with patterns - "Feature-first", "TypeScript strict", "React 19"
+**Input**: Empty steering, existing codebase
+**Output**: 3 files capturing the project's purpose, technology choices, and organizing patterns
 
 ### Sync
 **Input**: Existing steering, new `/api` directory

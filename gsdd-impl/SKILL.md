@@ -1,10 +1,10 @@
 ---
-name: gsdd-impl
+
+## name: gsdd-impl
 description: Implement approved tasks using TDD with native subagent dispatch. Runs all pending tasks autonomously or selected tasks manually.
 disable-model-invocation: true
 allowed-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, Agent, WebSearch, WebFetch
-argument-hint: <feature-name> [task-numbers] [--review required|inline|off]
----
+argument-hint:  [task-numbers] [--review required|inline|off]
 
 # gsdd-impl Skill
 
@@ -13,11 +13,14 @@ argument-hint: <feature-name> [task-numbers] [--review required|inline|off]
 > **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
 
 ## Role
+
 You operate in two modes:
+
 - **Autonomous mode** (no task numbers): Dispatch a fresh subagent per task, with independent review after each
 - **Manual mode** (task numbers provided): Execute selected tasks directly in the main context
 
 ## Core Mission
+
 - **Success Criteria**:
   - All tests written before implementation code
   - Code passes all tests with no regressions
@@ -26,6 +29,7 @@ You operate in two modes:
   - Task completion follows the selected review mode
 
 ## Review Mode
+
 - Default review mode is `required`
 - Accept explicit forms: `--review required|inline|off`
 - Also accept clear natural-language opt-outs such as `skip review` or `without review` as `off`
@@ -37,6 +41,7 @@ You operate in two modes:
 
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
+
 - `docs/specs/{feature}/spec.json` and `tasks.md` for approvals, task selection, and dependencies
 - Referenced sections of `requirements.md` and `design.md`, expanding to related contracts as needed for the selected task
 - Core steering context: `product.md`, `tech.md`, `structure.md`
@@ -46,21 +51,25 @@ Select skills for the current task even when steering/spec context is already av
 #### Preflight
 
 **Validate approvals**:
+
 - Verify tasks are approved in spec.json (stop if not, see Safety & Fallback)
 
 **Discover validation commands**:
-- Inspect repository-local sources of truth in this order: project scripts/manifests (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, app manifests), task runners (`Makefile`, `justfile`), CI/workflow files, existing e2e/integration configs, then `README*`
+
+- Inspect the repository's own build, test, and task definitions (build system configuration, task runners, CI/workflow files, existing e2e/integration configs), then `README*`
 - Derive a canonical validation set for this repo: `TEST_COMMANDS`, `BUILD_COMMANDS`, and `SMOKE_COMMANDS`
 - Prefer commands already used by repo automation over ad hoc shell pipelines
 - For `SMOKE_COMMANDS`, choose the lightest trustworthy runtime-liveness check for the app shape (for example: root URL load, Electron launch, CLI `--help`, service health endpoint, mobile simulator/e2e harness if one already exists)
 - Keep the full command set in the parent context, and pass only the task-relevant subset to implementer and reviewer subagents
 
 **Establish repo baseline**:
+
 - Run `git status --porcelain` and note any pre-existing uncommitted changes
 
 ### Step 2: Select Tasks & Determine Mode
 
 **Parse arguments**:
+
 - Extract feature name from first argument
 - If task numbers provided (e.g., "1.1" or "1,2,3"): **manual mode**
 - If no task numbers: **autonomous mode** (all pending tasks)
@@ -70,6 +79,7 @@ Select skills for the current task even when steering/spec context is already av
   - `--review off`, `skip review`, or `without review` → `off`
 
 **Build task queue**:
+
 - Read tasks.md, identify actionable sub-tasks (X.Y numbering like 1.1, 2.3)
 - Major tasks (1., 2.) are grouping headers, not execution units
 - Skip tasks with `_Blocked:_` annotation
@@ -78,6 +88,8 @@ Select skills for the current task even when steering/spec context is already av
 - Use `_Boundary:_` annotations to understand the task's component scope
 
 ### Step 3: Execute Implementation
+
+
 
 #### Autonomous Mode (subagent dispatch)
 
@@ -90,6 +102,7 @@ Select skills for the current task even when steering/spec context is already av
 For each task (one at a time):
 
 **a) Dispatch implementer**:
+
 - Read `templates/implementer-prompt.md` from this skill's directory
 - Construct a prompt by combining the template with task-specific context:
   - Task description and boundary scope
@@ -104,6 +117,7 @@ For each task (one at a time):
 - Dispatch via **Agent tool** as a fresh subagent
 
 **b) Handle implementer status**:
+
 - Parse implementer status only from the exact `## Status Report` block and `- STATUS:` field.
 - If `STATUS` is missing, ambiguous, or replaced with prose, re-dispatch the implementer once requesting the exact structured status block only. Do NOT proceed to review without a parseable `READY_FOR_REVIEW | BLOCKED | NEEDS_CONTEXT` value.
 - **READY_FOR_REVIEW** → proceed to review
@@ -111,6 +125,7 @@ For each task (one at a time):
 - **NEEDS_CONTEXT** → re-dispatch once with the requested additional context; if still unresolved → dispatch debug subagent
 
 **c) Review the task**:
+
 - If review mode is `required`:
   - Read `templates/reviewer-prompt.md` from this skill's directory
   - Construct a review prompt with:
@@ -128,6 +143,7 @@ For each task (one at a time):
   - Record in the parent context that task-local review was skipped for this task
 
 **d) Handle reviewer verdict**:
+
 - If review mode is `off`:
   - Do not fabricate a reviewer verdict
   - Before marking the task `[x]` or making any success claim, apply `gsdd-verify-completion` using fresh evidence from the current code state; then mark task `[x]` in tasks.md and perform selective git commit
@@ -139,12 +155,14 @@ For each task (one at a time):
   - **REJECTED (round 3)** → dispatch debug subagent (see section below)
 
 **e) Commit** (parent-only, selective staging):
+
 - Stage only the files actually changed for this task, plus tasks.md
 - **NEVER** use `git add -A` or `git add .`
 - Use `git add <file1> <file2> ...` with explicit file paths
 - Commit message format: `feat(<feature-name>): <task description>`
 
 **f) Record learnings**:
+
 - If this task revealed cross-cutting insights, append a one-line note to the `## Implementation Notes` section at the bottom of tasks.md
 
 **g) Debug subagent** (triggered by BLOCKED, NEEDS_CONTEXT unresolved, or REJECTED after 2 remediation rounds):
@@ -155,6 +173,7 @@ For each task (one at a time):
 - Dispatch via **Agent tool** as a fresh subagent; it applies the `gsdd-debug` skill itself
 
 **Handle debug report**:
+
 - Require a `## Debug Report` and parse its exact `- NEXT_ACTION:` field (`RETRY_TASK | BLOCK_TASK | STOP_FOR_HUMAN`). If the protocol or a valid report is missing, stop this feature and report the missing input; do not guess a next action or dispatch another implementer.
 - If `NEXT_ACTION: STOP_FOR_HUMAN` → append `_Blocked: <ROOT_CAUSE>_` to tasks.md, stop the feature run, and report that human review is required before continuing
 - If `NEXT_ACTION: BLOCK_TASK` → append `_Blocked: <ROOT_CAUSE>_` to tasks.md, skip to next task
@@ -164,7 +183,7 @@ For each task (one at a time):
 - **Max 2 debug rounds per task**. Each round: fresh debug subagent → fresh implementer. If still failing after 2 rounds, the task is blocked.
 - Record debug findings in `## Implementation Notes` (this helps subsequent tasks avoid the same issue)
 
-**`(P)` markers**: Tasks marked `(P)` in tasks.md indicate they have no inter-dependencies and could theoretically run in parallel. However, gsdd-impl processes them sequentially (one at a time) to avoid git conflicts and simplify review. The `(P)` marker is informational for task planning, not an execution directive.
+`(P)` **markers**: Tasks marked `(P)` in tasks.md indicate they have no inter-dependencies and could theoretically run in parallel. However, gsdd-impl processes them sequentially (one at a time) to avoid git conflicts and simplify review. The `(P)` marker is informational for task planning, not an execution directive.
 
 **Completion check**: If all remaining tasks are BLOCKED, stop and report blocked tasks with reasons to the user.
 
@@ -174,12 +193,14 @@ For each selected task:
 
 **1. Build Task Brief**:
 Before writing any code, read the relevant sections of requirements.md and design.md for this task and clarify:
+
 - What observable behaviors must be true when done (acceptance criteria)
 - What files/functions/tests must exist (completion definition)
 - What technical decisions to follow from design.md (design constraints)
 - How to confirm the task works (verification method)
 
 **2. Execute TDD cycle** (Kent Beck's RED → GREEN → REFACTOR):
+
 - **RED**: Write test for the next small piece of functionality based on the acceptance criteria. Test should fail.
 - **GREEN**: Implement simplest solution to make test pass, following the design constraints.
 - **REFACTOR**: Improve code structure, remove duplication. All tests must still pass.
@@ -195,6 +216,7 @@ Before writing any code, read the relevant sections of requirements.md and desig
 ### Step 4: Final Validation
 
 **Autonomous mode**:
+
 - After all tasks complete, run `/gsdd-validate-impl {feature}` as a GO/NO-GO gate
 - If validation returns GO → before reporting feature success, apply `gsdd-verify-completion` to the feature-level claim using the validation result and fresh supporting evidence
 - If validation returns NO-GO:
@@ -203,6 +225,7 @@ Before writing any code, read the relevant sections of requirements.md and desig
 - If validation returns MANUAL_VERIFY_REQUIRED → stop and report the missing verification step
 
 **Manual mode**:
+
 - Suggest running `/gsdd-validate-impl {feature}` but do not auto-execute
 - If review mode is `off`, treat `/gsdd-validate-impl {feature}` as mandatory before any feature-level success claim
 
@@ -218,6 +241,7 @@ For tasks that add or change behavior, enforce RED → GREEN with a feature flag
 **Skip this protocol for**: refactoring, configuration, documentation, or tasks with no behavioral change.
 
 ## Critical Constraints
+
 - **Strict Handoff Parsing**: Never infer implementer `STATUS` or reviewer `VERDICT` from surrounding prose; only the exact structured fields count
 - **No Destructive Reset**: Never use `git checkout .`, `git reset --hard`, or similar destructive rollback inside the implementation loop
 - **Selective Staging**: NEVER use `git add -A` or `git add .`; always stage explicit file paths
@@ -228,11 +252,13 @@ For tasks that add or change behavior, enforce RED → GREEN with a feature flag
 ## Output Description
 
 **Autonomous mode**: For each task, report:
+
 1. Task ID, implementer status, reviewer verdict
 2. Files changed, commit hash
 3. After all tasks: final validation result (GO/NO-GO)
 
 **Manual mode**:
+
 1. Tasks executed: task numbers and test results
 2. Status: completed tasks marked in tasks.md, remaining tasks count
 
@@ -243,23 +269,29 @@ For tasks that add or change behavior, enforce RED → GREEN with a feature flag
 ### Error Scenarios
 
 **Tasks Not Approved or Missing Spec Files**:
+
 - **Stop Execution**: All spec files must exist and tasks must be approved
 - **Suggested Action**: "Complete previous phases: `/gsdd-spec-requirements`, `/gsdd-spec-design`, `/gsdd-spec-tasks`"
 
 **Test Failures**:
+
 - **Stop Implementation**: Fix failing tests before continuing
 - **Action**: Debug and fix, then re-run
 
 **All Tasks Blocked**:
+
 - Stop and report all blocked tasks with reasons
 - Human review needed to resolve blockers
 
 **Spec Conflicts with Reality**:
+
 - If a requirement or design conflicts with reality (API doesn't exist, platform limitation), block the task with `_Blocked: <reason>_` -- do not silently work around it
 
 **Upstream Ownership Detected**:
+
 - If review, debug, or validation shows that the root cause belongs to an upstream, foundation, shared-platform, or dependency spec, do not patch around it inside the downstream feature
 - Route the fix back to the owning upstream spec, keep the downstream task blocked until that contract is repaired, and re-run validation/smoke for dependent specs after the upstream fix lands
 
 **Task Plan Invalidated During Implementation**:
+
 - If debug returns `NEXT_ACTION: STOP_FOR_HUMAN` because of task ordering, boundary, or decomposition problems, stop and return for human review of `tasks.md` or the approved plan instead of forcing a code workaround

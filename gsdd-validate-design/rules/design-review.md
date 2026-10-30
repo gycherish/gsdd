@@ -37,7 +37,7 @@ Conduct interactive quality review of technical design documents to ensure they 
 
 ### 4. Type Safety & Interface Design
 - Proper type definitions and interface contracts
-- Avoidance of unsafe patterns (e.g., `any` in TypeScript)
+- Avoidance of unsafe patterns prohibited by the project's conventions (see steering)
 - Clear API boundaries and data structures
 - Input validation and error handling coverage
 

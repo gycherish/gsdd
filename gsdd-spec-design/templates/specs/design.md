@@ -105,18 +105,18 @@ Map the directory structure and file responsibilities for this feature. This sec
 ```
 src/
 ├── domain-a/              # Domain A responsibility
-│   ├── controller.ts      # Endpoint handlers
-│   ├── service.ts         # Business logic
-│   └── types.ts           # Domain types
+│   ├── handler            # Entry points (requests, messages, commands)
+│   ├── service            # Business logic
+│   └── types              # Domain types
 ├── domain-b/              # Domain B (same pattern as domain-a)
 └── shared/
-    └── cross-cutting.ts   # Non-obvious: why this exists
+    └── cross-cutting      # Non-obvious: why this exists
 ```
 
 > For repeated structures, describe the pattern once (e.g., "domain-b follows same pattern as domain-a"). List individual files only when their responsibility isn't obvious from the path.
 
 ### Modified Files
-- `path/to/existing.ts` — What changes and why
+- `path/to/existing-file` — What changes and why
 
 > Each file should have one clear responsibility. Group files that change together. For repeated structures, describe the pattern once rather than listing every file.
 > Avoid duplicating what Components and Interfaces already describes — focus on the physical file layout that Components maps to.
@@ -181,10 +181,10 @@ Summarize external dependency findings here; deeper investigation (API signature
 **Contracts**: Service [ ] / API [ ] / Event [ ] / Batch [ ] / State [ ]  ← check only the ones that apply.
 
 ##### Service Interface
-```typescript
-interface [ComponentName]Service {
-  methodName(input: InputType): Result<OutputType, ErrorType>;
-}
+Write the signature in the project's language:
+```
+[ComponentName]Service
+  methodName(input: InputType) -> Result<OutputType, ErrorType>
 ```
 - Preconditions:
 - Postconditions:
@@ -303,9 +303,9 @@ Error tracking, logging, and health monitoring implementation.
 ## Testing Strategy
 
 ### Default sections (adapt names/sections to fit the domain)
-- Unit Tests: 3–5 items from core functions/modules (e.g., auth methods, subscription logic)
-- Integration Tests: 3–5 cross-component flows (e.g., webhook handling, notifications)
-- E2E/UI Tests (if applicable): 3–5 critical user paths (e.g., forms, dashboards)
+- Unit Tests: 3–5 items from core functions/modules (e.g., parsing, state transitions)
+- Integration Tests: 3–5 cross-component flows (e.g., message exchange between components, persistence)
+- E2E/UI Tests (if applicable): 3–5 critical user paths (e.g., primary user workflows)
 - Performance/Load (if applicable): 3–4 items (e.g., concurrency, high-volume ops)
 
 ## Optional Sections (include when relevant)
@@ -327,6 +327,6 @@ Include a Mermaid flowchart showing migration phases when schema/data movement i
 - Phase breakdown, rollback triggers, validation checkpoints
 
 ## Supporting References (Optional)
-- Create this section only when keeping the information in the main body would hurt readability (e.g., very long TypeScript definitions, vendor option matrices, exhaustive schema tables). Keep decision-making context in the main sections so the design stays self-contained.
+- Create this section only when keeping the information in the main body would hurt readability (e.g., very long type or interface definitions, vendor option matrices, exhaustive schema tables). Keep decision-making context in the main sections so the design stays self-contained.
 - Link to the supporting references from the main text instead of inlining large snippets.
 - Background research notes and comparisons continue to live in `research.md`, but their conclusions must be summarized in the main design.

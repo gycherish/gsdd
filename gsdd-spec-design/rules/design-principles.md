@@ -9,11 +9,9 @@
 - Explicitly record what is out of boundary
 - Do not leak downstream-specific behavior or assumptions into upstream boundaries
 
-### 1. Type Safety is Mandatory
-- **NEVER** use `any` type in TypeScript interfaces
-- Define explicit types for all parameters and returns
-- Use discriminated unions for error handling
-- Specify generic constraints clearly
+### 1. Interfaces Are Explicit
+- Define explicit types for all parameters, returns, and errors at component boundaries
+- Express interfaces in the project's own language and conventions, as recorded in steering
 
 ### 2. Design vs Implementation
 - **Focus on WHAT, not HOW**
@@ -125,10 +123,10 @@
 - Implementation Notes must combine Integration / Validation / Risks into a single bulleted subsection to reduce repetition.
 - Prefer lists or inline descriptors for short data (dependencies, contract selections). Use tables only when comparing multiple items.
 
-### Shared Interfaces & Props
-- Define a base interface (e.g., `BaseUIPanelProps`) for recurring UI components and extend it per component to capture only the deltas.
-- Hooks, utilities, and integration adapters that introduce new contracts should still include full TypeScript signatures.
-- When reusing a base contract, reference it explicitly (e.g., “Extends `BaseUIPanelProps` with `onSubmitAnswer` callback”) instead of duplicating the code block.
+### Shared Interfaces
+- Define a base interface for recurring component contracts and extend it per component to capture only the deltas.
+- Utilities and integration adapters that introduce new contracts should still include full signatures in the project's language.
+- When reusing a base contract, reference it explicitly (e.g., “Extends `BaseHandler` with an `onTimeout` callback”) instead of duplicating the code block.
 
 ### Data Models
 - Domain Model covers aggregates, entities, value objects, domain events, and invariants. Add Mermaid diagrams only when relationships are non-trivial.
@@ -169,9 +167,9 @@ graph TB
 - **Plain Mermaid only** – avoid custom styling or unsupported syntax.
 - **Node IDs** – alphanumeric plus underscores only (e.g., `Client`, `ServiceA`). Do not use `@`, `/`, or leading `-`.
 - **Labels** – simple words. Do not embed parentheses `()`, square brackets `[]`, quotes `"`, or slashes `/`.
-  - ❌ `DnD[@dnd-kit/core]` → invalid ID (`@`).
-  - ❌ `UI[KanbanBoard(React)]` → invalid label (`()`).
-  - ✅ `DndKit[dnd-kit core]` → use plain text in labels, keep technology details in the accompanying description.
+  - ❌ `Lib[@scope/package]` → invalid ID (`@`).
+  - ❌ `UI[TaskBoard(UI)]` → invalid label (`()`).
+  - ✅ `ScopeLib[scope package]` → use plain text in labels, keep technology details in the accompanying description.
   - ℹ️ Mermaid strict-mode will otherwise fail with errors like `Expecting 'SQE' ... got 'PS'`; remove punctuation from labels before rendering.
 - **Edges** – show data or control flow direction.
 - **Groups** – using Mermaid subgraphs to cluster related components is allowed; use it sparingly for clarity.

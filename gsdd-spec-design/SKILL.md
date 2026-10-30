@@ -115,7 +115,7 @@ After all findings return, synthesize in main context before proceeding.
    - **File Structure Plan** (required): Populate the File Structure Plan section with concrete file paths and responsibilities. Analyze the codebase to determine which files need to be created vs. modified. Each file must have one clear responsibility. This section directly drives task `_Boundary:_` annotations and implementation Task Briefs — vague file structures produce vague implementations.
    - **Testing Strategy**: Derive test items from requirements' acceptance criteria, not generic patterns. Each test item should reference specific components and behaviors from this design. E2E paths must map to the critical user flows identified in requirements. Avoid vague entries like "test login works" -- instead specify what is being verified and why it matters.
    - If existing design.md found in Step 1, use it as reference context (merge mode)
-   - Apply design rules: Type Safety, Visual Communication, Formal Tone
+   - Apply design rules: Explicit Interfaces, Visual Communication, Formal Tone
    - Use language specified in spec.json
    - Keep this as a draft until the review gate passes; do not write `design.md` yet
 
@@ -141,12 +141,9 @@ After all findings return, synthesize in main context before proceeding.
    - Update `updated_at` timestamp
 
 ## Critical Constraints
- - **Type Safety**:
-   - Enforce strong typing aligned with the project's technology stack.
-   - For statically typed languages, define explicit types/interfaces and avoid unsafe casts.
-   - For TypeScript, never use `any`; prefer precise types and generics.
-   - For dynamically typed languages, provide type hints/annotations where available (e.g., Python type hints) and validate inputs at boundaries.
-   - Document public interfaces and contracts clearly to ensure cross-component type safety.
+ - **Explicit Interfaces**:
+   - Define explicit types and interfaces at component boundaries, following the language and conventions recorded in steering and this spec.
+   - Document public interfaces and contracts clearly to ensure cross-component consistency.
 - **Requirements Traceability IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
 
 ## Output Description

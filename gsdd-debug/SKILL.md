@@ -62,7 +62,7 @@ Extract:
 
 ### 2. Inspect Local Runtime and Repository State
 Inspect the repository for local evidence:
-- `package.json`, `pyproject.toml`, `go.mod`, `Makefile`, `README*`
+- The repository's build, test, and task definitions, and `README*`
 - Build config
 - `tsconfig` or equivalent language/runtime config
 - Runtime-specific config

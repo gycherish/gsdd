@@ -28,18 +28,18 @@ Steering files are **project memory**, not exhaustive specifications.
 
 **Bad** (Specification-like):
 ```markdown
-- /components/Button.tsx - Primary button with variants
-- /components/Input.tsx - Text input with validation
-- /components/Modal.tsx - Modal dialog
-... (50+ files)
+- /contracts/session-open - Session open request and response
+- /contracts/session-close - Session close notification
+- /contracts/file-chunk - File transfer chunk
+... (50+ entries)
 ```
 
 **Good** (Project Memory):
 ```markdown
-## UI Components (`/components/ui/`)
-Reusable, design-system aligned primitives
-- Named by function (Button, Input, Modal)
-- Export component + TypeScript interface
+## Shared Contracts (`/contracts/`)
+Canonical interface and message definitions shared across components
+- One file per contract area, named by function
+- Versioned; breaking changes require a new version
 - No business logic
 ```
 

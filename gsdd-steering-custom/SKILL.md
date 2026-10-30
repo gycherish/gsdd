@@ -31,7 +31,6 @@ You are a specialized skill for creating custom steering documents beyond core f
 
 If steering context is already available from conversation, skip redundant file reads.
 Otherwise:
-- Check `templates/steering-custom/` (in this skill's directory) for available templates
 - Read `rules/steering-principles.md` from this skill's directory for steering principles
 
 ## Workflow
@@ -40,41 +39,26 @@ Otherwise:
    - Domain/topic (e.g., "API standards", "testing approach")
    - Specific requirements or patterns to document
 
-2. **Check if template exists**:
-   - Load from `templates/steering-custom/{name}.md` (in this skill's directory) if available
-   - Use as starting point, customize based on project
+2. **Collect project facts**:
+   - Base the document on what the project already states or does: existing steering, specs, code, configuration, and the user's answers
+   - Do not introduce practices the project has not adopted; record undecided points as open questions for the user
 
 3. **Analyze codebase** (JIT) for relevant patterns:
 
 #### Parallel Research
 
 The following research areas are independent and can be executed in parallel:
-1. **Template & principles**: Load matching template and steering-principles.md
+1. **Principles**: Load steering-principles.md
 2. **Domain patterns**: Analyze codebase for domain-specific patterns using Glob/Grep/Read
 
 After all parallel research completes, synthesize findings for steering document.
 
 4. **Generate custom steering**:
-   - Follow template structure if available
    - Apply principles from `rules/steering-principles.md` from this skill's directory
    - Focus on patterns, not exhaustive lists
    - Keep to 100-200 lines (2-3 minute read)
 
 5. **Create file** in `docs/steering/{name}.md`
-
-## Available Templates
-
-Templates available in `templates/steering-custom/` (in this skill's directory):
-
-1. **api-standards.md** - REST/GraphQL conventions, error handling
-2. **testing.md** - Test organization, mocking, coverage
-3. **security.md** - Auth patterns, input validation, secrets
-4. **database.md** - Schema design, migrations, query patterns
-5. **error-handling.md** - Error types, logging, retry strategies
-6. **authentication.md** - Auth flows, permissions, session management
-7. **deployment.md** - CI/CD, environments, rollback procedures
-
-Load template when needed, customize for project.
 
 ## Steering Principles
 
@@ -88,12 +72,12 @@ From `rules/steering-principles.md` (in this skill's directory):
 
 ## Tool Guidance
 
-- **Read**: Load template, analyze existing code
+- **Read**: Analyze existing code, configuration, and documents
 - **Glob**: Find related files for pattern analysis
 - **Grep**: Search for specific patterns
 - **Bash** with `ls`: Understand relevant structure
 
-**JIT Strategy**: Load template only when creating that type of steering.
+**JIT Strategy**: Analyze only the areas relevant to the requested topic.
 
 ## Output Description
 
@@ -106,9 +90,8 @@ Custom Steering Created
 - docs/steering/api-standards.md
 
 ## Based On:
-- Template: api-standards.md
 - Analyzed: src/api/ directory patterns
-- Extracted: REST conventions, error format
+- Extracted: endpoint naming, error format
 
 ## Content:
 - Endpoint naming patterns
@@ -123,23 +106,22 @@ Review and customize as needed.
 
 ### Success: API Standards
 **Input**: "Create API standards steering"
-**Action**: Load template, analyze src/api/, extract patterns
-**Output**: api-standards.md with project-specific REST conventions
+**Action**: Analyze src/api/, extract existing patterns
+**Output**: api-standards.md with the project's own API conventions
 
 ### Success: Testing Strategy
 **Input**: "Document our testing approach"
-**Action**: Load template, analyze test files, extract patterns
+**Action**: Analyze test files, extract existing patterns
 **Output**: testing.md with test organization and mocking strategies
 
 ## Safety & Fallback
 
-- **No template**: Generate from scratch based on domain knowledge
+- **No existing patterns**: Do not invent conventions; ask the user and record undecided points as open questions
 - **Security**: Never include secrets (load principles)
 - **Validation**: Ensure doesn't duplicate core steering content
 
 ## Notes
 
-- Templates are starting points, customize for project
 - Follow same granularity principles as core steering
 - All steering files loaded as project memory
 - Custom files equally important as core files

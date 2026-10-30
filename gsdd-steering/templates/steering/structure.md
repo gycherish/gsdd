@@ -22,16 +22,12 @@
 - **Components**: [Pattern]
 - **Functions**: [Pattern]
 
-## Import Organization
+## Import / Include Organization
 
-```typescript
-// Example import patterns
-import { Something } from '@/path'  // Absolute
-import { Local } from './local'     // Relative
-```
+[Conventions for imports or includes, e.g., absolute vs relative paths, ordering]
 
-**Path Aliases**:
-- `@/`: [Maps to]
+**Path Aliases** (if any):
+- [Alias]: [Maps to]
 
 ## Code Organization Principles
 

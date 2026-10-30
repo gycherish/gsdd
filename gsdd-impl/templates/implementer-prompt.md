@@ -27,9 +27,9 @@ You are a specialized implementation subagent for a single task. The parent cont
 ### Step 2: Build Task Brief
 Before writing any code, synthesize a concrete Task Brief from the spec sections you just read:
 
-- **Acceptance criteria**: What observable behaviors must be true when done? Extract from the requirement sections. Be specific (e.g., "POST /auth/login returns JWT on valid credentials, 401 on invalid"), not vague.
+- **Acceptance criteria**: What observable behaviors must be true when done? Extract from the requirement sections. Be specific (e.g., "login with valid credentials succeeds and returns a session token; invalid credentials return an authentication error"), not vague.
 - **Completion definition**: What files, functions, tests, or artifacts must exist? Derive from design.md component structure and task boundary.
-- **Design constraints**: What specific technical decisions from design.md must be followed? (e.g., "use bcrypt for hashing", "implement as Express middleware"). If design says "use X", you must use X.
+- **Design constraints**: What specific technical decisions from design.md must be followed? (e.g., a specific algorithm, library, or architectural pattern named in design.md). If design says "use X", you must use X.
 - **Verification method**: How to confirm the task works. Derive from the requirement's testability and the parent-provided validation commands.
 
 If any of these cannot be determined from the spec — the requirements are too vague, the design doesn't specify the approach, or the task description is ambiguous — report as **NEEDS_CONTEXT** immediately with what's missing. Do not guess or fill gaps with assumptions.
@@ -59,7 +59,7 @@ If any of these cannot be determined from the spec — the requirements are too 
 - Verify the implementation is NOT a mock, stub, placeholder, fake, or TODO-only path unless the task explicitly requires one
 - Verify there are no TBD, TODO, or FIXME markers left in changed files
 - Verify the tests prove the required behavior, not just scaffolding or a happy-path shell
-- Verify that any namespace or qualified-name access used at runtime (for example `React.X`, `module.Foo`, `pkg.Bar`) has a real value import or runtime binding, not only a type-only import or ambient type reference
+- Verify that every symbol used at runtime is actually defined and imported or linked for the target build, not only declared (for example, a declaration without a definition, or a type-only import)
 - Verify that any newly introduced runtime-sensitive dependency or packaging assumption (native modules, module-format boundaries, generated assets, required env vars, boot-time config) is reflected in validation or called out explicitly in `CONCERNS`
 - If any review check fails, fix the implementation, re-run validation, and repeat this step
 
