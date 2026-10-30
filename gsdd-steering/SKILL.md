@@ -45,7 +45,7 @@ If steering context is already available from conversation, skip redundant file 
 Check `docs/steering/` status:
 
 **Record Mode**: Invoked with a set of confirmed project-level decisions (from another gsdd skill such as `gsdd-discovery`, or from the user)
-**Bootstrap Mode**: No decisions supplied, and steering is empty OR missing core files (product.md, tech.md, structure.md)
+**Bootstrap Mode**: No decisions supplied, and steering is empty OR missing core files (product.md, tech.md, structure.md). Bootstrap creates only the missing core files; existing steering files are never regenerated
 **Sync Mode**: No decisions supplied, and all core files exist
 
 ---
@@ -83,7 +83,7 @@ After all parallel research completes, synthesize patterns for steering files.
    - Product: Purpose, value, core capabilities
    - Tech: Frameworks, decisions, conventions
    - Structure: Organization, naming, imports
-5. Generate steering files (follow templates)
+5. Generate only the missing core files (follow templates); leave existing steering files untouched
 6. Load principles from `rules/steering-principles.md` from this skill's directory
 7. Present summary for review
 
@@ -99,8 +99,9 @@ After all parallel research completes, synthesize patterns for steering files.
    - **Steering → Code**: Missing elements → Warning
    - **Code → Steering**: New patterns → Update candidate
    - **Custom files**: Check relevance
-4. Propose updates (additive, preserve user content)
-5. Report: Updates, warnings, recommendations
+4. Apply additive updates directly (new patterns, new sections content). Changes that would replace or remove existing content are listed for the user to confirm, not applied
+5. Report code that deviates from steering as drift; do not change code or steering to resolve it
+6. Report: Updates applied, changes awaiting confirmation, drift warnings, recommendations
 
 **Update Philosophy**: Add, don't replace. Preserve user sections.
 
@@ -128,7 +129,7 @@ Document patterns and principles, not exhaustive lists.
 
 ## Output Description
 
-Chat summary only (files updated directly).
+Chat summary only (files are written directly; in Sync mode, replacements and removals wait for user confirmation).
 
 ### Record:
 ```
@@ -164,9 +165,11 @@ Review and approve as Source of Truth.
 ```
 Steering Updated
 
-## Changes:
-- tech.md: Core library upgraded to a new major version
+## Changes Applied:
 - structure.md: Added API pattern
+
+## Awaiting Confirmation:
+- tech.md: Replace the core library version (code now uses a new major version)
 
 ## Code Drift:
 - Components not following import conventions
@@ -198,7 +201,6 @@ Steering Updated
 ## Notes
 
 - All `docs/steering/*.md` loaded as project memory
-- Templates and principles are external for customization
 - Focus on patterns, not catalogs
 - "Golden Rule": New code following patterns shouldn't require steering updates
 - gsdd skill files under `.claude/skills/` (including their `templates/` and `rules/`) should NOT be documented in steering files (they are workflow metadata, not project knowledge)

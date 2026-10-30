@@ -67,14 +67,14 @@ Never include:
 
 - Preserve user sections and custom examples
 - Additive by default (add, don't replace)
-- Add `updated_at` timestamp
-- Note why changes were made
+- Do not add timestamps or change logs to steering files; version history lives in git
+- Explain why changes were made in the summary to the user
 
 ---
 
 ## Notes
 
-- Templates are starting points, customize as needed
+- Templates define the sections of each steering file; fill them with project facts
 - Follow same granularity principles as core steering
 - All steering files loaded as project memory
 - Light references to `docs/specs/` and `docs/steering/` are acceptable; avoid documenting the SDD workflow files under `.claude/skills/`
@@ -86,5 +86,5 @@ Never include:
 
 - **product.md**: Purpose, value, business context (not exhaustive features)
 - **tech.md**: Key frameworks, standards, conventions (not all dependencies)
-- **structure.md**: Organization patterns, naming rules (not directory trees)
+- **structure.md**: Organization patterns, naming rules (not directory trees; do not enumerate every module or package, describe the pattern and give a representative example)
 - **Custom files**: Specialized patterns (API, testing, security, etc.)
