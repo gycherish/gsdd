@@ -11,6 +11,7 @@ Quickly analyze existing system and integration requirements for feature extensi
 - Determine modification scope (files, components)
 - Check for existing patterns to follow
 - Identify backward compatibility requirements
+- Map each requirement to the existing code that serves it, tagging what remains as Missing (not in the code), Unknown (needs investigation), or Constraint (existing architecture limits the approach); record the map in `research.md`
 
 ### 2. Dependency Check
 **Verify Compatibility**:

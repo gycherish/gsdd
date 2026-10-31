@@ -17,7 +17,7 @@ This skill performs task-local adversarial review. It verifies that the implemen
 
 Boundary terminology continuity:
 - discovery identifies `Boundary Candidates`
-- design fixes `Boundary Commitments`
+- design fixes each component's ownership, dependencies, and exposed contracts (`Components`)
 - tasks constrain execution with `_Boundary:_`
 - review rejects concrete `Boundary Violations`
 
@@ -116,7 +116,7 @@ Run these checks and use the result as primary signal.
 - Reject silent substitutions for design-mandated choices.
 
 ### 10.5 Boundary Audit
-- Compare the implementation against the design's boundary commitments and out-of-boundary statements.
+- Compare the implementation against the design's Components (what each component owns, what it depends on, its exposed contracts) and the responsibilities the design assigns to other specs or modules.
 - Reject if downstream-specific behavior is pushed into an upstream boundary for convenience.
 - Reject if the implementation creates new hidden dependencies, shared ownership, or undeclared coupling across adjacent boundaries.
 - Reject if a task that is not an explicit integration task now behaves like one.

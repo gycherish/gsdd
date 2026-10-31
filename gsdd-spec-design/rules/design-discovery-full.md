@@ -18,29 +18,20 @@ Conduct comprehensive research and analysis to ensure the technical design is ba
 - Map reusable components, services, utilities
 - Identify domain boundaries and data flows
 - Document integration points and dependencies
+- Map each requirement to the existing code that serves it, tagging what remains as Missing (not in the code), Unknown (needs investigation), or Constraint (existing architecture limits the approach); record the map in `research.md`
 - Determine approach: extend vs refactor vs wrap
 
 ### 3. Technology Research
-**Investigate Best Practices and Solutions**:
-- **Use WebSearch** to find:
-  - Latest architectural patterns for similar problems
-  - Industry best practices for the technology stack
-  - Recent updates or changes in relevant technologies
-  - Common pitfalls and solutions
-
-- **Use WebFetch** to analyze:
-  - Official documentation for frameworks/libraries
-  - API references and usage examples
-  - Migration guides and breaking changes
-  - Performance benchmarks and comparisons
+**Only for technologies this design introduces, or decisions that depend on facts you are unsure of**:
+- Use WebSearch to locate official documentation, specifications, and source repositories
+- Use WebFetch to read them: API references, usage examples, migration guides, breaking changes, known issues
 
 ### 4. External Dependencies Investigation
 **For Each External Service/Library**:
-- Search for official documentation and GitHub repositories
+- Read its official documentation and source repository
 - Verify API signatures and authentication methods
 - Check version compatibility with existing stack
-- Investigate rate limits and usage constraints
-- Find community resources and known issues
+- Check usage constraints, such as limits and licensing
 - Document security considerations
 - Note any gaps requiring implementation investigation
 
@@ -50,7 +41,7 @@ Conduct comprehensive research and analysis to ensure the technical design is ba
 - Assess fit with existing architecture and steering principles
 - Identify domain boundaries and ownership seams required to avoid team conflicts
 - Consider scalability implications and operational concerns
-- Evaluate maintainability and team expertise
+- Evaluate maintainability
 - Document preferred pattern and rejected alternatives in `research.md`
 
 ### 6. Risk Assessment
@@ -59,28 +50,11 @@ Conduct comprehensive research and analysis to ensure the technical design is ba
 - Security vulnerabilities and attack vectors
 - Integration complexity and coupling
 - Technical debt creation vs resolution
-- Knowledge gaps and training needs
 
 ## Research Guidelines
-
-### When to Search
-**Always search for**:
-- External API documentation and updates
-- Security best practices for authentication/authorization
-- Performance optimization techniques for identified bottlenecks
-- Latest versions and migration paths for dependencies
-
-**Search if uncertain about**:
-- Architectural patterns for specific use cases
-- Industry standards for data formats/protocols
-- Compliance requirements (GDPR, HIPAA, etc.)
-- Scalability approaches for expected load
-
-### Search Strategy
-1. Start with official sources (documentation, GitHub)
-2. Check recent blog posts and articles (last 6 months)
-3. Review Stack Overflow for common issues
-4. Investigate similar open-source implementations
+- Research only what the design depends on: external libraries, services, or protocols it introduces, and facts you are unsure of. Do not research what steering or the existing codebase already settles.
+- Prefer primary sources: official documentation, specifications, and source repositories.
+- Record sources in `research.md` so decisions can be traced.
 
 ## Output Requirements
 Capture all findings that impact design decisions in `research.md` using the shared template:
@@ -88,6 +62,6 @@ Capture all findings that impact design decisions in `research.md` using the sha
 - Constraints discovered during research
 - Recommended approaches and selected architecture pattern with rationale
 - Rejected alternatives and trade-offs (documented in the Design Decisions section)
-- Updated domain boundaries that inform Components & Interface Contracts
+- Updated domain boundaries that inform the components and their contracts
 - Risks and mitigation strategies
 - Gaps requiring further investigation during implementation

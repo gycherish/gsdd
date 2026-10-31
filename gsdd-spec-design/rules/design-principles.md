@@ -1,159 +1,78 @@
-# Technical Design Rules and Principles
+# Technical Design Principles
 
-## Core Design Principles
+## Core Principles
 
-### 0. Boundary First
-- **Boundary is mandatory; owner is optional**
-- A design is not ready when it explains components but leaves responsibility seams ambiguous
-- Define what the spec owns before elaborating how it works
-- Explicitly record what is out of boundary
-- Do not leak downstream-specific behavior or assumptions into upstream boundaries
+### Boundary First
+- Settle the boundary before the details: what each component owns, what it depends on, which related responsibilities belong to another spec or an existing module, and which contracts other specs consume
+- Do not leak downstream-specific behavior or assumptions into upstream components
+- No hidden shared ownership: if two components appear to co-own the same behavior or data, the design is incomplete
 
-### 1. Interfaces Are Explicit
-- Define explicit types for all parameters, returns, and errors at component boundaries
-- Express interfaces in the project's own language and conventions, as recorded in steering
+### Decide Rather Than Defer
+- Make every choice an implementer would otherwise have to guess; "to be decided during tasks or implementation" is not a design
+- What genuinely cannot be decided yet goes to Risks and Open Questions, with how it will be resolved
 
-### 2. Design vs Implementation
-- **Focus on WHAT, not HOW**
-- Define interfaces and contracts, not code
-- Specify behavior through pre/post conditions
-- Document architectural decisions, not algorithms
+### Contracts, Not Code
+- Define components, contracts, and decisions; leave algorithms and code to implementation, except novel algorithms, which may be sketched in pseudo-code
+- Specify behavior through inputs, outputs, errors, and pre/postconditions
+- What the design does not constrain is the implementer's choice, within steering conventions; constrain only what consistency or correctness requires
 
-### 3. Visual Communication
-- **Simple features**: Basic component diagram or none
-- **Medium complexity**: Architecture + data flow
-- **High complexity**: Multiple diagrams (architecture, sequence, state)
-- **Always pure Mermaid**: No styling, just structure
+### Explicit Contracts
+- Every component boundary has explicit types for parameters, return values, and errors, written in the project's language and conventions as recorded in steering
+- Keep interfaces minimal and focused, so components can be implemented in parallel without conflicts
 
-### 4. Component Design Rules
-- **Single Responsibility**: One clear purpose per component
-- **Clear Boundaries**: Explicit domain ownership
-- **Boundary Commitments First**: Before detailing components, state the responsibility boundary this design commits to
-- **Dependency Direction**: Follow architectural layers
-- **Interface Segregation**: Minimal, focused interfaces
-- **Team-safe Interfaces**: Design boundaries that allow parallel implementation without merge conflicts
-- **No Hidden Shared Ownership**: If two areas appear to co-own the same behavior or data, the design is incomplete
-- **Research Traceability**: Record boundary decisions and rationale in `research.md`
+### Dependency Direction
+- State the allowed dependency direction between layers or components (e.g., Types → Config → Repository → Service → UI); each may depend only on those before it
+- Implementation and review treat violations as errors
 
-### 5. Data Modeling Standards
-- **Domain First**: Start with business concepts
-- **Consistency Boundaries**: Clear aggregate roots
-- **Normalization**: Balance between performance and integrity
-- **Evolution**: Plan for schema changes
+### Smallest Sufficient Design
+- One clear responsibility per component; prefer fewer, cohesive components
+- No components, layers, or extension points for hypothetical future requirements
 
-### 6. Error Handling Philosophy
-- **Fail Fast**: Validate early and clearly
-- **Graceful Degradation**: Partial functionality over complete failure
-- **User Context**: Actionable error messages
-- **Observability**: Comprehensive logging and monitoring
+## Choosing the Body
 
-### 7. Integration Patterns
-- **Loose Coupling**: Minimize dependencies
-- **Contract First**: Define interfaces before implementation
-- **Versioning**: Plan for API evolution
-- **Idempotency**: Design for retry safety
-- **Contract Visibility**: Surface API and event contracts in design.md while linking extended details from `research.md`
+The body between Overview and Components has no fixed structure. Choose its sections for this feature: which sections, their names, order, and depth.
 
-### 8. Dependency Direction
-- **Define and enforce the dependency direction** in the architecture section of design.md (e.g., Types → Config → Repository → Service → Runtime → UI)
-- Each layer imports only from layers to its left — never upward
-- This constraint is not a suggestion; implementation and review should treat violations as errors
-- When the File Structure Plan maps files to components, the dependency direction determines which imports are allowed
+Common contents, each with when it earns a place:
 
-## Documentation Standards
+| Content | Include when |
+|---------|--------------|
+| Context: current state, what the feature builds on and the interfaces it uses from it, related responsibilities owned elsewhere (with their owner), constraints | The feature modifies existing code or depends on other specs or modules |
+| Architecture: how components fit together and the allowed dependency direction | The feature has two or more components |
+| Decisions: each choice, why, and the main alternative rejected and why | There were real alternatives |
+| Interfaces and protocols: signatures, messages, formats, versioning | Components, threads, or processes communicate |
+| Data: structures, invariants, persisted formats, compatibility with existing data | Data is added or changed |
+| Runtime behavior: flows, state machines, threading and concurrency, startup and shutdown order, timeouts | Behavior unfolds over time or involves concurrency |
+| Failure handling: for each failure that matters, how it is detected, reported, and recovered from, and what is logged | The feature does I/O, networking, or anything that can fail at runtime |
+| User interface: layout, interaction states, feedback | The feature has a user interface |
+| Algorithms | The feature needs a non-obvious algorithm |
+| Performance, security, compatibility and migration: concrete targets or rules | Requirements or risks involve them |
 
-### Language and Tone
-- **Declarative**: "The system authenticates users" not "The system should authenticate"
-- **Precise**: Specific technical terms over vague descriptions
-- **Concise**: Essential information only
-- **Formal**: Professional technical writing
+- Name sections after the feature's own concepts (e.g., "Session Lifecycle" rather than "Runtime Behavior"), and order them from overview to detail
+- Merge, split, or reorder these contents as the feature needs, and add sections for anything else it needs
+- Omit what does not apply; a small change may need only one or two sections
+- Say each thing once; refer to the section that already states it instead of repeating it
+- Mark decisions that hold for the whole project rather than this feature (a new library, a directory or naming convention, a cross-cutting rule) with (project-level)
 
-### Structure Requirements
-- **Hierarchical**: Clear section organization
-- **Traceable**: Requirements to components mapping
-- **Complete**: All aspects covered for implementation
-- **Consistent**: Uniform terminology throughout
-- **Focused**: Keep design.md centered on architecture and contracts; move investigation logs and lengthy comparisons to `research.md`
+## Writing Contracts
+- **Interfaces**: signature with inputs, outputs, and errors; preconditions and postconditions when they matter
+- **Messages** that cross process, thread, or network boundaries: name, direction, fields with types and units, ordering and delivery guarantees, versioning and compatibility, and idempotency when retries happen
+- **State machines**: states, transitions with their triggers, and behavior on invalid transitions
+- **Data**: structures and invariants; for persisted data, also format, location, and compatibility with existing data
 
-## Section Authoring Guidance
+## Failure Handling
+- Fail fast on invalid input; degrade gracefully on partial failures
+- Cover the failures that matter: invalid input, I/O errors, network loss, timeouts, resource exhaustion, invalid state, partial failure
+- State what is logged at the points that matter for diagnosis
 
-### Global Ordering
-- Default flow: Overview → Goals/Non-Goals → Boundary Commitments → Architecture → File Structure Plan → Components & Interfaces → Optional sections.
-- Teams may swap Traceability earlier or place Data Models nearer Architecture when it improves clarity, but keep section headings intact.
-- Within each section, follow **Summary → Scope → Decisions → Impacts/Risks** so reviewers can scan consistently.
-
-### Requirement IDs
-- Reference requirements as `2.1, 2.3` without prefixes (no “Requirement 2.1”).
-- All requirements MUST have numeric IDs. If a requirement lacks a numeric ID, stop and fix `requirements.md` before continuing.
-- Use `N.M`-style numeric IDs where `N` is the top-level requirement number from requirements.md (for example, Requirement 1 → 1.1, 1.2; Requirement 2 → 2.1, 2.2).
-- Every component, task, and traceability row must reference the same canonical numeric ID.
-
-### Technology Stack
-- Include ONLY layers impacted by this feature (frontend, backend, data, messaging, infra).
-- For each layer specify tool/library + version + the role it plays; push extended rationale, comparisons, or benchmarks to `research.md`.
-- When extending an existing system, highlight deviations from the current stack and list new dependencies.
-
-### System Flows
-- Add diagrams only when they clarify behavior:  
-  - **Sequence** for multi-step interactions  
-  - **Process/State** for branching rules or lifecycle  
-  - **Data/Event** for pipelines or async patterns
-- Always use pure Mermaid. If no complex flow exists, omit the entire section.
-
-### Requirements Traceability
-- Use the standard table (`Requirement | Summary | Components | Interfaces | Flows`) to prove coverage.
-- Collapse to bullet form only when a single requirement maps 1:1 to a component.
-- Prefer the component summary table for simple mappings; reserve the full traceability table for complex or compliance-sensitive requirements.
-- Re-run this mapping whenever requirements or components change to avoid drift.
-
-### Components & Interfaces Authoring
-- Boundary Commitments should already make the ownership seam explicit before this section begins.
-- Group components by domain/layer and provide one block per component.
-- Begin with a summary table listing Component, Domain, Intent, Requirement coverage, key dependencies, and selected contracts.
-- Table fields: Intent (one line), Requirements (`2.1, 2.3`), Owner/Reviewers (optional).
-- Dependencies table must mark each entry as Inbound/Outbound/External and assign Criticality (`P0` blocking, `P1` high-risk, `P2` informational).
-- Summaries of external dependency research stay here; detailed investigation (API signatures, rate limits, migration notes) belongs in `research.md`.
-- design.md must remain a self-contained reviewer artifact. Reference `research.md` only for background, and restate any conclusions or decisions here.
-- Contracts: tick only the relevant types (Service/API/Event/Batch/State). Unchecked types should not appear later in the component section.
-- Service interfaces must declare method signatures, inputs/outputs, and error envelopes. API/Event/Batch contracts require schema tables or bullet lists covering trigger, payload, delivery, idempotency.
-- Use **Integration & Migration Notes**, **Validation Hooks**, and **Open Questions / Risks** to document rollout strategy, observability, and unresolved decisions.
-- Detail density rules:
-  - **Full block**: components introducing new boundaries (logic hooks, shared services, external integrations, data layers).
-  - **Summary-only**: presentational/UI components with no new boundaries (plus a short Implementation Note if needed).
-- Implementation Notes must combine Integration / Validation / Risks into a single bulleted subsection to reduce repetition.
-- Prefer lists or inline descriptors for short data (dependencies, contract selections). Use tables only when comparing multiple items.
-
-### Shared Interfaces
-- Define a base interface for recurring component contracts and extend it per component to capture only the deltas.
-- Utilities and integration adapters that introduce new contracts should still include full signatures in the project's language.
-- When reusing a base contract, reference it explicitly (e.g., “Extends `BaseHandler` with an `onTimeout` callback”) instead of duplicating the code block.
-
-### Data Models
-- Domain Model covers aggregates, entities, value objects, domain events, and invariants. Add Mermaid diagrams only when relationships are non-trivial.
-- Logical Data Model should articulate structure, indexing, sharding, and storage-specific considerations (event store, KV/wide-column) relevant to the change.
-- Data Contracts & Integration section documents API payloads, event schemas, and cross-service synchronization patterns when the feature crosses boundaries.
-- Lengthy type definitions or vendor-specific option objects should be placed in the Supporting References section within design.md, linked from the relevant section. Investigation notes stay in `research.md`.
-- Supporting References usage is optional; only create it when keeping the content in the main body would reduce readability. All decisions must still appear in the main sections so design.md stands alone.
-
-### Error/Testing/Security/Performance Sections
-- Record only feature-specific decisions or deviations. Link or reference organization-wide standards (steering) for baseline practices instead of restating them.
-
-### Diagram & Text Deduplication
-- Do not restate diagram content verbatim in prose. Use the text to highlight key decisions, trade-offs, or impacts that are not obvious from the visual.
-- When a decision is fully captured in the diagram annotations, a short “Key Decisions” bullet is sufficient.
-
-### General Deduplication
-- Avoid repeating the same information across Overview, Architecture, and Components. Reference earlier sections when context is identical.
-- If a requirement/component relationship is captured in the summary table, do not rewrite it elsewhere unless extra nuance is added.
-
-## Diagram Guidelines
-
-### When to include a diagram
-- **Architecture**: Use a structural diagram when 3+ components or external systems interact.
-- **Sequence**: Draw a sequence diagram when calls/handshakes span multiple steps.
-- **State / Flow**: Capture complex state machines or business flows in a dedicated diagram.
-- **ER**: Provide an entity-relationship diagram for non-trivial data models.
-- **Skip**: Minor one-component changes generally do not need diagrams.
+## Diagrams
+- Add a diagram only where it clarifies, next to the text it explains:
+  - **Architecture diagram**: 3+ components or external systems interact
+  - **Deployment diagram**: the feature spans processes or machines (which process runs which component, and how they connect)
+  - **Class or data relationship diagram**: relationships are non-trivial
+  - **Sequence diagram**: 3+ parties exchange messages
+  - **Flowchart**: branching logic
+  - **State diagram**: lifecycles and state machines
+- Do not restate diagram content in prose; use the text for decisions and trade-offs the diagram does not show
 
 ### Mermaid requirements
 ```mermaid
@@ -174,23 +93,14 @@ graph TB
 - **Edges** – show data or control flow direction.
 - **Groups** – using Mermaid subgraphs to cluster related components is allowed; use it sparingly for clarity.
 
-## Quality Metrics
-### Design Completeness Checklist
-- All requirements addressed
-- No implementation details leaked
-- Clear component boundaries
-- Explicit error handling
-- Comprehensive test strategy
-- Security considered
-- Performance targets defined
-- Migration path clear (if applicable)
+## design.md and research.md
+- design.md is self-contained for implementers and reviewers: every decision and contract is stated in it
+- research.md holds investigation logs, sources, compared alternatives, and detailed rationale; design.md points to it for background only
 
-### Common Anti-patterns to Avoid
-❌ Mixing design with implementation
-❌ Vague interface definitions
-❌ Missing error scenarios
-❌ Ignored non-functional requirements
-❌ Overcomplicated architectures
-❌ Tight coupling between components
-❌ Missing data consistency strategy
-❌ Incomplete dependency analysis
+## Requirement IDs
+- Reference requirements by numeric ID (`2.1, 2.3`), without prefixes such as "Requirement 2.1"
+- Use the IDs exactly as defined in requirements.md; if a requirement lacks a numeric ID, stop and fix requirements.md first
+
+## Language and Tone
+- Declarative and precise: "The session manager closes idle sessions after 30 s", not "should close idle sessions"
+- Essential information only; prefer tables and lists over long prose

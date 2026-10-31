@@ -16,7 +16,7 @@ Individual tasks are usually reviewed during implementation. Your job is to catc
 
 Boundary terminology continuity:
 - discovery identifies `Boundary Candidates`
-- design fixes `Boundary Commitments`
+- design fixes each component's ownership, dependencies, and exposed contracts (`Components`)
 - tasks constrain execution with `_Boundary:_`
 - feature validation checks for cross-task `Boundary Violations`
 
@@ -130,16 +130,16 @@ These checks apply at the feature level. Use command output as the primary signa
 - Verify the overall component graph matches design.md
 - Check that integration patterns (event flow, API boundaries, dependency injection) work as designed
 - Verify dependency direction follows design.md's architecture (no upward imports)
-- Verify File Structure Plan matches the actual file layout
+- Verify the Change Plan matches the actual changes
 - Identify any architectural drift from the original design
 - Use the original section numbering from `design.md`
 
 **G.5 Boundary Audit**
-- Compare completed work against the design's `Boundary Commitments`, `Out of Boundary`, `Allowed Dependencies`, and `Revalidation Triggers`
+- Compare completed work against the design's `Components` (ownership, dependencies, exposed contracts) and the responsibilities it assigns to other specs or modules
 - Identify cross-task spillover where one area quietly absorbed another boundary's responsibility
 - Identify downstream-specific workarounds embedded upstream "to make integration easier"
 - Identify new hidden dependencies or shared ownership that were not declared in the design
-- If a revalidation trigger fired, verify the affected adjacent specs or integration points were actually re-checked
+- If an exposed contract changed, verify its consumers in other specs or modules were actually re-checked
 
 **H. Blocked Tasks & Implementation Notes**
 - Check for any tasks still marked `_Blocked:_` — report why and assess impact on feature completeness
@@ -176,7 +176,7 @@ Provide summary in the language specified in spec.json:
 - DESIGN:
   - Architecture drift: <findings>
   - Dependency direction: <violations if any>
-  - File Structure Plan vs actual: <match/mismatch>
+  - Change Plan vs actual: <match/mismatch>
 - OWNERSHIP: LOCAL | UPSTREAM | UNCLEAR
 - UPSTREAM_SPEC: <feature-name | N/A>
 - BLOCKED_TASKS: <list and impact assessment>

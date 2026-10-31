@@ -87,7 +87,7 @@ Ask clarifying questions **sequentially** (not all at once), prioritizing bounda
 1. **Who and why**: Who has the problem? What pain does it cause?
 2. **Desired outcome**: What should be true when this is done?
 3. **Boundary candidates**: What are the natural responsibility seams in this work? Where could this be split so implementation can proceed independently?
-4. **Out of boundary**: What should this spec explicitly NOT own, even if related?
+4. **Adjacent owners**: Which related responsibilities belong to another spec or an existing module?
 5. **Existing vs new**: Which parts seem like extensions to existing specs, and which parts look like genuinely new boundaries?
 6. **Upstream / downstream**: What existing systems, specs, or components does this depend on? What future work is likely to depend on this?
 7. **Constraints**: Are there technology, timeline, or compatibility constraints?
@@ -170,15 +170,11 @@ Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this stru
 [chosen approach and why]
 
 ## Scope
-- **In**: [what this feature includes]
-- **Out**: [what's explicitly excluded]
+[what this feature includes]
 
 ## Boundary Candidates
 - [responsibility seam 1]
 - [responsibility seam 2]
-
-## Out of Boundary
-- [explicit non-goals this spec does not own]
 
 ## Upstream / Downstream
 - **Upstream**: [existing systems/specs this depends on]
@@ -186,7 +182,7 @@ Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this stru
 
 ## Existing Spec Touchpoints
 - **Extends**: [existing spec(s) this work updates, if any]
-- **Adjacent**: [neighbor specs or modules to avoid overlapping]
+- **Adjacent**: [related responsibilities owned by other specs or modules, with their owner]
 
 ## Constraints
 [technology, compatibility, or other constraints]

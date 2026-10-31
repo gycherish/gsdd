@@ -36,7 +36,7 @@ argument-hint: <feature-name>
 - **Approvals**: Check approval status in spec.json
 - **Boundary context**:
   - From brief.md: note `Boundary Candidates`, `Upstream / Downstream`, and `Existing Spec Touchpoints` if present
-  - From design.md: note `Boundary Commitments`, `Out of Boundary`, `Allowed Dependencies`, and `Revalidation Triggers` if present
+  - From design.md: note each component's ownership, dependencies, and exposed contracts (`Components`), and responsibilities assigned to other specs or modules, if present
   - From roadmap.md: note upstream dependencies and whether this spec is adjacent to `Existing Spec Updates`
 - **Revalidation watchlist**:
   - Identify downstream specs, neighboring existing-spec updates, or rollout-sensitive design notes that may need revalidation if this spec changes
@@ -48,7 +48,7 @@ Create report in the language specified in spec.json covering:
 1. **Current Phase & Progress**: Where the spec is in the workflow
 2. **Completion Status**: Percentage complete for each phase
 3. **Task Breakdown**: If tasks exist, show completed/remaining counts
-4. **Boundary Context**: Upstream/downstream, out-of-boundary, and allowed dependency notes when available
+4. **Boundary Context**: Upstream/downstream, responsibilities owned elsewhere, dependencies, and exposed contracts when available
 5. **Revalidation Watchlist**: Downstream or adjacent work likely affected by changes to this spec
 6. **Next Actions**: What needs to be done next
 7. **Blockers**: Any issues preventing progress

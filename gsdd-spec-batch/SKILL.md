@@ -1,7 +1,7 @@
 ---
 name: gsdd-spec-batch
 description: Create complete specs (requirements, design, tasks) for all features in roadmap.md using parallel subagent dispatch by dependency wave.
-allowed-tools: Read, Glob, Grep, Agent
+allowed-tools: Read, Glob, Grep, Agent, Skill
 ---
 
 # gsdd-spec-batch Skill
@@ -73,14 +73,16 @@ Bind the feature argument in each phase to "{feature-name}" (including `$1` or `
    b. Generate design: Run the `gsdd-spec-design` skill with arguments "{feature-name} -y", including required design review
    c. Generate tasks: Run the `gsdd-spec-tasks` skill with arguments "{feature-name} -y", including required task review
 4. Let each successful phase record its approvals through its documented fast-track flow. If a phase review fails or needs human input, stop this feature and report the blocker; do not force its approvals to true
-5. Report completion with file list and task count
+5. Do not record project-level decisions into steering during design; list them in your completion report instead
+6. Report completion with file list, task count, and any project-level decisions
 ```
 
 **After all subagents in the wave complete**:
 1. Verify each feature has: spec.json, requirements.md, design.md, tasks.md
 2. If any feature failed, report the error and continue with features that succeeded
-3. Display wave completion: "Wave N complete: [features]. Files verified."
-4. Proceed to next wave
+3. If subagents reported project-level decisions, invoke the `gsdd-steering` skill once with `record` as the first word of its arguments, followed by all of those decisions, so the next wave designs against updated steering
+4. Display wave completion: "Wave N complete: [features]. Files verified."
+5. Proceed to next wave
 
 ### Step 4: Cross-Spec Review
 
@@ -115,7 +117,7 @@ Check the following:
 
 7. **Task boundary alignment**: Do task _Boundary:_ annotations across specs partition the codebase cleanly? Are there files claimed by multiple specs?
 8. **Roadmap boundary continuity**: If roadmap includes `Existing Spec Updates` or `Direct Implementation Candidates`, do the generated new specs avoid absorbing that work by accident?
-9. **Architecture boundary integrity**: Do the specs preserve clean responsibility seams, avoid shared ownership, keep dependency direction coherent, and include enough revalidation triggers to catch downstream impact?
+9. **Architecture boundary integrity**: Do the specs preserve clean responsibility seams, avoid shared ownership, keep dependency direction coherent, and mark the contracts other specs consume as exposed?
 10. **Change-friendly decomposition**: Has any spec absorbed multiple independent seams that should probably be split instead of kept together?
 
 Output format:
@@ -152,7 +154,7 @@ Next: Review generated specs, then start implementation with /gsdd-impl <feature
 ```
 
 ## Critical Constraints
-- **Controller stays lightweight**: Only read roadmap.md and brief.md existence checks in main context. All spec generation happens in subagents.
+- **Controller stays lightweight**: Only read roadmap.md, check that brief.md and spec.json exist, and record reported project-level decisions through `gsdd-steering` in main context. All spec generation happens in subagents.
 - **Wave ordering is strict**: Never start a wave until all features in previous waves are complete.
 - **Parallel within waves**: All features in the same wave MUST be dispatched in parallel via Agent tool, not sequentially.
 - **No partial waves**: If a feature in a wave fails, still complete the other features in that wave before reporting.

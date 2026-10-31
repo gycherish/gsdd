@@ -1,7 +1,7 @@
 ---
 name: gsdd-spec-design
 description: Generate comprehensive technical design translating requirements (WHAT) into architecture (HOW) with discovery process. Use when creating architecture from requirements.
-allowed-tools: Read, Write, Edit, Grep, Glob, WebSearch, WebFetch, Agent
+allowed-tools: Read, Write, Edit, Grep, Glob, WebSearch, WebFetch, Agent, Skill
 argument-hint: <feature-name> [-y]
 metadata:
   shared-rules: "design-principles.md, design-discovery-full.md, design-discovery-light.md, design-synthesis.md, design-review-gate.md"
@@ -25,14 +25,11 @@ metadata:
 
 ### Step 1: Gather Context
 
-Reuse steering/spec context already available from conversation; load missing context below.
-Select skills for the current task even when steering/spec context is already available:
+Reuse steering/spec context already available from conversation; load missing context below:
 - `docs/specs/{feature}/spec.json`, `requirements.md`, `design.md` (if exists)
 - `docs/specs/{feature}/research.md` (if exists)
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to requirement coverage, architecture boundaries, integrations, runtime prerequisites, security/performance constraints, or team conventions that affect implementation readiness
-- Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
-- Consult relevant domain skills even when building by hand without adopting a new library.
 - `templates/specs/design.md` (in this skill's directory) for document structure
 - Read `rules/design-principles.md` from this skill's directory for design principles
 - `templates/specs/research.md` (in this skill's directory) for discovery log structure
@@ -55,15 +52,11 @@ Select skills for the current task even when steering/spec context is already av
 
    **For Complex/New Features**:
    - Read and execute `rules/design-discovery-full.md` from this skill's directory
-   - Conduct thorough research using WebSearch/WebFetch:
-     - Latest architectural patterns and best practices
-     - External dependency verification (APIs, libraries, versions, compatibility)
-     - Official documentation, migration guides, known issues
-     - Performance benchmarks and security considerations
+   - Research external libraries, services, or protocols the design introduces with WebSearch/WebFetch, following the research guidelines in that file
 
    **For Extensions**:
    - Read and execute `rules/design-discovery-light.md` from this skill's directory
-   - Focus on integration points, existing patterns, compatibility
+   - Focus on integration points, existing patterns, compatibility, and the requirement-to-code map
    - Use Grep to analyze existing codebase patterns
 
    **For Simple Additions**:
@@ -88,14 +81,13 @@ After all findings return, synthesize in main context before proceeding.
    - Existing patterns to follow or extend
    - Integration points and dependencies
    - Identified risks and mitigation strategies
-   - Boundary candidates, out-of-boundary decisions, and likely revalidation triggers
+   - Boundary candidates, responsibilities owned elsewhere, and contracts other specs consume
 
 4. **Persist Findings to Research Log**:
    - Create or update `docs/specs/{feature}/research.md` using the shared template
    - Summarize discovery scope and key findings
    - Record investigations with sources and implications
    - Document architecture pattern evaluation, design decisions, and risks
-   - If `research.md` already exists, briefly record consulted skills and the guidance used in its existing research notes.
    - Use the language specified in spec.json when writing or updating `research.md`
 
 ### Step 3: Synthesis
@@ -109,13 +101,14 @@ After all findings return, synthesize in main context before proceeding.
 ### Step 4: Generate Design Draft
 
 1. **Generate Design Draft**:
-   - **Follow `templates/specs/design.md` (in this skill's directory) template structure and generation instructions strictly**
-   - **Boundary-first requirement**: Before expanding supporting sections, make the boundary explicit. The draft must clearly define what this spec owns, what it does not own, which dependencies are allowed, and what changes would require downstream revalidation.
+   - **Follow `templates/specs/design.md` (in this skill's directory)**: keep its fixed sections (Overview, Components, Change Plan, Verification, Risks and Open Questions), and choose the body's sections for this feature as described in "Choosing the Body" in `rules/design-principles.md`
+   - **Boundary-first requirement**: Before writing the body in detail, settle the boundary: what each component owns, what it depends on, which related responsibilities belong to other specs or modules, and which contracts other specs consume.
    - **Integrate all discovery findings and synthesis outcomes**: Use researched information (APIs, patterns, technologies) and synthesis decisions (generalizations, build-vs-adopt, simplifications) throughout component definitions, architecture decisions, and integration points
-   - **File Structure Plan** (required): Populate the File Structure Plan section with concrete file paths and responsibilities. Analyze the codebase to determine which files need to be created vs. modified. Each file must have one clear responsibility. This section directly drives task `_Boundary:_` annotations and implementation Task Briefs — vague file structures produce vague implementations.
-   - **Testing Strategy**: Derive test items from requirements' acceptance criteria, not generic patterns. Each test item should reference specific components and behaviors from this design. E2E paths must map to the critical user flows identified in requirements. Avoid vague entries like "test login works" -- instead specify what is being verified and why it matters.
+   - **Decisions**: State every decision implementers must follow, with its rationale and the main alternative rejected; mark the ones that hold for the whole project with (project-level). Step 6 records those into steering.
+   - **Change Plan** (required): Analyze the codebase to determine where the change lands, and fill the Change Plan at the granularity the template describes. It drives task `_Boundary:_` annotations and implementation task briefs; a vague change plan produces vague implementations.
+   - **Verification**: For every acceptance criterion, state what is exercised and what result proves it, referencing specific components and behaviors. Avoid vague entries like "test login works".
    - If existing design.md found in Step 1, use it as reference context (merge mode)
-   - Apply design rules: Explicit Interfaces, Visual Communication, Formal Tone
+   - Apply the rules in `rules/design-principles.md`
    - Use language specified in spec.json
    - Keep this as a draft until the review gate passes; do not write `design.md` yet
 
@@ -133,7 +126,13 @@ After all findings return, synthesize in main context before proceeding.
    - Write `docs/specs/{feature}/design.md` only after the design review gate passes
    - Write research.md with discovery findings and synthesis outcomes (if not already written)
 
-2. **Update Metadata** in spec.json:
+2. **Record Project-Level Decisions**:
+   - If this design settles project-level decisions that steering does not record yet (the decisions marked (project-level): decisions that hold for the whole project rather than this feature, such as adopting a new library, a directory or naming convention, or a cross-cutting technical rule), invoke the `gsdd-steering` skill with `record` as the first word of its arguments, followed by those decisions with their rationale. Do not write steering files directly.
+   - If the caller asked you not to record into steering (as `gsdd-spec-batch` does), list these decisions in the output instead.
+   - If `gsdd-steering` reports a conflict with existing steering, report it to the user instead of overriding steering.
+   - Skip this step when the design makes no new project-level decision.
+
+3. **Update Metadata** in spec.json:
 
    - Set `phase: "design-generated"`
    - Set `approvals.design.generated: true, approved: false`
@@ -144,7 +143,7 @@ After all findings return, synthesize in main context before proceeding.
  - **Explicit Interfaces**:
    - Define explicit types and interfaces at component boundaries, following the language and conventions recorded in steering and this spec.
    - Document public interfaces and contracts clearly to ensure cross-component consistency.
-- **Requirements Traceability IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
+- **Requirement IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
 
 ## Output Description
 
@@ -158,6 +157,7 @@ Provide brief summary in the language specified in spec.json:
 4. **Review Gate**: Confirm the design review gate passed
 5. **Next Action**: Approval workflow guidance (see Safety & Fallback)
 6. **Research Log**: Confirm `research.md` updated with latest decisions
+7. **Steering**: Project-level decisions recorded into steering (or listed for the caller), or none
 
 **Format**: Concise Markdown (under 200 words) - this is the command output, NOT the design document itself
 
