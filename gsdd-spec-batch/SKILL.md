@@ -69,7 +69,7 @@ Bind the feature argument in each phase to "{feature-name}" (including `$1` or `
 1. Read the brief at docs/specs/{feature-name}/brief.md for feature context
 2. Read the roadmap at docs/specs/roadmap.md for project context
 3. Execute the full spec pipeline by running the gsdd skills below in order, following each skill's complete instructions (templates, rules, review gates):
-   a. Initialize: If spec.json already exists, reuse that spec without reinitializing or renaming it. Otherwise run the `gsdd-spec-init` skill; use the brief as the project description and initialize spec.json and requirements.md in the existing brief directory. Later phases may update their own artifacts.
+   a. Initialize: If spec.json already exists, reuse that spec without reinitializing or renaming it. Otherwise run the `gsdd-spec-init` skill with "{feature-name}" as its argument; it reads the brief and initializes spec.json and requirements.md in the existing brief directory. Later phases may update their own artifacts.
    b. Generate requirements: Run the `gsdd-spec-requirements` skill for feature "{feature-name}"
    c. Generate design: Run the `gsdd-spec-design` skill with arguments "{feature-name} -y", including required design review
    d. Generate tasks: Run the `gsdd-spec-tasks` skill with arguments "{feature-name} -y", including required task review

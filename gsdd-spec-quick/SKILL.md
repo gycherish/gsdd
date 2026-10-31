@@ -57,19 +57,18 @@ Execute these 4 phases in order:
 
 **Core Logic**:
 
-1. **Check for Brief**:
-   - If `docs/specs/{feature-name}/brief.md` exists (created by `/gsdd-discovery`), read it for discovery context (problem, approach, scope, constraints)
-   - Use brief content as the project description instead of `$ARGUMENTS`
-
-2. **Generate Feature Name**:
-   - Convert description to kebab-case
+1. **Determine Feature Name**:
+   - If the description is exactly the name of an existing `docs/specs/{name}/` directory that contains `brief.md` (created by `/gsdd-discovery`), use that name
+   - Otherwise generate a name from the description: lowercase English words joined by hyphens, 2-4 words
    - Example: "User profile with avatar upload" → "user-profile-avatar-upload"
-   - Keep name concise (2-4 words ideally)
 
-3. **Check Uniqueness**:
+2. **Check for Brief**:
+   - If `docs/specs/{feature-name}/brief.md` exists, read it for discovery context (problem, approach, scope, constraints)
+
+3. **Check Existing Spec**:
    - Use Glob to check `docs/specs/*/`
+   - If `docs/specs/{feature-name}/spec.json` already exists, stop without creating, overwriting, or renaming anything: report that the spec exists and its current `phase`, and ask the user whether to continue that spec (suggest `/gsdd-spec-status {feature-name}` to see its next step) or to use a different name
    - If directory exists with only `brief.md` (no `spec.json`), use that directory (discovery created it)
-   - Otherwise if feature name exists, append `-2`, `-3`, etc.
 
 4. **Create Directory**:
    - Use Bash: `mkdir -p docs/specs/{feature-name}` (skip if already exists from discovery)
@@ -86,7 +85,7 @@ Execute these 4 phases in order:
    ```
    {{FEATURE_NAME}} → feature-name
    {{TIMESTAMP}} → current ISO 8601 timestamp (use `date -u +"%Y-%m-%dT%H:%M:%SZ"`)
-   {{PROJECT_DESCRIPTION}} → description
+   {{PROJECT_DESCRIPTION}} → if brief.md exists: a 1-2 sentence summary of the problem and the desired outcome, followed by a reference to brief.md in the same directory (do not copy the brief); otherwise: the description. Write it in the language given by {{LANG_CODE}}
    {{LANG_CODE}} → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input.
    ```
 
