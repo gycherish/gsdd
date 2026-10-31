@@ -26,7 +26,6 @@ gsdd: Spec-Driven Development on an agentic SDLC
 - Phase 1 (Specification):
   - Single spec: `/gsdd-spec-quick {feature} [--auto]` or step by step:
     - `/gsdd-spec-requirements {feature}`
-    - `/gsdd-validate-gap {feature}` (optional: for existing codebase)
     - `/gsdd-spec-design {feature} [-y]`
     - `/gsdd-validate-design {feature}` (optional: design review)
     - `/gsdd-spec-tasks {feature} [-y]`

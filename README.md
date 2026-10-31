@@ -47,8 +47,7 @@ gsdd/                       ← 挂载后即项目的 .claude/skills/
 | | `gsdd-review` | 评审子代理遵循的评审规程 |
 | | `gsdd-debug` | 排错子代理遵循的规程（先找根因） |
 | | `gsdd-verify-completion` | 宣称完成前必须拿出新鲜证据 |
-| 质量关口 | `gsdd-validate-gap` | 比对需求与现有代码 |
-| | `gsdd-validate-design` | 设计评审 |
+| 质量关口 | `gsdd-validate-design` | 设计评审 |
 | | `gsdd-validate-impl` | 功能级验收 |
 | 状态 | `gsdd-spec-status` | 查看规格进度 |
 

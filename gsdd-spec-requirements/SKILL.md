@@ -120,9 +120,6 @@ Provide output in the language specified in spec.json with:
 ### Next Phase: Design Generation
 
 **If Requirements Approved**:
-- **Optional Gap Analysis** (for existing codebases):
-  - Run `/gsdd-validate-gap {feature}` to analyze implementation gap
-  - Recommended for brownfield projects; skip for greenfield
 - Run `/gsdd-spec-design {feature}` to proceed to design phase
 - Or `/gsdd-spec-design {feature} -y` to auto-approve requirements and proceed directly
 

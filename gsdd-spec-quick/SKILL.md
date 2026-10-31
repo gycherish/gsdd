@@ -136,7 +136,7 @@ Output final completion summary (see Output Description section) and exit.
 Quick Spec Generation (Interactive Mode)
 
 You will be prompted at each phase.
-Note: Skips gap analysis and design validation.
+Note: Skips design validation.
 ```
 
 **Automatic Mode**:
@@ -144,7 +144,7 @@ Note: Skips gap analysis and design validation.
 Quick Spec Generation (Automatic Mode)
 
 All phases execute automatically without prompts.
-Note: Skips optional validations (gap analysis, design review) and user approval prompts. Internal review gates still run.
+Note: Skips optional design review and user approval prompts. Internal review gates still run.
 Final sanity review still runs.
 ```
 
@@ -168,13 +168,13 @@ Generated Files:
 - docs/specs/{feature}/design.md ({Y} components, {Z} endpoints)
 - docs/specs/{feature}/tasks.md ({N} tasks)
 
-Skipped: /gsdd-validate-gap, /gsdd-validate-design
+Skipped: /gsdd-validate-design
 
 Sanity review: PASSED | FOLLOW-UP REQUIRED
 
 Next Steps:
 1. Review generated specs (especially design.md)
-2. Optional: `/gsdd-validate-gap {feature}`, `/gsdd-validate-design {feature}`
+2. Optional: `/gsdd-validate-design {feature}`
 3. Start implementation: `/gsdd-impl {feature}`
 ```
 

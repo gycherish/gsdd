@@ -28,7 +28,7 @@ metadata:
 Reuse steering/spec context already available from conversation; load missing context below.
 Select skills for the current task even when steering/spec context is already available:
 - `docs/specs/{feature}/spec.json`, `requirements.md`, `design.md` (if exists)
-- `docs/specs/{feature}/research.md` (if exists, contains gap analysis from `/gsdd-validate-gap`)
+- `docs/specs/{feature}/research.md` (if exists)
 - Core steering context: `product.md`, `tech.md`, `structure.md`
 - Additional steering files only when directly relevant to requirement coverage, architecture boundaries, integrations, runtime prerequisites, security/performance constraints, or team conventions that affect implementation readiness
 - Use explicitly requested skills and task-relevant local skills/playbooks, including design, accessibility, and UX. Select by description and read only needed guidance, even for small tasks; preserve required checks and host/project rules.
