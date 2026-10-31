@@ -37,12 +37,11 @@ gsdd/                       ← 挂载后即项目的 .claude/skills/
 | 类别 | 技能 | 作用 |
 | --- | --- | --- |
 | 项目记忆 | `gsdd-steering` | 维护项目级背景（产品、技术、结构）：从代码初建、与代码同步；`custom <专题>` 写专项文档（如测试、API 约定）；`record <决策>` 记录其他技能确认的决策 |
-| 需求梳理 | `gsdd-discovery` | 判断需求的处理方式，必要时拆成多份规格并排好依赖顺序；新项目下即第一轮需求分析，确认的项目级决策交由 `gsdd-steering` 记录 |
-| 规格 | `gsdd-spec-init` | 建立规格目录与状态文件 |
-| | `gsdd-spec-requirements` | 生成 EARS 格式的需求 |
+| 需求梳理 | `gsdd-discovery` | 判断需求的处理方式，为每份新规格建立 brief 和状态文件，必要时拆成多份规格并排好依赖顺序；新项目下即第一轮需求分析，确认的项目级决策交由 `gsdd-steering` 记录 |
+| 规格 | `gsdd-spec-requirements` | 生成 EARS 格式的需求 |
 | | `gsdd-spec-design` | 生成技术设计与调研记录 |
 | | `gsdd-spec-tasks` | 生成任务清单 |
-| | `gsdd-spec-quick` | 一次跑完上面四步 |
+| | `gsdd-spec-quick` | 一次跑完需求、设计、任务三步 |
 | | `gsdd-spec-batch` | 按 roadmap 依赖顺序批量并行生成多份规格 |
 | 实现 | `gsdd-impl` | 自动或手动实现任务 |
 | | `gsdd-review` | 评审子代理遵循的评审规程 |
@@ -74,14 +73,14 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 **3. 开始使用**，起步方式分两种：
 
 - **新项目**：直接运行 `/gsdd-discovery <想法或需求文档>`。它做第一轮需求分析，过程中确认的产品、技术、结构决策会交由 `gsdd-steering` 写入项目记忆，不需要先单独建立项目记忆。写出代码后，可再运行 `/gsdd-steering` 让项目记忆与代码保持一致。
-- **已有项目**：先运行 `/gsdd-steering` 从代码建立项目记忆，再用 `/gsdd-discovery` 或 `/gsdd-spec-init` 开始新需求。
+- **已有项目**：先运行 `/gsdd-steering` 从代码建立项目记忆，再用 `/gsdd-discovery` 开始新需求。
 
 之后的常用命令：
 
 | 步骤 | 命令 |
 | --- | --- |
 | 判断需求怎么拆 | `/gsdd-discovery <想法>` |
-| 单份规格逐步生成 | `/gsdd-spec-init` → `/gsdd-spec-requirements` → `/gsdd-spec-design` → `/gsdd-spec-tasks` |
+| 单份规格逐步生成 | `/gsdd-spec-requirements` → `/gsdd-spec-design` → `/gsdd-spec-tasks` |
 | 单份规格一次生成 | `/gsdd-spec-quick <功能>` |
 | 按 roadmap 批量生成 | `/gsdd-spec-batch` |
 | 实现 | `/gsdd-impl <功能> [任务编号]` |
@@ -130,7 +129,7 @@ git commit -m "chore: update gsdd"
   | `## Debug Report` | `- NEXT_ACTION:` |
   | `## Validation Report` | `- DECISION:` |
 
-- **技能之间按名字引用**：`gsdd-spec-batch`、`gsdd-spec-quick`、`gsdd-impl` 通过技能名调用其他技能（如 `gsdd-spec-init`、`gsdd-review`）。改技能名时要同步修改这些引用。
+- **技能之间按名字引用**：`gsdd-spec-batch`、`gsdd-spec-quick`、`gsdd-impl` 通过技能名调用其他技能（如 `gsdd-spec-requirements`、`gsdd-review`）。改技能名时要同步修改这些引用。
 - **影响大的技能建议禁止模型自动调用**：在头部声明 `disable-model-invocation: true`，只允许手动触发。
 - **改完要实测**：技能是给模型读的提示词，效果只能靠实际运行验证。建议准备一个样例项目，挂上修改后的 gsdd，跑一个小功能走完全流程，对比修改前后的产出。
 

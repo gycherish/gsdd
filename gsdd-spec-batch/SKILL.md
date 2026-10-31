@@ -6,7 +6,7 @@ allowed-tools: Read, Glob, Grep, Agent
 
 # gsdd-spec-batch Skill
 
-> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese. When a file follows a template, keep the template's headings and labels unchanged, without translating them.
 >
 > **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
 
@@ -33,8 +33,8 @@ allowed-tools: Read, Glob, Grep, Agent
    - `## Existing Spec Updates`
    - `## Direct Implementation Candidates`
    Do not include these in dependency-wave execution; they are awareness-only inputs for sequencing and consistency review.
-4. For each pending feature in `## Specs (dependency order)`, verify `docs/specs/<feature>/brief.md` exists
-5. If any brief.md is missing, stop and report: "Missing brief.md for: [list]. Run `/gsdd-discovery` to generate briefs first."
+4. For each pending feature in `## Specs (dependency order)`, verify `docs/specs/<feature>/brief.md` and `spec.json` exist
+5. If any is missing, stop and report: "Missing brief.md or spec.json for: [list]. Run `/gsdd-discovery` to create them first."
 
 ### Step 2: Build Dependency Waves
 
@@ -69,10 +69,9 @@ Bind the feature argument in each phase to "{feature-name}" (including `$1` or `
 1. Read the brief at docs/specs/{feature-name}/brief.md for feature context
 2. Read the roadmap at docs/specs/roadmap.md for project context
 3. Execute the full spec pipeline by running the gsdd skills below in order, following each skill's complete instructions (templates, rules, review gates):
-   a. Initialize: If spec.json already exists, reuse that spec without reinitializing or renaming it. Otherwise run the `gsdd-spec-init` skill with "{feature-name}" as its argument; it reads the brief and initializes spec.json and requirements.md in the existing brief directory. Later phases may update their own artifacts.
-   b. Generate requirements: Run the `gsdd-spec-requirements` skill for feature "{feature-name}"
-   c. Generate design: Run the `gsdd-spec-design` skill with arguments "{feature-name} -y", including required design review
-   d. Generate tasks: Run the `gsdd-spec-tasks` skill with arguments "{feature-name} -y", including required task review
+   a. Generate requirements: Run the `gsdd-spec-requirements` skill for feature "{feature-name}"
+   b. Generate design: Run the `gsdd-spec-design` skill with arguments "{feature-name} -y", including required design review
+   c. Generate tasks: Run the `gsdd-spec-tasks` skill with arguments "{feature-name} -y", including required task review
 4. Let each successful phase record its approvals through its documented fast-track flow. If a phase review fails or needs human input, stop this feature and report the blocker; do not force its approvals to true
 5. Report completion with file list and task count
 ```

@@ -8,7 +8,7 @@ argument-hint: <idea-or-request>
 
 # gsdd-discovery Skill
 
-> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese. When a file follows a template, keep the template's headings and labels unchanged, without translating them.
 >
 > **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
 
@@ -145,9 +145,14 @@ If this session confirmed project-level decisions (decisions that hold for the w
 
 **CRITICAL: You MUST use the Write tool to create these files BEFORE suggesting any next command. Conversation text does not survive session boundaries. If you skip this step, all discovery analysis is lost when the session ends.**
 
+**Every new spec directory** gets two files: `brief.md` (structure below) and `spec.json`.
+- **Feature name**: lowercase English words joined by hyphens, 2-4 words (e.g., `user-profile-avatar-upload`). It must not match an existing `docs/specs/` directory; work on an existing spec goes through Path A or `## Existing Spec Updates` and never overwrites it.
+- **spec.json**: read `templates/specs/init.json` (in this skill's directory) and replace `{{FEATURE_NAME}}` with the feature name, `{{TIMESTAMP}}` with the current ISO 8601 timestamp, and `{{LANG_CODE}}` with the language the user explicitly specifies, or `zh` if none is specified. Do not infer the language from the language of the user's input.
+- Write `brief.md` in the language given by `{{LANG_CODE}}`.
+
 **For Path C (single spec)**:
 
-Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this structure:
+Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this structure, and `docs/specs/<feature-name>/spec.json`:
 
 ```
 # Brief: <feature-name>
@@ -191,7 +196,7 @@ Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this stru
 
 Use the Write tool to create:
 - `docs/specs/roadmap.md`
-- `docs/specs/<feature>/brief.md` for every feature listed under `## Specs (dependency order)`
+- `docs/specs/<feature>/brief.md` and `spec.json` for every feature listed under `## Specs (dependency order)`
 
 Use this roadmap structure:
 
@@ -228,7 +233,7 @@ The roadmap is a development plan. Do not restate product or technology facts th
 - [ ] feature-c -- [one-line description]. Dependencies: feature-a, feature-b
 ```
 
-Then create `docs/specs/<feature>/brief.md` for **every** feature listed under `## Specs (dependency order)` using the Path C brief format. This enables parallel spec creation via `/gsdd-spec-batch`.
+Then create `docs/specs/<feature>/brief.md` (Path C brief format) and `spec.json` for **every** feature listed under `## Specs (dependency order)`. This enables parallel spec creation via `/gsdd-spec-batch`.
 
 **For Path E (mixed decomposition)**:
 
@@ -252,10 +257,10 @@ Path E rules:
 - Keep `## Specs (dependency order)` reserved for **new specs only** so `/gsdd-spec-batch` can still parse it unchanged
 - Record existing-spec extensions under `## Existing Spec Updates`
 - Record true no-spec work under `## Direct Implementation Candidates`
-- Create `brief.md` only for the **new specs** listed under `## Specs (dependency order)`
+- Create `brief.md` and `spec.json` only for the **new specs** listed under `## Specs (dependency order)`
 
 **Re-entry (roadmap.md already exists)**:
-Use the Write tool to create the next new spec's brief.md. Update roadmap.md with Write tool if scope/ordering changed, preserving completed items and prior phases.
+Use the Write tool to create the next new spec's brief.md and spec.json. Update roadmap.md with Write tool if scope/ordering changed, preserving completed items and prior phases.
 
 After writing, verify the files exist by reading them back.
 
@@ -265,27 +270,27 @@ Suggest the next command and stop. Do NOT automatically run downstream spec gene
 
 - Path A: `/gsdd-spec-requirements {feature}` to update the existing spec
 - Path B: Recommend direct implementation without creating a spec
-- Path C: Default to `/gsdd-spec-init <feature-name>`
+- Path C: Default to `/gsdd-spec-requirements <feature-name>`
   - Optional fast path: `/gsdd-spec-quick <feature-name>` when the user explicitly wants to continue immediately
 - Path D: Default to `/gsdd-spec-batch` (creates all specs in parallel based on roadmap.md dependency order)
-  - Optional cautious path: `/gsdd-spec-init <first-feature-name>` when the user wants to validate the first slice before batching the rest
+  - Optional cautious path: `/gsdd-spec-requirements <first-feature-name>` when the user wants to validate the first slice before batching the rest
 - Path E: Choose the next command based on the new-spec portion of the decomposition
-  - If there is exactly one new spec: `/gsdd-spec-init <new-feature-name>`
+  - If there is exactly one new spec: `/gsdd-spec-requirements <new-feature-name>`
   - If there are multiple new specs: `/gsdd-spec-batch`
   - Also note which existing specs should be revisited with `/gsdd-spec-requirements <feature>`
-- Re-entry: `/gsdd-spec-init <next-feature-name>` or `/gsdd-spec-batch` if multiple specs remain
+- Re-entry: `/gsdd-spec-requirements <next-feature-name>` or `/gsdd-spec-batch` if multiple specs remain
 
 If the decomposition contains only existing-spec updates plus direct implementation candidates, do NOT use Path E. Prefer Path A when one existing spec is the clear home, or recommend the existing-spec update plus direct implementation work without creating roadmap entries.
 
 ## Critical Constraints
-- **Files on disk are the source of continuity**: For Path C/D/E, create brief.md and roadmap.md as needed before suggesting the next command. Do NOT leave discovery results only in conversation text.
+- **Files on disk are the source of continuity**: For Path C/D/E, create brief.md, spec.json, and roadmap.md as needed before suggesting the next command. Do NOT leave discovery results only in conversation text.
 
 ## Safety & Fallback
 
 **Roadmap Already Exists (re-entry)**:
 - Read roadmap.md to restore project context before asking questions
 - Determine next spec based on completed specs' status
-- Write brief.md for the next spec only (just-in-time)
+- Write brief.md and spec.json for the next spec only (just-in-time)
 - Update roadmap.md if scope/ordering changed based on implementation experience
 - Append new specs as a new phase if the request expands the project, don't overwrite existing content
 

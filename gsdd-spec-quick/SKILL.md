@@ -2,12 +2,12 @@
 name: gsdd-spec-quick
 description: Quick spec generation with interactive or automatic mode
 allowed-tools: Read, Skill, Bash, Write, Glob, Agent
-argument-hint: <project-description> [--auto]
+argument-hint: <feature-name> [--auto]
 ---
 
 # Quick Spec Generator
 
-> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese.
+> **Language**: Think, respond, and write files in the language set in `spec.json` (`language` field); if none is set, use Simplified Chinese. When a file follows a template, keep the template's headings and labels unchanged, without translating them.
 >
 > **Format precedence**: Document structure, numbering, EARS syntax, and report formats come only from gsdd skills and their bundled `templates/` and `rules/`; other skills may inform content but must not change these formats.
 
@@ -17,127 +17,79 @@ argument-hint: <project-description> [--auto]
 **If `--auto` flag is present in `$ARGUMENTS`, you are in AUTOMATIC MODE.**
 
 In Automatic Mode:
-- Execute ALL 4 phases in a continuous loop without stopping
-- Display progress after each phase (e.g., "Phase 1/4 complete: spec initialized")
-- IGNORE any "Next Step" messages from Phase 2-4 (they are for standalone usage)
-- After Phase 4, run the final sanity review before exiting
+- Execute ALL 3 phases in a continuous loop without stopping
+- Display progress after each phase (e.g., "Phase 1/3 complete: requirements generated")
+- IGNORE any "Next Step" messages from the phases (they are for standalone usage)
+- After Phase 3, run the final sanity review before exiting
 - Stop ONLY after the sanity review completes or if error occurs
 
 ---
 
 ## Core Task
-Execute 4 spec phases sequentially. In automatic mode, execute all phases without stopping. In interactive mode, prompt user for approval between phases.
+Execute 3 spec phases (requirements, design, tasks) sequentially for a spec created by `/gsdd-discovery`. In automatic mode, execute all phases without stopping. In interactive mode, prompt user for approval between phases.
 
 Before claiming quick generation is complete, run one lightweight sanity review over the generated requirements, design, and tasks. If the host supports fresh subagents, use one. Otherwise run the sanity review inline.
 
 ## Execution Steps
 
-### Step 1: Parse Arguments and Initialize
+### Step 1: Parse Arguments and Check Spec
 
 Parse `$ARGUMENTS`:
-- If contains `--auto`: **Automatic Mode** (execute all 4 phases)
+- If contains `--auto`: **Automatic Mode** (execute all 3 phases)
 - Otherwise: **Interactive Mode** (prompt at each phase)
-- Extract description (remove `--auto` flag if present)
+- Extract the feature name (remove `--auto` flag if present)
 
 Example:
 ```
-"User profile with avatar upload --auto" → mode=automatic, description="User profile with avatar upload"
-"User profile feature" → mode=interactive, description="User profile feature"
+"user-profile-avatar-upload --auto" → mode=automatic, feature="user-profile-avatar-upload"
+"user-profile-avatar-upload" → mode=interactive, feature="user-profile-avatar-upload"
 ```
+
+Check the spec:
+- `docs/specs/{feature-name}/brief.md` and `spec.json` must exist (created by `/gsdd-discovery`). If either is missing, stop without creating files and recommend running `/gsdd-discovery` first.
+- If `phase` in `spec.json` is not `initialized`, the spec has already progressed: stop and suggest `/gsdd-spec-status {feature-name}` to see its next step.
 
 Display mode banner and proceed to Step 2.
 
 ### Step 2: Execute Phase Loop
 
-Execute these 4 phases in order:
+Execute these 3 phases in order:
 
 ---
 
-#### Phase 1: Initialize Spec (Direct Implementation)
-
-**Core Logic**:
-
-1. **Determine Feature Name**:
-   - If the description is exactly the name of an existing `docs/specs/{name}/` directory that contains `brief.md` (created by `/gsdd-discovery`), use that name
-   - Otherwise generate a name from the description: lowercase English words joined by hyphens, 2-4 words
-   - Example: "User profile with avatar upload" → "user-profile-avatar-upload"
-
-2. **Check for Brief**:
-   - If `docs/specs/{feature-name}/brief.md` exists, read it for discovery context (problem, approach, scope, constraints)
-
-3. **Check Existing Spec**:
-   - Use Glob to check `docs/specs/*/`
-   - If `docs/specs/{feature-name}/spec.json` already exists, stop without creating, overwriting, or renaming anything: report that the spec exists and its current `phase`, and ask the user whether to continue that spec (suggest `/gsdd-spec-status {feature-name}` to see its next step) or to use a different name
-   - If directory exists with only `brief.md` (no `spec.json`), use that directory (discovery created it)
-
-4. **Create Directory**:
-   - Use Bash: `mkdir -p docs/specs/{feature-name}` (skip if already exists from discovery)
-
-5. **Initialize Files from Templates**:
-
-   a. Read templates:
-   ```
-   - templates/specs/init.json (in this skill's directory)
-   - templates/specs/requirements-init.md (in this skill's directory)
-   ```
-
-   b. Replace placeholders:
-   ```
-   {{FEATURE_NAME}} → feature-name
-   {{TIMESTAMP}} → current ISO 8601 timestamp (use `date -u +"%Y-%m-%dT%H:%M:%SZ"`)
-   {{PROJECT_DESCRIPTION}} → if brief.md exists: a 1-2 sentence summary of the problem and the desired outcome, followed by a reference to brief.md in the same directory (do not copy the brief); otherwise: the description. Write it in the language given by {{LANG_CODE}}
-   {{LANG_CODE}} → language code: the language the user explicitly specifies; if none is specified, `zh`. Do not infer it from the language of the user's input.
-   ```
-
-   c. Write files using Write tool:
-   ```
-   - docs/specs/{feature-name}/spec.json
-   - docs/specs/{feature-name}/requirements.md
-   ```
-
-6. **Output Progress**: "Phase 1/4 complete: Spec initialized at docs/specs/{feature-name}/"
-
-**Automatic Mode**: IMMEDIATELY continue to Phase 2.
-
-**Interactive Mode**: Prompt "Continue to requirements generation? (yes/no)"
-- If "no": Stop, show current state
-- If "yes": Continue to Phase 2
-
----
-
-#### Phase 2: Generate Requirements
+#### Phase 1: Generate Requirements
 
 Invoke the `gsdd-spec-requirements` skill with `{feature-name}`.
 
 Wait for completion. IGNORE any "Next Step" message (it is for standalone usage).
 
-**Output Progress**: "Phase 2/4 complete: Requirements generated"
+**Output Progress**: "Phase 1/3 complete: Requirements generated"
 
-**Automatic Mode**: IMMEDIATELY continue to Phase 3.
+**Automatic Mode**: IMMEDIATELY continue to Phase 2.
 
 **Interactive Mode**: Prompt "Continue to design generation? (yes/no)"
 - If "no": Stop, show current state
-- If "yes": Continue to Phase 3
+- If "yes": Continue to Phase 2
 
 ---
 
-#### Phase 3: Generate Design
+#### Phase 2: Generate Design
 
 Invoke the `gsdd-spec-design` skill with `{feature-name} -y`. The `-y` flag auto-approves requirements.
 
 Wait for completion. IGNORE any "Next Step" message.
 
-**Output Progress**: "Phase 3/4 complete: Design generated"
+**Output Progress**: "Phase 2/3 complete: Design generated"
 
-**Automatic Mode**: IMMEDIATELY continue to Phase 4.
+**Automatic Mode**: IMMEDIATELY continue to Phase 3.
 
 **Interactive Mode**: Prompt "Continue to tasks generation? (yes/no)"
 - If "no": Stop, show current state
-- If "yes": Continue to Phase 4
+- If "yes": Continue to Phase 3
 
 ---
 
-#### Phase 4: Generate Tasks
+#### Phase 3: Generate Tasks
 
 Invoke the `gsdd-spec-tasks` skill with `{feature-name} -y`.
 
@@ -145,11 +97,11 @@ Note: `-y` flag auto-approves requirements, design, and tasks.
 
 Wait for completion.
 
-**Output Progress**: "Phase 4/4 complete: Tasks generated"
+**Output Progress**: "Phase 3/3 complete: Tasks generated"
 
 #### Final Sanity Review
 
-After Phase 4, run a lightweight sanity review before claiming completion.
+After Phase 3, run a lightweight sanity review before claiming completion.
 
 - Review `requirements.md`, `design.md`, and `tasks.md` directly from disk. If `brief.md` exists, use it only as supporting context.
 - Prefer a fresh review subagent when the host supports it. Pass only file paths and the review objective; the reviewer should read the generated files itself.
@@ -160,7 +112,7 @@ After Phase 4, run a lightweight sanity review before claiming completion.
 - If the review finds only task-plan-local issues, repair or update the generated `tasks.md` once, then re-run the sanity review.
 - If the review finds a real requirements/design gap or contradiction, stop and report follow-up instead of claiming the quick spec is implementation-ready.
 
-**All 4 phases plus sanity review complete.**
+**All 3 phases plus sanity review complete.**
 
 Output final completion summary (see Output Description section) and exit.
 
@@ -200,7 +152,6 @@ Final sanity review still runs.
 
 After each phase, show brief progress:
 ```
-Spec initialized at docs/specs/{feature}/
 Requirements generated → Continuing to design...
 Design generated → Continuing to tasks...
 ```
@@ -213,7 +164,6 @@ Provide output in the language specified in `spec.json`:
 Quick Spec Generation Complete!
 
 Generated Files:
-- docs/specs/{feature}/spec.json
 - docs/specs/{feature}/requirements.md ({X} requirements)
 - docs/specs/{feature}/design.md ({Y} components, {Z} endpoints)
 - docs/specs/{feature}/tasks.md ({N} tasks)
@@ -232,17 +182,7 @@ Next Steps:
 
 ### Error Scenarios
 
-**Template Missing**:
-- Check `templates/specs/` (in this skill's directory) exists
-- Report specific missing file
-- Exit with error
-
-**Directory Creation Failed**:
-- Check permissions
-- Report error with path
-- Exit with error
-
-**Phase Execution Failed** (Phase 2-4):
+**Phase Execution Failed**:
 - Stop workflow
 - Show current state and completed phases
 - Suggest: "Continue manually from `/gsdd-spec-{next-phase} {feature}`"

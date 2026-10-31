@@ -5,7 +5,9 @@ EARS (Easy Approach to Requirements Syntax) is the standard format for acceptanc
 
 EARS patterns describe the logical structure of a requirement (condition + subject + response) and are not tied to any particular natural language.  
 All acceptance criteria should be written in the target language configured for the specification (the `language` field in the specification's `spec.json`).  
-Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `While`, `Where`, `The system shall`, `The [system] shall`) and localize only the variable parts (`[event]`, `[precondition]`, `[trigger]`, `[feature is included]`, `[response/action]`) into the target language. Do not interleave target-language text inside the trigger or fixed English phrases themselves.
+Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `then`, `While`, `Where`, `The system shall`, `The [system] shall`) and localize only the variable parts (`[event]`, `[precondition]`, `[trigger]`, `[feature is included]`, `[response/action]`) into the target language. Do not interleave target-language text inside the trigger or fixed English phrases themselves.  
+The requirement Objective line follows the same rule: keep `As a`, `I want`, and `so that` in English and localize only the role, capability, and benefit.  
+Example with `language: zh`: `When 用户点击结账按钮, the 结账服务 shall 校验购物车内容`; `As a 终端用户, I want 按标签列出待办, so that 快速找到相关任务`.
 
 ## Primary EARS Patterns
 
@@ -20,7 +22,7 @@ Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `While`, 
 - **Example**: While payment is processing, the Checkout Service shall display loading indicator
 
 ### 3. Unwanted Behavior Requirements
-- **Pattern**: If [trigger], the [system] shall [response/action]
+- **Pattern**: If [trigger], then the [system] shall [response/action]
 - **Use Case**: System response to errors, failures, or undesired situations
 - **Example**: If invalid credit card number is entered, then the website shall display error message
 
