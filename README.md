@@ -36,8 +36,7 @@ gsdd/                       ← 挂载后即项目的 .claude/skills/
 
 | 类别 | 技能 | 作用 |
 | --- | --- | --- |
-| 项目记忆 | `gsdd-steering` | 维护项目级背景（产品、技术、结构）：记录其他技能确认的决策、从代码初建、与代码同步 |
-| | `gsdd-steering-custom` | 增加领域专项文档（API 规范、安全、测试等） |
+| 项目记忆 | `gsdd-steering` | 维护项目级背景（产品、技术、结构）：从代码初建、与代码同步；`custom <专题>` 写专项文档（如测试、API 约定）；`record <决策>` 记录其他技能确认的决策 |
 | 需求梳理 | `gsdd-discovery` | 判断需求的处理方式，必要时拆成多份规格并排好依赖顺序；新项目下即第一轮需求分析，确认的项目级决策交由 `gsdd-steering` 记录 |
 | 规格 | `gsdd-spec-init` | 建立规格目录与状态文件 |
 | | `gsdd-spec-requirements` | 生成 EARS 格式的需求 |
@@ -89,7 +88,7 @@ git submodule add https://github.com/gycherish/gsdd.git .claude/skills
 | 功能级验收 | `/gsdd-validate-impl <功能>` |
 | 查看进度 | `/gsdd-spec-status <功能>` |
 
-规格产出写在项目的 `docs/` 下：`docs/steering/` 存放项目记忆（`roadmap.md` 为开发计划，也放在这里），`docs/specs/<功能>/` 存放各功能的规格。它们属于项目自己的内容，应提交到项目仓库。
+规格产出写在项目的 `docs/` 下：`docs/steering/` 存放项目记忆，只由 `gsdd-steering` 维护；`docs/specs/` 存放开发计划 `roadmap.md` 和各功能的规格（`docs/specs/<功能>/`）。它们属于项目自己的内容，应提交到项目仓库。
 
 **4. 更新到 gsdd 最新版本**：
 

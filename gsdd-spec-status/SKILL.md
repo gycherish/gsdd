@@ -25,7 +25,7 @@ argument-hint: <feature-name>
 - Read `docs/specs/$ARGUMENTS/brief.md` if it exists
 - Read existing files: `requirements.md`, `design.md`, `tasks.md` (if they exist)
 - Check `docs/specs/$ARGUMENTS/` directory for available files
-- Read `docs/steering/roadmap.md` if it exists and this spec appears in it
+- Read `docs/specs/roadmap.md` if it exists and this spec appears in it
 
 ### Step 2: Analyze Status
 

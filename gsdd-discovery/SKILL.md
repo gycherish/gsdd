@@ -25,12 +25,12 @@ argument-hint: <idea-or-request>
 Gather **only metadata** to determine the action path. Do NOT read full file contents yet.
 
 - **Specs inventory**: Glob `docs/specs/*/spec.json`, read each spec.json for `name`, `phase` fields and `approvals` status. Note feature names and their current status.
-- **Steering existence**: Check which files exist in `docs/steering/` (product.md, tech.md, structure.md, roadmap.md). Do NOT read their contents yet.
-- **Roadmap check**: If `docs/steering/roadmap.md` exists, read it. This contains project-level context (approach, scope, constraints, spec list) from a previous discovery session. Use it to restore project context.
+- **Steering existence**: Check which files exist in `docs/steering/` (product.md, tech.md, structure.md, and any custom steering files). Do NOT read their contents yet.
+- **Roadmap check**: If `docs/specs/roadmap.md` exists, read it. This contains project-level context (approach, scope, constraints, spec list) from a previous discovery session. Use it to restore project context.
 - **Top-level structure**: List the project root directory to note key directories and files. Do NOT recurse into subdirectories.
 - **User-provided material**: If the request references documents (e.g., a requirements document), read them.
 
-This step should consume minimal context. If `docs/specs/` is empty, no core steering exists, and the repository has no source code, note "greenfield project" and move to Step 2.
+This step should consume minimal context. If there is no roadmap, no spec, no core steering, and no source code, note "greenfield project" and move to Step 2.
 
 **Greenfield project**: This run is the first requirements analysis. Product, technology, and structure decisions do not exist yet; they are made during this analysis and recorded into steering through Step 7. Do not ask the user to run `/gsdd-steering` first.
 
@@ -133,7 +133,7 @@ If the viability check reveals issues, present them to the user and revisit the 
 
 ### Step 7: Record Project-Level Decisions
 
-If this session confirmed project-level decisions (decisions that hold for the whole project rather than a single feature), invoke the `gsdd-steering` skill and hand over those decisions so it records them into steering. Do not write steering files directly, and do not decide where in steering a decision goes: steering content and format are owned by `gsdd-steering`.
+If this session confirmed project-level decisions (decisions that hold for the whole project rather than a single feature), invoke the `gsdd-steering` skill with `record` as the first word of its arguments, followed by those decisions, so it records them into steering. Do not write steering files directly, and do not decide where in steering a decision goes: steering content and format are owned by `gsdd-steering`.
 
 - Hand over only confirmed decisions, each with its rationale and any rejected alternatives; list known undecided items separately as open questions
 - In a greenfield project, this step creates the initial steering
@@ -190,7 +190,7 @@ Use the Write tool to create `docs/specs/<feature-name>/brief.md` with this stru
 **For Path D (multi-spec decomposition)**:
 
 Use the Write tool to create:
-- `docs/steering/roadmap.md`
+- `docs/specs/roadmap.md`
 - `docs/specs/<feature>/brief.md` for every feature listed under `## Specs (dependency order)`
 
 Use this roadmap structure:

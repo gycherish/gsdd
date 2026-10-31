@@ -74,7 +74,8 @@ Never include:
 
 ## Notes
 
-- Templates define the sections of each steering file; fill them with project facts
+- Templates define the sections of each core steering file; fill them with project facts and do not add sections they do not define
+- Points known to be undecided go in an "Open Questions" section at the end of the file (core or custom), not into other sections as conclusions; it is the only section allowed beyond the templates
 - Follow same granularity principles as core steering
 - All steering files loaded as project memory
 - Light references to `docs/specs/` and `docs/steering/` are acceptable; avoid documenting the SDD workflow files under `.claude/skills/`

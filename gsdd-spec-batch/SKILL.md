@@ -23,7 +23,7 @@ allowed-tools: Read, Glob, Grep, Agent
 
 ### Step 1: Read Roadmap and Validate
 
-1. Read `docs/steering/roadmap.md`
+1. Read `docs/specs/roadmap.md`
 2. Parse the `## Specs (dependency order)` section to extract:
    - Feature names
    - One-line descriptions
@@ -67,7 +67,7 @@ Create a complete specification for feature "{feature-name}".
 Bind the feature argument in each phase to "{feature-name}" (including `$1` or `{feature}` references). This batch uses the existing fast-track mode: supply `-y` to design and tasks before entering their approval checks. Required phase review gates still apply.
 
 1. Read the brief at docs/specs/{feature-name}/brief.md for feature context
-2. Read the roadmap at docs/steering/roadmap.md for project context
+2. Read the roadmap at docs/specs/roadmap.md for project context
 3. Execute the full spec pipeline by running the gsdd skills below in order, following each skill's complete instructions (templates, rules, review gates):
    a. Initialize: If spec.json already exists, reuse that spec without reinitializing or renaming it. Otherwise run the `gsdd-spec-init` skill; use the brief as the project description and initialize spec.json and requirements.md in the existing brief directory. Later phases may update their own artifacts.
    b. Generate requirements: Run the `gsdd-spec-requirements` skill for feature "{feature-name}"
@@ -96,7 +96,7 @@ Read these files for every feature in the roadmap:
 - docs/specs/*/design.md (primary: contains interfaces, data models, architecture)
 - docs/specs/*/requirements.md (for scope and acceptance criteria)
 - docs/specs/*/tasks.md (for boundary annotations only -- read _Boundary:_ lines, skip task descriptions)
-- docs/steering/roadmap.md
+- docs/specs/roadmap.md
 
 Reading priority: Focus on design.md files (they contain interfaces, data models, architecture). For requirements.md, focus on section headings and acceptance criteria. For tasks.md, focus on _Boundary:_ annotations.
 

@@ -1,7 +1,8 @@
 ---
 name: gsdd-steering
-description: Maintain docs/steering/ as persistent project memory (record/bootstrap/sync). Use when initializing or updating steering documents, or when another gsdd skill needs to record confirmed project-level decisions.
+description: Maintain docs/steering/ as persistent project memory (bootstrap/sync/custom/record). Use when initializing or updating steering documents, creating a custom steering document on a specific topic, or when another gsdd skill needs to record confirmed project-level decisions.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+argument-hint: [custom <topic> | record <decisions>]
 metadata:
   shared-rules: "steering-principles.md"
 ---
@@ -22,6 +23,7 @@ You are a specialized skill for maintaining `docs/steering/` as persistent proje
 - Record: Write confirmed project-level decisions handed over by another gsdd skill (e.g., `gsdd-discovery`) or by the user
 - Bootstrap: Generate core steering from codebase (first-time)
 - Sync: Keep steering and codebase aligned (maintenance)
+- Custom: Create or update a custom steering document on one topic (e.g., testing, API conventions)
 - Preserve: User customizations are sacred, updates are additive
 
 **Success Criteria**:
@@ -38,15 +40,25 @@ If steering context is already available from conversation, skip redundant file 
 - For Record mode: Read the existing `docs/steering/*.md` files that the decisions affect; read templates from `templates/steering/` (in this skill's directory) for files that do not exist yet
 - For Bootstrap mode: Read templates from `templates/steering/` (in this skill's directory)
 - For Sync mode: Read all existing `docs/steering/*.md` files
+- For Custom mode: Read the existing `docs/steering/{topic}.md` if present, and the core steering files only to avoid duplicating them
 - Read `rules/steering-principles.md` from this skill's directory for steering principles
 
-## Scenario Detection
+## Mode Selection
 
-Check `docs/steering/` status:
+The mode is chosen by the first word of the arguments. Do not infer a mode from the rest of the text.
 
-**Record Mode**: Invoked with a set of confirmed project-level decisions (from another gsdd skill such as `gsdd-discovery`, or from the user)
-**Bootstrap Mode**: No decisions supplied, and steering is empty OR missing core files (product.md, tech.md, structure.md). Bootstrap creates only the missing core files; existing steering files are never regenerated
-**Sync Mode**: No decisions supplied, and all core files exist
+| First word | Mode | Scope |
+|---|---|---|
+| `custom` | Custom | Only `docs/steering/{topic}.md` for the given topic |
+| `record` | Record | Only the steering files the supplied decisions belong to |
+| none | Bootstrap or Sync, decided below | Core steering files |
+
+When a mode is given, perform only that mode: do not run Bootstrap or Sync, and do not modify files outside that mode's scope.
+
+Without a mode word, check `docs/steering/` status:
+
+**Bootstrap Mode**: Steering is empty OR missing core files (product.md, tech.md, structure.md). Bootstrap creates only the missing core files; existing steering files are never regenerated
+**Sync Mode**: All core files exist
 
 ---
 
@@ -54,13 +66,13 @@ Check `docs/steering/` status:
 
 Steering grows with the requirements: in a new project, product, technology, and structure decisions are made during requirements analysis, and this mode records them as they are confirmed.
 
-1. Take the decisions supplied by the caller. Record only decisions marked as confirmed; never infer or add decisions of your own.
-2. Place each decision in the file and section of the steering templates in `templates/steering/` (in this skill's directory) that it matches. The templates are the only definition of the steering format: do not add sections they do not define, except the Open Questions section in step 5. If a decision fits no section, do not force it in: report it to the caller as an unplaced decision.
+1. Take the decisions supplied after the `record` word. Record only decisions marked as confirmed; never infer or add decisions of your own.
+2. Place each decision in the file and section of the steering templates in `templates/steering/` (in this skill's directory) that it matches; sections follow `rules/steering-principles.md`. If a decision fits no section, do not force it in: report it to the caller as an unplaced decision.
 3. If a target file does not exist, create it from the template in `templates/steering/` (in this skill's directory) and fill only the sections covered by confirmed decisions; leave other sections as empty placeholders. Partial steering is expected at this stage.
 4. If the file exists, add to it without replacing existing content. If a decision contradicts existing content, do not overwrite it: report the conflict to the caller.
-5. Record items that are known to be undecided in an "Open Questions" section at the end of the relevant file, not as conclusions.
+5. Record items that are known to be undecided as open questions in the relevant file (see `rules/steering-principles.md`).
 6. Apply `rules/steering-principles.md` (patterns over lists, no secrets).
-7. Return a short summary: files created or updated, sections written, open questions added, conflicts found, unplaced decisions.
+7. Return a short summary: files created or updated, sections written, open questions added, conflicts found, unplaced decisions. For unplaced decisions that share one topic, suggest a custom steering document (`/gsdd-steering custom <topic>`).
 
 ---
 
@@ -83,7 +95,7 @@ After all parallel research completes, synthesize patterns for steering files.
    - Product: Purpose, value, core capabilities
    - Tech: Frameworks, decisions, conventions
    - Structure: Organization, naming, imports
-5. Generate only the missing core files (follow templates); leave existing steering files untouched
+5. Generate only the missing core files (follow templates); leave existing steering files untouched. Points the codebase does not settle are recorded as open questions (see `rules/steering-principles.md`)
 6. Load principles from `rules/steering-principles.md` from this skill's directory
 7. Present summary for review
 
@@ -104,6 +116,17 @@ After all parallel research completes, synthesize patterns for steering files.
 6. Report: Updates applied, changes awaiting confirmation, drift warnings, recommendations
 
 **Update Philosophy**: Add, don't replace. Preserve user sections.
+
+## Custom Flow
+
+Custom steering documents cover one specialized topic beyond the core files (e.g., testing approach, API conventions, security rules).
+
+1. Take the topic from the text after the `custom` word. If no topic is given, ask the user for one and stop until it is provided.
+2. Collect project facts: base the document on what the project already states or does (existing steering, specs, code, configuration, and the user's answers). Do not introduce practices the project has not adopted; record undecided points as open questions (see `rules/steering-principles.md`).
+3. Analyze only the areas relevant to the topic (JIT).
+4. Write `docs/steering/{topic}.md` following `rules/steering-principles.md` (one topic per file, patterns over lists, 100-200 lines). Do not repeat content that belongs to the core steering files; reference them instead.
+5. If the file already exists, add to it; changes that would replace or remove existing content are listed for the user to confirm, not applied.
+6. Return a short summary: file written, what it is based on, open questions, changes awaiting confirmation.
 
 ---
 
@@ -149,6 +172,21 @@ Steering Recorded
 - None
 ```
 
+### Custom:
+```
+Custom Steering Written
+
+## File:
+- docs/steering/testing.md (created)
+
+## Based On:
+- Analyzed: test directories and test configuration
+- Extracted: test levels, naming, fixture conventions
+
+## Open Questions:
+- Coverage expectations not yet decided
+```
+
 ### Bootstrap:
 ```
 Steering Created
@@ -157,6 +195,9 @@ Steering Created
 - product.md: [Brief description]
 - tech.md: [Key stack]
 - structure.md: [Organization]
+
+## Open Questions:
+- tech.md: Test framework not yet chosen
 
 Review and approve as Source of Truth.
 ```
@@ -183,6 +224,10 @@ Steering Updated
 ### Record
 **Input**: Called by `gsdd-discovery` in a new project with confirmed decisions: product purpose and value, chosen architecture and its rationale
 **Output**: product.md and tech.md created with only the matching template sections filled; structure.md not created because no structural decision was made yet
+
+### Custom
+**Input**: `/gsdd-steering custom testing`
+**Output**: docs/steering/testing.md describing the project's existing test organization; no other steering file touched
 
 ### Bootstrap
 **Input**: Empty steering, existing codebase
