@@ -16,8 +16,12 @@ docs/
         └── tasks.md
 ```
 
-- **Steering** holds what applies to the whole project and cannot be learned by reading the code: the product's purpose, users, and scope; technology choices and constraints; decisions with their reasons and rejected alternatives; conventions; and the commands to build, test, and run. Only the `steering` subcommand writes it; other subcommands hand it the decisions to record.
-- **settings.json** holds exactly one field, `language`.
+- **Steering** holds what applies to the whole project and cannot be learned by reading the code. Subcommands that write it follow `shared/steering.md`.
+  - `product.md`: the product's purpose, its users, and its scope.
+  - `tech.md`: technology choices and constraints, technical decisions with their reasons and the alternatives rejected, and the commands to build, test, and run.
+  - `structure.md`: how the code is organized, and its naming and other conventions.
+  - Topic files: one topic each, such as testing.
+  - `settings.json`: exactly one field, `language`.
 - **Capabilities**: each directory under `docs/specs/` that holds a `spec.json` is a capability, and the directory name is the capability's name. A group folder holds capability directories and no documents.
 - **requirements.md**: why the capability exists, its goals and scope, the capabilities it depends on, and its requirements with acceptance criteria.
 - **design.md**: what implementers and reviewers need to build and check the capability: its structure, interfaces, data, decisions with their reasons, and the risks and unverified assumptions it rests on.
@@ -25,7 +29,3 @@ docs/
 - **tasks.md**: how the latest change was broken into tasks, and how it was verified.
 - Documents are edited in place, and git keeps their history. They carry no change logs, version notes, or edit dates.
 - Documents have no templates: choose sections, headings, and order to fit the content. Only the formats in `shared/conventions.md` and the fields of the JSON files are fixed.
-
-## Language
-
-Read `language` from `docs/steering/settings.json` (a language code such as `zh` or `en`), and think, respond, and write every file, headings included, in that language. When the file or the field is missing, use Simplified Chinese. Code identifiers, paths, commands, quoted text such as error messages, and wording fixed by a convention (such as the English EARS keywords) stay as they are.

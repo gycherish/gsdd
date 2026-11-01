@@ -7,7 +7,13 @@ disable-model-invocation: true
 
 # gsdd
 
-The gsdd directory is `${CLAUDE_SKILL_DIR}`. Paths of gsdd files, in this file and in every gsdd file, are relative to that directory; paths starting with `docs/` are in the project's `docs/` directory. A subagent does not see this file: when dispatching one, give it the absolute path of the gsdd directory and this rule.
+## Language
+
+Think, reply to the user, and write every file, headings included, in Simplified Chinese, unless `language` in `docs/steering/settings.json` sets another language (a code such as `en`). This holds for every reply, however short, whatever language the request, the gsdd files, or the tool output are written in. Code identifiers, paths, commands, quoted text such as error messages, and wording fixed by a convention (such as the English EARS keywords) stay as they are.
+
+## Paths
+
+The gsdd directory is `${CLAUDE_SKILL_DIR}`. Paths of gsdd files, in this file and in every gsdd file, are relative to that directory; paths starting with `docs/` are in the project's `docs/` directory. A subagent does not see this file: when dispatching one, give it the absolute path of the gsdd directory, this rule, and the language to use.
 
 ## Subcommands
 
@@ -19,7 +25,7 @@ Arguments: $ARGUMENTS
 
 | Subcommand | For |
 |------------|-----|
-| `steering` | Project memory: building it from the code, keeping it in sync, recording decisions |
+| `steering` | Keeping the project memory in line with the code and the confirmed decisions |
 | `requirements` | Every new request or change: settling the intent and writing the requirements |
 | `design` | Designing a capability |
 | `tasks` | Breaking a change into tasks |
