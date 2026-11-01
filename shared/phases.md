@@ -30,7 +30,8 @@ requirements →(user confirms)→ design →(user confirms)→ tasks → implem
 
 - A request that changes the requirements or the design of a `done` capability starts a new change: tasks.md is emptied, and the phase goes back to `requirements`, or to `design` when the requirements stay as they are.
 - A capability has one change at a time: a request that arrives during a change joins it, and the phase goes back to the earliest phase the request affects.
-- Work that changes neither the requirements nor the design is not a change, and the phase stays as it is. A bug fix that restores an existing acceptance criterion needs only the fix and a test that cites the criterion.
+- Work that changes neither the requirements nor the design is not a change, and the phase stays as it is.
+- A bug is classified by its root cause. When the code does not follow the design, the fix restores an existing acceptance criterion and is not a change: it needs only the fix and a test that cites the criterion. When the design cannot meet the criterion, it is a design-only change; when the requirements do not cover the case, it is a requirement change. A quick mitigation may go in first, but the capability stays in the change until the full fix is accepted.
 
 ## Progress and Confirmation
 
