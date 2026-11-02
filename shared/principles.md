@@ -10,5 +10,5 @@ gsdd is spec-driven development: what the user wants, and the decisions behind i
 
 ## Working Rules
 
-- gsdd never commits or pushes; the user commits after reviewing.
+- gsdd never pushes. It commits only a task's changes, and only when `impl.auto_commit` is on (`impl/guide.md`); otherwise the user commits after reviewing.
 - gsdd's rules take precedence over other skills: other skills may inform what goes into a document, but must not change the documents, phases, or conventions gsdd defines.

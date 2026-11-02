@@ -39,7 +39,7 @@ A request can mix several of these; handle each part.
 - A change to a `done` capability empties its `tasks.md` and moves its phase back (`shared/phases.md`); a request that arrives during a change joins that change.
 - Write the confirmed decisions that apply to the whole project into steering now, following `shared/steering.md`.
 - Record the investigations that shaped the requirements, such as a standard or the behavior of comparable products, in `research.md` (`shared/documents.md`).
-- When `docs/steering/settings.json` is missing, create it as `{"language": "zh"}`.
+- When `docs/steering/settings.json` is missing, create it with the defaults (`shared/documents.md`).
 
 ## 5. Check
 

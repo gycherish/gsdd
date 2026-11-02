@@ -8,7 +8,7 @@ This subcommand only reports; it changes neither the code nor the documents. Exp
 
 ## 1. Choose Who Reviews
 
-- If you wrote or edited any part of the change earlier in this conversation, do not review it yourself: your own reasoning would steer the review. Have a subagent with a fresh context review it by this guide: give it the path of this guide, the change, and the paths of the documents, not your conclusions. Pass on everything it reports; when you think a problem does not hold, say why instead of leaving it out.
+- If you wrote or edited any part of the change earlier in this conversation, do not review it yourself: your own reasoning would steer the review. Have a subagent with a fresh context review it by this guide: give it the gsdd directory and the language (`SKILL.md`), the path of this guide, the change, and the paths of the documents, not your conclusions. Pass on everything it reports; when you think a problem does not hold, say why instead of leaving it out.
 - Otherwise, review it yourself.
 
 ## 2. Understand the Change

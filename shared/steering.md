@@ -15,7 +15,7 @@ These rules apply to every subcommand that writes `docs/steering/`.
 
 - Create a file when there is something to write in it, and choose its sections to fit its content. Keep each file short enough to read in full.
 - A topic that outgrows the core files gets its own file, named in lowercase English words joined by hyphens (`testing.md`).
-- When `settings.json` is missing, create it as `{"language": "zh"}`.
+- When `settings.json` is missing, create it with the defaults (`shared/documents.md`).
 
 ## Changes
 

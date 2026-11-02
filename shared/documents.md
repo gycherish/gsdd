@@ -21,7 +21,7 @@ docs/
   - `tech.md`: technology choices and constraints, technical decisions with their reasons and the alternatives rejected, and the commands to build, test, and run.
   - `structure.md`: how the code is organized, and its naming and other conventions.
   - Topic files: one topic each, such as testing.
-  - `settings.json`: exactly one field, `language`.
+  - `settings.json`: `language`, the language gsdd writes in (`SKILL.md`), and `impl`, how tasks are implemented and committed (`impl/guide.md`). A missing field takes its default. Create it with the defaults: `{"language": "zh", "impl": {"auto_commit": false, "tasks_per_run": 1}}`.
 - **Capabilities**: each directory under `docs/specs/` that holds a `spec.json` is a capability, and the directory name is the capability's name. A group folder holds capability directories and no documents.
 - **requirements.md**: why the capability exists, its goals and scope, the capabilities it depends on, and its requirements with acceptance criteria.
 - **design.md**: what implementers and reviewers need to build and check the capability: its structure, interfaces, data, decisions with their reasons, and the risks and unverified assumptions it rests on.

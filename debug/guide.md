@@ -8,7 +8,7 @@ This subcommand changes the code only to fix a root cause that lies in the code,
 
 ## 1. Choose Who Investigates
 
-- If this conversation has already tried to fix this problem without success, undo those attempts unless they are needed to reproduce it, and do not investigate it yourself, even when you now think you know the cause: your earlier reasoning would steer the investigation. Have a subagent with a fresh context do only steps 2 and 3 of this guide and report the root cause with its evidence: give it the path of this guide, the symptom, how to reproduce it, the evidence such as errors and logs, and the fixes tried with their results, not your guesses about the cause. Then continue from step 4.
+- If this conversation has already tried to fix this problem without success, undo those attempts unless they are needed to reproduce it, and do not investigate it yourself, even when you now think you know the cause: your earlier reasoning would steer the investigation. Have a subagent with a fresh context do only steps 2 and 3 of this guide and report the root cause with its evidence: give it the gsdd directory and the language (`SKILL.md`), the path of this guide, the symptom, how to reproduce it, the evidence such as errors and logs, and the fixes tried with their results, not your guesses about the cause. Then continue from step 4.
 - Otherwise, investigate it yourself.
 
 ## 2. Reproduce
