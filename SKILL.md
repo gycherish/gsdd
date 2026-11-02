@@ -1,7 +1,7 @@
 ---
 name: gsdd
 description: Spec-driven development. Writes down what the user wants, and the decisions behind it, before code; keeps the documents true as the code changes; counts nothing as done without evidence.
-argument-hint: "[steering | requirements | design | tasks | impl | verify | review | debug | status | run] [arguments]"
+argument-hint: "[steering | requirements | design | tasks | impl | verify | review | debug | status] [arguments]"
 disable-model-invocation: true
 ---
 
@@ -34,7 +34,6 @@ Arguments: $ARGUMENTS
 | `review` | Reviewing a change against the documents |
 | `debug` | Finding the root cause of a failure, and fixing it when it lies in the code |
 | `status` | Where things stand, and what to run next |
-| `run` | Moving capabilities through their phases |
 
 Read `<subcommand>/guide.md` and follow it. Read another subcommand's guide only when a guide asks for it.
 
