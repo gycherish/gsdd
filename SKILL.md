@@ -32,7 +32,7 @@ Arguments: $ARGUMENTS
 | `impl` | Implementing the tasks |
 | `verify` | Verifying a change and having the user accept it; checking that the documents and the code agree |
 | `review` | Reviewing a change against the documents |
-| `debug` | Finding the root cause of a failure |
+| `debug` | Finding the root cause of a failure, and fixing it when it lies in the code |
 | `status` | Where things stand, and what to run next |
 | `run` | Moving capabilities through their phases |
 
