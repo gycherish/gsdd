@@ -16,10 +16,10 @@ Each part of your system with its own behavior is a *capability*, with its own d
 req ─(you confirm)→ arch ─(you confirm)→ design ─(you confirm)→ task → impl → verify ─(you accept)→ done
 ```
 
-- `req` settles what you want. In a new project, it settles the product (its purpose, its users, and its platforms) and a minimum viable product (MVP). A need left out that is likely to come soon and would change the architecture is pointed out, for you to decide whether it joins the MVP.
-- `arch` designs the architecture of the whole system once the MVP's requirements are confirmed. It first puts the technology to you, item by item, and then settles the direction of the system, its processes and modules, leaving the details to each capability's design. Once you confirm it, it changes only when a new or changed requirement needs it, and the capabilities it affects are designed again. A new library or a changed build command is not a change of the architecture: it is chosen in the design of the capability that needs it. While it changes, no capability is designed or broken into tasks.
-- A capability that fits the architecture skips `arch`. When you confirm its requirements, you decide together whether a design is needed: a change that fits the existing design goes straight to tasks.
-- The tasks cover only the gap between the documents and the code.
+- `req` settles what you want. In a new project, it settles the product (its purpose, its users, and its platforms) and a minimum viable product (MVP). A need left out that is likely to come soon and would change the architecture is pointed out, for you to decide whether it joins the MVP. The points you leave to it come back as recommendations for you to agree to, and the requirements always wait for your confirmation.
+- `arch` designs the architecture of the whole system once the MVP's requirements are confirmed. It first researches the technology and puts it to you, item by item, with the current best practice and what comparable products use, and then settles the direction of the system, its processes and modules, leaving the details to each capability's design. Once you confirm it, it changes only when a new or changed requirement needs it, and the capabilities it affects are designed again. A new library or a changed build command is not a change of the architecture: it is chosen in the design of the capability that needs it. While it changes, no capability is designed or broken into tasks.
+- A capability that fits the architecture skips `arch`. Every capability is designed, so that every change takes the same path: a small change gets a short design.
+- The tasks cover only the gap between the documents and the code. A capability is broken into tasks once the capabilities it depends on are built.
 - Implementation goes one task at a time: tests first, then an independent review.
 - A problem found in a later phase sends the capability back to the phase it belongs to.
 - A change to a finished capability starts again from its requirements, or from its design when the requirements stay as they are.
@@ -60,7 +60,7 @@ git clone https://github.com/gycherish/gsdd.git ~/.claude/skills/gsdd
 |---|---|
 | `req` | Settles the intent of a request and writes the requirements; `/gsdd <what you want>` runs it |
 | `arch` | Designs the architecture of the whole system, and changes it when requirements need it |
-| `design` | Designs a capability, when a design is needed |
+| `design` | Designs a capability |
 | `task` | Breaks the gap between the documents and the code into tasks |
 | `impl` | Implements the next task: tests first, then a review |
 | `verify` | Verifies a change and asks you to accept it; on a finished capability, checks that the documents and the code still agree |
@@ -76,7 +76,7 @@ gsdd starts from an empty project; starting from existing code is not supported 
 
 1. `/gsdd <request>`: answer the questions, read the requirements, and confirm them.
 2. `/gsdd arch`, only when the change needs the architecture to change: read the change, and confirm it.
-3. `/gsdd design <capability>`, when a design is needed: read the design, and confirm it.
+3. `/gsdd design <capability>`: read the design, and confirm it.
 4. `/gsdd task <capability>`: the tasks need no confirmation.
 5. `/gsdd impl <capability>`: by default, one task per run. Review its changes, commit them, and run it again for the next task.
 6. `/gsdd verify <capability>`: try the change yourself, and accept it.
@@ -98,7 +98,7 @@ docs/
     └── [<group>/]<capability>/ one directory per capability
         ├── spec.json           its phase
         ├── requirements.md     why it exists, its scope, and its requirements with acceptance criteria
-        ├── design.md           only when a design is needed
+        ├── design.md           how it is built: its structure, interfaces, and decisions
         ├── research.md         the evidence behind its decisions
         └── tasks.md            the tasks of the latest change, and how it was verified
 ```

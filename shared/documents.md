@@ -11,7 +11,7 @@ docs/
     └── [<group>/]<capability>/ one directory per capability
         ├── spec.json           the capability's phase
         ├── requirements.md
-        ├── design.md           only when a design is needed
+        ├── design.md
         ├── research.md
         └── tasks.md
 ```
@@ -21,7 +21,7 @@ docs/
   - `architecture.md`, written by `arch`: the shape of the whole system, its processes and modules, how they work together, and how the code is organized (`arch/architecture.md`).
   - `tech.md`: the technology and its constraints, the code conventions, technical decisions with their reasons and the alternatives rejected, and the commands to build, test, and run. `arch` writes it when the project starts; later, `design` changes it for the capability that needs it, and `req` records the technical constraints the user states.
   - `research.md`, written by `req` and `arch`: the evidence behind the decisions they make for the whole project, such as research about the product, compared technologies, or experiments on the target platforms.
-  - Topic files: one topic each, such as error handling, with the user's agreement.
+  - Topic files: one topic each, such as error handling, written by `arch` or `design` with the user's agreement.
   - `settings.json`: `language`, the language gsdd writes in (`SKILL.md`); and `impl`, how tasks are implemented and committed (`impl/guide.md`). A missing field takes its default. `req` creates the file when it is missing, with the defaults: `{"language": "zh", "impl": {"auto_commit": false, "tasks_per_run": 1}}`.
 - **Capabilities**: each directory under `docs/specs/` that holds a `spec.json` is a capability, and the directory name is the capability's name. A group folder holds capability directories and no documents.
 - **requirements.md**: why the capability exists, its goals and scope, the capabilities it depends on, and its requirements with acceptance criteria.

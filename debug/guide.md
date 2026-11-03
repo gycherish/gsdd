@@ -22,7 +22,7 @@ This subcommand changes the code only to fix a root cause that lies in the code,
 - Confirm each hypothesis with evidence, such as an experiment, a log, the documentation, or release notes, before acting on it, and change one thing at a time.
 - Find where the root cause lies:
   - **Code**: the code does not meet an acceptance criterion, though code that follows the design would.
-  - **Design**: code that follows the design cannot meet the criterion, or the fix needs a design that the capability does not have (`shared/phases.md`). When the problem lies in the architecture, such as a module boundary or a mechanism every module follows, it is a design problem of the architecture.
+  - **Design**: code that follows the design cannot meet the criterion. When the problem lies in the architecture, such as a module boundary or a mechanism every module follows, it is a design problem of the architecture.
   - **Requirements**: the requirements do not cover the case, contradict each other, or require behavior the user now finds wrong.
   - **Tasks**: a task cannot be done because a task it needs is missing or comes later.
   - **Outside the project**: the environment, a dependency, an external service, or the platform. When the platform cannot do what the design assumes, the root cause lies in the design.

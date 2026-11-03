@@ -1,6 +1,6 @@
 # design
 
-Read first: `shared/principles.md`, `shared/documents.md`, `shared/phases.md`, `shared/conventions.md`, `shared/capabilities.md`, `design/principles.md`. Before writing steering, also read `shared/steering.md`.
+Read first: `shared/principles.md`, `shared/documents.md`, `shared/phases.md`, `shared/conventions.md`, `shared/capabilities.md`, `design/principles.md`. Before choosing technology or writing steering, also read `shared/steering.md`.
 
 The capability is the one named in the arguments, or the one under discussion. When several capabilities are in `design` and none is named, ask which. When the user confirms a design that is already written, go straight to Confirm.
 
@@ -35,12 +35,12 @@ Investigate as far as the design needs, using subagents for broad searches.
 - For each choice with real alternatives, compare them and choose one, following `design/principles.md`.
 - Ask the user only about the decisions that are theirs to make, such as product trade-offs, costs, or preferences, and recommend an answer. When the answer would change the rest of the design, ask before writing it. Decide the rest yourself, and list those decisions in the summary.
 - The design works within the architecture: the processes, the modules and their dependencies, and the direction of the mechanisms every module follows are the architecture's; the details within them are the design's. When the capability needs one the architecture does not have, or does not fit it, explain it to the user; once they agree, move the phase to `arch`, suggest `/gsdd arch`, and stop.
-- A change to the technology, such as a third-party library that `tech.md` does not name or a different build command, is the user's choice (`shared/steering.md`): put the options to them before the design relies on it. It is not a change of the architecture, unless it changes the processes, the modules, or their dependencies.
+- A change to the technology, such as a third-party library that `tech.md` does not name or a different build command, is the user's choice: research it, and put the options to them as `shared/steering.md` describes, before the design relies on it. It is not a change of the architecture, unless it changes the processes, the modules, or their dependencies.
 - A requirement problem found here, such as a contradiction, a gap, or parts that should be separate capabilities, goes to the user: explain it, and move the phase back to `req` once they agree.
 
 ## 5. Write
 
-- Write `design.md` as `design/principles.md` describes.
+- Write `design.md` as `design/principles.md` describes. When the design already serves the requirements as they now are, such as after a change it does not affect, leave it as it is, and say why in the summary.
 - Write the technology the user has chosen into `tech.md`, following `shared/steering.md`. Before writing it, check each decision in it against what the user answered, and put each one they have not chosen to them first. The architecture changes only through `/gsdd arch`.
 
 ## 6. Review

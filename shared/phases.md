@@ -22,13 +22,13 @@ req →(user confirms)→ arch →(user confirms)→ design →(user confirms)�
 - A new capability starts in `req`.
 - When the user confirms the requirements, the next phase is:
   - `arch` for every capability while the project has no architecture yet (`docs/steering/architecture.md`), and for a capability that does not fit the architecture: one that needs a process, a module, a platform, or a mechanism that the architecture does not have.
-  - Otherwise `design`, or `task` when no design is needed; decide this with the user. A design is needed when the change adds or alters structure, interfaces between components or processes, persisted data formats, concurrency, or security; changes something design.md states; or rests on assumptions not yet verified.
+  - Otherwise `design`. Every capability is designed, so that every change takes the same path: a small change gets a short design, and a design the change does not affect stays as it is.
 - The architecture, once confirmed, changes only when a capability needs it, and only as far as it needs. A change to the technology, such as a third-party library or a build command, is not a change of the architecture unless it changes the processes, the modules, or their dependencies: it is made in the design of the capability that needs it. While any capability is in `arch`, no capability is designed or broken into tasks, since work built on the architecture now could be lost; capabilities in `impl` and `verify` go on.
 - When the user confirms the architecture, the capabilities in `arch` move to `design`. Those whose design no longer fits it go back to `design`, and those whose requirements must change go back to `req`, as the user decides (`arch/guide.md`).
 - A capability is broken into tasks only once every capability it depends on has done all its tasks, and is in `verify` or `done`: its tasks build on their code.
 - Tasks need no confirmation: writing tasks.md moves the phase to `impl`.
 - When every task is checked, the phase moves to `verify`. If verification fails, it goes back to `impl` with the problems found.
-- A problem found in a later phase sends the capability back: a requirement problem to `req`; a problem in the architecture, such as a module boundary or a mechanism every module follows, to `arch`; a design problem, a problem in the technology, or a finding that a design is needed after all, to `design`.
+- A problem found in a later phase sends the capability back: a requirement problem to `req`; a problem in the architecture, such as a module boundary or a mechanism every module follows, to `arch`; a design problem or a problem in the technology, to `design`.
 - `done` requires every task in tasks.md to be checked and the verification results to be recorded in it.
 
 ## Changes
@@ -41,4 +41,4 @@ req →(user confirms)→ arch →(user confirms)→ design →(user confirms)�
 ## Progress and Confirmation
 
 - Progress within a phase, such as whether the requirements are written and waiting for confirmation, is not recorded: work it out from the documents and git, and ask when unsure.
-- Only the user confirms and accepts. Present what was written and wait for the answer; never proceed past a confirmation on the user's behalf unless the user has said to proceed without asking.
+- Only the user confirms and accepts. Present what was written and wait for the answer; never proceed past a confirmation on the user's behalf unless the user has said to proceed without asking. The requirements and the architecture always wait for the user's confirmation: mistakes in them cost the most.

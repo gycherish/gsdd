@@ -31,7 +31,7 @@ List the phase of every capability (every `spec.json` under `docs/specs/`), then
 - List on each task the acceptance criteria it makes true. Their tests are written in that task, so no task is only for writing tests. A criterion that cannot be tested automatically gets a manual check task: what to check, how, and what result passes.
 - Title each task with what will be true when it is done. Add only what an implementer would otherwise have to work out: the section of the design it implements, referred to rather than restated; the parts it touches; or a dependency that the order does not show.
 - When tasks.md already holds tasks of the current change, edit it in place: keep the checked tasks that still hold, and change or add the others.
-- When the tasks would need a decision that the requirements, the architecture, or the design should make but do not, or when they contradict each other, explain it to the user; once they agree, move the phase back to `req`, `arch`, or `design`, and suggest that subcommand. Do not make that decision in the tasks. The same holds when a capability without a design turns out to need one (`shared/phases.md`).
+- When the tasks would need a decision that the requirements, the architecture, or the design should make but do not, or when they contradict each other, explain it to the user; once they agree, move the phase back to `req`, `arch`, or `design`, and suggest that subcommand. Do not make that decision in the tasks.
 
 ## 4. Check
 

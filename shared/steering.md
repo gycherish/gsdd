@@ -14,8 +14,10 @@ These rules apply to every subcommand that writes `docs/steering/`.
 
 ## Decisions for the Whole Project
 
-- The technology is the user's to choose: the language and its standard, the build system, the package management, the third-party libraries, and the code conventions, such as naming and error handling. So are the other decisions that bind the whole project and that the code does not already establish.
-- Put them to the user together, as one list: for each, the real options, the reasons for and against each, and your recommendation. The list covers each of these that the project needs, even one with an obvious answer, such as the version of the language. Write them only once the user has chosen, even when the user has said to go ahead without asking.
+- The technology is the user's to choose: the language and its standard, the build system, the package management, the third-party libraries, and the code conventions, such as naming and error handling. Write it only once the user has chosen it, even when the user has said to go ahead without asking.
+- So are the other decisions that bind the whole project and that the code does not already establish, such as the product's users and platforms: they hold only once the user confirms them, with the requirements or the architecture.
+- Before putting the technology to the user, research each item in primary sources, using subagents for broad searches: the options in current use, what established comparable products or open-source projects use and why, and each option's maturity, maintenance, license, platform support, and known issues. When the research cannot be done, such as when web access is not allowed, say so before the options, mark what comes only from memory, and ask whether the user can allow it.
+- Put the technology to the user as one list. For each item: the options; what the research found, such as the current best practice and what comparable products use, each finding with its source; the reasons for and against each option; and your recommendation, with the reason when it departs from current practice. The list covers each item the project needs, even one with an obvious answer, such as the version of the language. Record the research in `research.md` (`shared/documents.md`).
 - An answer such as "go with your recommendations" covers only what the list held. A decision of this kind that comes up later, such as while designing, is put to the user the same way before it is written.
 
 ## Files

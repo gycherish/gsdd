@@ -14,7 +14,7 @@ First list the phase of every capability (every `spec.json` under `docs/specs/`)
 - A capability named in the arguments:
   - In `design`, `task`, `impl`, `verify`, or `done`: the problem was found there (`shared/phases.md`). Move it to `arch`, and update `updated_at`; a `done` one starts a change, and its `tasks.md` is emptied.
   - In `req`: its requirements must be confirmed first. Suggest `/gsdd req <capability>`, and stop.
-- No capability in `arch`: the architecture changes only when a capability needs it. Say so, suggest describing the change with `/gsdd <request>`, and stop.
+- No capability in `arch`: the architecture is designed or changed only for the capabilities that need it. Say so, suggest describing what to build, or the change, with `/gsdd <request>`, and stop.
 
 ## 2. Understand the Situation
 
@@ -23,7 +23,7 @@ First list the phase of every capability (every `spec.json` under `docs/specs/`)
 
 ## 3. Design
 
-- **For the first architecture, technology first.** Put to the user the technology the whole project will use (`shared/steering.md`), as one list that names each item: the version of the language, each third-party library the architecture relies on, and the code conventions, as well as the language and the build. A choice the user has already made is recorded, not asked again. With the build system, settle how the project is built, tested, and run. When a fact a choice depends on is uncertain, such as whether a library supports the target platform, check it in primary sources or with a small throwaway experiment outside the project.
+- **For the first architecture, technology first.** Research the technology the whole project will use, and put it to the user (`shared/steering.md`) as one list that names each item: the version of the language, each third-party library the architecture relies on, and the code conventions, as well as the language and the build. A choice the user has already made is recorded, not asked again. With the build system, settle how the project is built, tested, and run. When a fact a choice depends on is uncertain, such as whether a library supports the target platform, check it in primary sources or with a small throwaway experiment outside the project.
 - **Then the architecture**, by `arch/architecture.md`, from the whole system down to its modules, covering every capability. Ask the user about the choices that are theirs, such as how the product is deployed, and recommend an answer.
 - The architecture serves the requirements that are written. When a need they leave out is likely to come soon and would give the architecture another shape, point it out, and recommend whether to add it to the requirements first; the user decides. When they add it, suggest `/gsdd req`, and stop: the architecture waits for its requirements.
 - Behavior the user will see that a choice of the architecture brings, such as an icon that shows the program is running and a menu to quit it, needs requirements too, or no task will build it. Put it to the user before the architecture relies on it, with the capability it could join; when they want it, suggest `/gsdd req`, and stop.
