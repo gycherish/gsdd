@@ -1,8 +1,8 @@
 # impl
 
-Read first: `shared/principles.md`, `shared/documents.md`, `shared/phases.md`, `shared/conventions.md`. Before writing steering, also read `shared/steering.md`.
+Read first: `shared/principles.md`, `shared/documents.md`, `shared/phases.md`, `shared/conventions.md`.
 
-The capability is the one named in the arguments, or the one under discussion. When several capabilities are in `implementation` and none is named, ask which.
+The capability is the one named in the arguments, or the one under discussion. When several capabilities are in `impl` and none is named, ask which.
 
 ## Settings
 
@@ -15,9 +15,9 @@ A run takes the tasks named in the arguments, or else the unchecked tasks, in th
 
 ## 1. Check the Phase
 
-- `implementation`: continue.
-- `requirements`, `design`, or `tasks`: the tasks are not ready. Suggest the subcommand of that phase, and stop.
-- `verification`: every task is done. Suggest `/gsdd verify <capability>`, and stop.
+- `impl`: continue.
+- `req`, `arch`, `design`, or `task`: the tasks are not ready. Suggest the subcommand of that phase, and stop.
+- `verify`: every task is done. Suggest `/gsdd verify <capability>`, and stop.
 - `done`: new work on it is a change, which starts with its requirements or its design (`shared/phases.md`). Suggest describing it with `/gsdd <request>`, and stop.
 
 ## 2. Prepare
@@ -29,14 +29,14 @@ A run takes the tasks named in the arguments, or else the unchecked tasks, in th
 
 Do the tasks one at a time, in order, each through steps 3 to 5.
 
-- Study the code the task touches. When the task needs a decision that the requirements or the design should make but do not, when the documents contradict each other, or when the task needs work that no task covers, explain it to the user, suggest `/gsdd requirements`, `/gsdd design`, or `/gsdd tasks` for the capability, and stop. Do not make that decision yourself.
+- Study the code the task touches. When the task needs a decision that the requirements, the design, or the architecture should make but do not, when the documents contradict each other, or when the task needs work that no task covers, explain it to the user, suggest `/gsdd req`, `/gsdd design`, or `/gsdd task` for the capability, or `/gsdd arch <capability>` for the architecture, and stop. Do not make that decision yourself.
 - Write the tests first: for each acceptance criterion the task lists, a test that cites it (`shared/conventions.md`). Run them, and see each fail for the reason expected, before writing the code. A task that lists no criteria, such as setting up the project, shows its outcome another way, such as a command that now works.
-- Write what the task and the design call for, and nothing else: no work of other tasks, and no behavior the documents do not ask for.
+- Write what the task and the design call for, and nothing else: no work of other tasks, no behavior the documents do not ask for, and no technology that `tech.md` does not name.
 - Run all the tests and the checks the steering names; all must pass.
 - A task that checks an assumption records the experiment and its result in research.md (`shared/documents.md`). When the assumption does not hold, the design must change: explain it to the user, suggest `/gsdd design <capability>`, and stop.
 - A manual check: do it yourself when you can, such as by running the program and reading its output; otherwise give the user its steps, and stop until they report the result. Record under the task who checked, how, and the result. A check that fails is a failure.
 - When something fails and the cause is not clear, or a fix did not work, follow `debug/guide.md`.
-- When the work shows a fact the documents should hold, such as a build command or a limit of a library, write it where it belongs (`shared/documents.md`); a decision that would change goes to the user.
+- This subcommand does not write the steering. When the work shows that the steering is wrong, such as a command in `tech.md` that does not work, explain it to the user, suggest `/gsdd design <capability>`, and stop.
 
 ## 4. Review
 
@@ -46,7 +46,7 @@ Do the tasks one at a time, in order, each through steps 3 to 5.
 
 ## 5. Finish
 
-- Check the task (`- [x]`) once it is done: its tests pass, its review has passed, and a manual check has its result recorded. Update `updated_at` (`shared/phases.md`); when every task is checked, move the phase to `verification`.
+- Check the task (`- [x]`) once it is done: its tests pass, its review has passed, and a manual check has its result recorded. Update `updated_at` (`shared/phases.md`); when every task is checked, move the phase to `verify`.
 - With `auto_commit` on, commit the task: only the files changed for it, the documents included, with a message that follows the project's conventions and names the capability and the task. Never push.
 - Go on to the next task while the run allows another.
 

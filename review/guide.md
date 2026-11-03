@@ -20,7 +20,7 @@ This subcommand only reports; it changes neither the code nor the documents. Exp
 
 - **Criteria**: each acceptance criterion the change serves is met, and a test that cites it (`shared/conventions.md`) would fail if the behavior broke. A criterion that cannot be tested automatically needs a manual check task instead.
 - **Design**: the code follows the design's structure, contracts, and decisions. A departure is a problem even when the code works.
-- **Steering**: the code follows the conventions and constraints the steering sets.
+- **Steering**: the code follows the conventions and constraints the steering sets, uses no technology that `tech.md` does not name, and follows the architecture: it lands in the modules the architecture gives it, and keeps their dependency direction.
 - **Scope**: the change adds no behavior that the requirements and the design do not ask for, and the change for a task does not do the work of other tasks.
 - **Correctness**: the changed code has no bugs, unhandled failures, or security problems, and leaves no stub or placeholder where real behavior is required.
 - **Documents**: no statement in the requirements, the design, or the steering is untrue after the change.
@@ -32,4 +32,4 @@ This subcommand only reports; it changes neither the code nor the documents. Exp
 - Give the verdict first: passes, or needs changes.
 - List every problem that must be fixed, the most important first. For each: what is wrong, where (file and line), what it breaks (the criterion, the design section, or the convention), and what to change. When the code and a document disagree, say which should change; changing a decision in a document needs the user's agreement.
 - Add at most three suggestions, only when they are worth the change, and nothing about style that the steering does not set.
-- Give the commands run and their results. Suggest the next step, such as `/gsdd debug <the problem>` for a failure whose cause is unclear, or `/gsdd design <capability>` when the design itself is the problem.
+- Give the commands run and their results. Suggest the next step, such as `/gsdd debug <the problem>` for a failure whose cause is unclear, `/gsdd design <capability>` when the design itself is the problem, or `/gsdd arch <capability>` when the architecture is.

@@ -11,26 +11,31 @@ Each capability's `spec.json` holds exactly these fields:
 ```
 
 - `created_at` is when the capability's directory was created, and `updated_at` is the last time gsdd changed any file in it. Write ISO 8601 with the UTC offset, read from the system clock (for example, by running a command); never estimate.
-- `phase` is one of `requirements`, `design`, `tasks`, `implementation`, `verification`, and `done`. The subcommands for these phases are `requirements`, `design`, `tasks`, `impl`, and `verify`.
+- `phase` is one of `req`, `arch`, `design`, `task`, `impl`, `verify`, and `done`. Each phase but `done` is worked on by the subcommand of the same name.
 
 ## Transitions
 
 ```
-requirements →(user confirms)→ design →(user confirms)→ tasks → implementation → verification →(user accepts)→ done
+req →(user confirms)→ arch →(user confirms)→ design →(user confirms)→ task → impl → verify →(user accepts)→ done
 ```
 
-- A new capability starts in `requirements`.
-- When the user confirms the requirements, decide with them whether a design is needed; if not, go straight to `tasks`. A design is needed when the change adds or alters structure, interfaces between components or processes, persisted data formats, concurrency, or security; changes something design.md states; or rests on assumptions not yet verified.
-- Tasks need no confirmation: writing tasks.md moves the phase to `implementation`.
-- When every task is checked, the phase moves to `verification`. If verification fails, it goes back to `implementation` with the problems found.
-- A problem found in a later phase sends the capability back: a requirement problem to `requirements`; a design problem, or a finding that a design is needed after all, to `design`.
+- A new capability starts in `req`.
+- When the user confirms the requirements, the next phase is:
+  - `arch` for every capability while the project has no architecture yet (`docs/steering/architecture.md`), and for a capability that does not fit the architecture: one that needs a process, a module, a platform, or a mechanism that the architecture does not have.
+  - Otherwise `design`, or `task` when no design is needed; decide this with the user. A design is needed when the change adds or alters structure, interfaces between components or processes, persisted data formats, concurrency, or security; changes something design.md states; or rests on assumptions not yet verified.
+- The architecture, once confirmed, changes only when a capability needs it, and only as far as it needs. A change to the technology, such as a third-party library or a build command, is not a change of the architecture unless it changes the processes, the modules, or their dependencies: it is made in the design of the capability that needs it. While any capability is in `arch`, no capability is designed or broken into tasks, since work built on the architecture now could be lost; capabilities in `impl` and `verify` go on.
+- When the user confirms the architecture, the capabilities in `arch` move to `design`. Those whose design no longer fits it go back to `design`, and those whose requirements must change go back to `req`, as the user decides (`arch/guide.md`).
+- A capability is broken into tasks only once every capability it depends on has done all its tasks, and is in `verify` or `done`: its tasks build on their code.
+- Tasks need no confirmation: writing tasks.md moves the phase to `impl`.
+- When every task is checked, the phase moves to `verify`. If verification fails, it goes back to `impl` with the problems found.
+- A problem found in a later phase sends the capability back: a requirement problem to `req`; a problem in the architecture, such as a module boundary or a mechanism every module follows, to `arch`; a design problem, a problem in the technology, or a finding that a design is needed after all, to `design`.
 - `done` requires every task in tasks.md to be checked and the verification results to be recorded in it.
 
 ## Changes
 
-- A request that changes the requirements or the design of a `done` capability starts a new change: tasks.md is emptied, and the phase goes back to `requirements`, or to `design` when the requirements stay as they are.
+- A request that changes the requirements, the architecture, or the design of a `done` capability starts a new change: tasks.md is emptied, and the phase goes back to `req`, `arch`, or `design`, the earliest one the request affects.
 - A capability has one change at a time: a request that arrives during a change joins it, and the phase goes back to the earliest phase the request affects.
-- Work that changes neither the requirements nor the design is not a change, and the phase stays as it is.
+- Work that changes neither the requirements, the architecture, nor the design is not a change, and the phase stays as it is.
 - A bug is classified by its root cause. When the code does not follow the design, the fix restores an existing acceptance criterion and is not a change: it needs only the fix and a test that cites the criterion. When the design cannot meet the criterion, it is a design-only change; when the requirements do not cover the case, it is a requirement change. A quick mitigation may go in first, but the capability stays in the change until the full fix is accepted.
 
 ## Progress and Confirmation

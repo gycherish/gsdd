@@ -1,7 +1,7 @@
 ---
 name: gsdd
 description: Spec-driven development. Writes down what the user wants, and the decisions behind it, before code; keeps the documents true as the code changes; counts nothing as done without evidence.
-argument-hint: "[steering | requirements | design | tasks | impl | verify | review | debug | status] [arguments]"
+argument-hint: "[req | arch | design | task | impl | verify | review | debug | status] [arguments]"
 disable-model-invocation: true
 ---
 
@@ -21,14 +21,14 @@ Arguments: $ARGUMENTS
 
 - No arguments: `status`.
 - The first word is a subcommand name: that subcommand, with the remaining words as its arguments.
-- Anything else: `requirements`, with the whole text as the request.
+- Anything else: `req`, with the whole text as the request.
 
 | Subcommand | For |
 |------------|-----|
-| `steering` | Keeping the project memory in line with the code and the confirmed decisions |
-| `requirements` | Every new request or change: settling the intent and writing the requirements |
+| `req` | Every new request or change: settling the intent and writing the requirements |
+| `arch` | Choosing the technology of a new project, designing the architecture of the whole system, and changing it when capabilities need it |
 | `design` | Designing a capability |
-| `tasks` | Breaking a change into tasks |
+| `task` | Breaking a change into tasks |
 | `impl` | Implementing the tasks |
 | `verify` | Verifying a change and having the user accept it; checking that the documents and the code agree |
 | `review` | Reviewing a change against the documents |

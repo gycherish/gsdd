@@ -14,7 +14,7 @@ design.md tells implementers and reviewers what they need to build and check the
 | Runtime behavior: flows, state machines, concurrency, startup and shutdown, and timeouts | Behavior unfolds over time or runs concurrently |
 | Failures: how each failure that matters is detected, reported, recovered from, and logged | The capability does I/O, networking, or anything else that can fail at runtime |
 | User interface: layout, states, and feedback | The capability has a user interface |
-| Where the change lands: modules or directories, and build or configuration changes | Implementers would otherwise have to search for it |
+| Where the change lands: the modules of the architecture it touches, and build or configuration changes | Implementers would otherwise have to search for it |
 | Verification: how a criterion will be shown to hold | It needs more than an ordinary test, such as a harness, fault injection, or a manual check |
 | Risks and unverified assumptions, each with how it will be checked first | Always; write "none" when there are none |
 

@@ -22,7 +22,7 @@ This subcommand changes the code only to fix a root cause that lies in the code,
 - Confirm each hypothesis with evidence, such as an experiment, a log, the documentation, or release notes, before acting on it, and change one thing at a time.
 - Find where the root cause lies:
   - **Code**: the code does not meet an acceptance criterion, though code that follows the design would.
-  - **Design**: code that follows the design cannot meet the criterion, or the fix needs a design that the capability does not have (`shared/phases.md`).
+  - **Design**: code that follows the design cannot meet the criterion, or the fix needs a design that the capability does not have (`shared/phases.md`). When the problem lies in the architecture, such as a module boundary or a mechanism every module follows, it is a design problem of the architecture.
   - **Requirements**: the requirements do not cover the case, contradict each other, or require behavior the user now finds wrong.
   - **Tasks**: a task cannot be done because a task it needs is missing or comes later.
   - **Outside the project**: the environment, a dependency, an external service, or the platform. When the platform cannot do what the design assumes, the root cause lies in the design.
@@ -31,9 +31,9 @@ This subcommand changes the code only to fix a root cause that lies in the code,
 ## 4. Act on the Root Cause
 
 - **Code**: fix it. First write a test that cites the criterion (`shared/conventions.md`) and fails because of the problem, or make an existing one strict enough to fail. Then fix the root cause, not only the symptom, until the test passes; change nothing else, and run all the tests. This is not a change: the phase stays as it is. When no automated test can reproduce the failure, give the user steps to check the fix by hand.
-- **Design**: explain the root cause to the user, record the analysis in research.md (`shared/documents.md`), and suggest `/gsdd design <capability>`. Change no code, except a temporary mitigation that the user wants first and agrees to; a mitigation does not replace the full fix (`shared/phases.md`).
-- **Requirements**: change no code. Explain which case the requirements miss, or where they go wrong; how the system should behave is the user's decision. Suggest `/gsdd requirements <capability>`.
-- **Tasks**: explain what is missing or out of order, and suggest `/gsdd tasks <capability>`.
+- **Design**: explain the root cause to the user, record the analysis in research.md (`shared/documents.md`), and suggest `/gsdd design <capability>`, or `/gsdd arch <capability>` when it lies in the architecture. Change no code, except a temporary mitigation that the user wants first and agrees to; a mitigation does not replace the full fix (`shared/phases.md`).
+- **Requirements**: change no code. Explain which case the requirements miss, or where they go wrong; how the system should behave is the user's decision. Suggest `/gsdd req <capability>`.
+- **Tasks**: explain what is missing or out of order, and suggest `/gsdd task <capability>`.
 - **Outside the project**: explain what the user needs to do. A workaround in the code is a code fix when the design allows it, and a design problem otherwise.
 
 ## 5. Report

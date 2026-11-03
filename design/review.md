@@ -5,7 +5,7 @@ Review a design draft as its implementers and reviewers will use it, against the
 Check that:
 
 - **Coverage**: every requirement is served, and every acceptance criterion can be verified as the design describes.
-- **Fit**: the design follows the existing architecture, the steering, and the project's conventions, and respects the dependency direction it sets.
+- **Fit**: the design works within the architecture: it lands in the modules the architecture gives the capability, keeps their dependency direction and mechanisms, and decides nothing at the level of the whole system. It follows the steering and the project's conventions.
 - **Readiness**: the parts and contracts are concrete enough to split into tasks and implement without guessing, and every unverified assumption is listed with how it will be checked.
 - **Size**: no part, layer, or abstraction exists for needs the requirements do not have.
 - **Failures**: the failures that matter are handled and logged.
