@@ -15,7 +15,8 @@ These rules apply to every subcommand that writes `docs/steering/`.
 ## Decisions for the Whole Project
 
 - The technology is the user's to choose: the language and its standard, the build system, the package management, the third-party libraries, and the code conventions, such as naming and error handling. So are the other decisions that bind the whole project and that the code does not already establish.
-- Put them to the user together, as one list: for each, the real options, the reasons for and against each, and your recommendation. Write them only once the user has chosen, even when the user has said to go ahead without asking.
+- Put them to the user together, as one list: for each, the real options, the reasons for and against each, and your recommendation. The list covers each of these that the project needs, even one with an obvious answer, such as the version of the language. Write them only once the user has chosen, even when the user has said to go ahead without asking.
+- An answer such as "go with your recommendations" covers only what the list held. A decision of this kind that comes up later, such as while designing, is put to the user the same way before it is written.
 
 ## Files
 

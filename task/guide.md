@@ -8,9 +8,11 @@ This subcommand writes only `tasks.md` and `spec.json`; it never changes code.
 
 ## 1. Check the Phase
 
-While any capability is in `arch` (`shared/phases.md`), no capability can be broken into tasks: suggest `/gsdd arch`, and stop. Nor can this one while a capability it depends on still has tasks to do, that is, is not yet in `verify` or `done`: suggest finishing that capability first, with the subcommand of its phase, and stop. Otherwise:
+List the phase of every capability (every `spec.json` under `docs/specs/`), then check, in this order:
 
-- `task`: continue.
+- Any capability in `arch`, whichever it is: the architecture is being settled, and no capability can be broken into tasks (`shared/phases.md`). Suggest `/gsdd arch`, and stop.
+- A capability this one depends on that is not yet in `verify` or `done`: its work is not built yet (`shared/phases.md`). Suggest finishing it first, with the subcommand of its phase, and stop.
+- This capability in `task`: continue.
 - `req` or `design`: that phase must be confirmed first. Suggest `/gsdd req <capability>` or `/gsdd design <capability>`, and stop.
 - `impl`: the tasks are written; suggest `/gsdd impl <capability>`. When the user asks for the tasks to be changed, edit them in place, and leave the phase as it is.
 - `verify`: the tasks are done. Suggest `/gsdd verify <capability>`, and stop.

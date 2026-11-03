@@ -8,9 +8,10 @@ This subcommand writes documents and throwaway experiments; it never changes the
 
 ## 1. Check the Phase
 
-While any capability is in `arch` (`shared/phases.md`), no capability can be designed: suggest `/gsdd arch`, and stop. Otherwise:
+List the phase of every capability (every `spec.json` under `docs/specs/`), then check, in this order:
 
-- `design`: continue.
+- Any capability in `arch`, whichever it is: the architecture is being settled, and no capability can be designed (`shared/phases.md`). Suggest `/gsdd arch`, and stop.
+- This capability in `design`: continue.
 - `done`: when the user wants its design changed, this is a design-only change: empty its `tasks.md`, and move its phase to `design` (`shared/phases.md`). Otherwise, say that it is done, and stop.
 - `req`: its requirements must be confirmed first. Suggest `/gsdd req <capability>`, and stop.
 - `task`, `impl`, or `verify`: a design problem found there moves the phase back to `design` (`shared/phases.md`).
@@ -40,7 +41,7 @@ Investigate as far as the design needs, using subagents for broad searches.
 ## 5. Write
 
 - Write `design.md` as `design/principles.md` describes.
-- Write the technology the user has chosen into `tech.md`, following `shared/steering.md`. The architecture changes only through `/gsdd arch`.
+- Write the technology the user has chosen into `tech.md`, following `shared/steering.md`. Before writing it, check each decision in it against what the user answered, and put each one they have not chosen to them first. The architecture changes only through `/gsdd arch`.
 
 ## 6. Review
 
