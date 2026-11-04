@@ -16,6 +16,14 @@ It decides only what concerns the whole system: what several capabilities rely o
 
 Interfaces, message formats, data structures, and the internals of the modules belong to the designs of the capabilities that own them.
 
+## Diagrams
+
+Draw these, each next to the text it explains (`shared/documents.md`):
+
+- **The system**: the processes and services, where each runs, and the channels between them. A system of one process skips it.
+- **The modules**: the modules and their allowed dependencies.
+- **The main flows**: a sequence diagram for each main scenario that involves three or more processes or services, or, in a system of one process, three or more modules, such as signing in or opening a connection: who calls whom, and for what. Messages and their fields belong to the designs.
+
 ## Review
 
 Review the architecture as the designers of the capabilities will use it, against the product, the requirements of every capability, and the code. Report at most three problems, the ones that matter most, and nothing about style. For each: what is wrong, why it matters, and what to change.
@@ -28,5 +36,6 @@ Check that:
 - **Level**: it settles what the whole system needs, and leaves to the capabilities' designs what one of them can decide.
 - **Readiness**: each capability can be designed within it without deciding anything at the level of the whole system.
 - **Assumptions**: each technical fact the architecture rests on is checked, or listed as a risk with how it will be checked first.
+- **Diagrams**: the diagrams above are drawn, and agree with the text.
 
 End with a verdict: ready for the capabilities' designs, or not ready, with the problems that block it.

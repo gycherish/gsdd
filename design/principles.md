@@ -41,7 +41,7 @@ Cite acceptance criteria by ID (`2.1`, `2.3`) where a part of the design serves 
 
 ## Diagrams
 
-Add a diagram only where it explains better than text, next to the text it explains: architecture (three or more parts), deployment (several processes or machines), sequence (three or more parties), state (lifecycles), and flowcharts (branching). Use plain Mermaid: node IDs of letters, digits, and underscores, and labels without parentheses, brackets, quotes, or slashes.
+Add a diagram where it explains better than text: structure (three or more parts), deployment (several processes or machines), sequence (three or more parties), state (lifecycles), and flowcharts (branching). Draw it as `shared/documents.md` says.
 
 ## Style
 

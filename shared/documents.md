@@ -36,3 +36,4 @@ docs/
 - Documents describe what the system does and what is being built; they do not mention features left out or left for later. A rule the system must keep, such as never sending data off the local network, is a requirement, not a feature left out.
 - Documents are edited in place, and git keeps their history. They carry no change logs, version notes, or edit dates.
 - Documents have no templates: choose sections, headings, and order to fit the content. Only the formats in `shared/conventions.md` and the fields of the JSON files are fixed.
+- Diagrams are plain Mermaid, next to the text they explain: node IDs of letters, digits, and underscores, and labels without parentheses, brackets, quotes, or slashes.
