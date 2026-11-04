@@ -95,7 +95,7 @@ docs/
 │   ├── settings.json           settings
 │   └── *.md                    product.md, tech.md, architecture.md, research.md, and topic files you agree to
 └── specs/
-    └── [<group>/]<capability>/ one directory per capability
+    └── <capability>/           one directory per capability
         ├── spec.json           its phase
         ├── requirements.md     why it exists, its scope, and its requirements with acceptance criteria
         ├── design.md           how it is built: its structure, interfaces, and decisions
@@ -103,7 +103,7 @@ docs/
         └── tasks.md            the tasks of the latest change, and how it was verified
 ```
 
-Each acceptance criterion has an ID such as `2.3`. A test that verifies a criterion cites it as `<capability> <ID>`, for example `// file-transfer 2.3`, so that the tests and the requirements can be checked against each other.
+Each acceptance criterion has an ID such as `2.3`. A test that verifies a criterion cites it as `<capability> <ID>`, for example `// file-transfer 2.3`, so that the tests and the requirements can be checked against each other. The requirements hold only what is current, numbered without gaps: a criterion dropped is deleted, and its number goes to a new criterion or is closed by renumbering the ones after it; the documents that cite them are updated at once. The code, tests included, follows when the change is implemented. Git keeps the history.
 
 ## Settings
 

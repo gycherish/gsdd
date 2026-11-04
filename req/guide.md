@@ -36,8 +36,9 @@ A request can mix several of these; handle each part.
 ## 4. Write
 
 - For each capability involved, write or edit its `requirements.md`, following `shared/conventions.md` and `req/ears.md`.
+- When criteria are dropped, renumbered, or moved to another capability, update the documents that cite them in the same step; the code, tests included, follows when the change is implemented (`shared/conventions.md`).
 - A new capability gets its directory and a `spec.json` in `req`.
-- A change to the requirements of a `done` capability empties its `tasks.md` and moves its phase back to `req` (`shared/phases.md`); a request that arrives during a change joins that change.
+- A change to the requirements empties the capability's `tasks.md` and moves its phase back to `req`, also when it joins a change already under way (`shared/phases.md`).
 - Write what the user has settled about the product, such as its purpose, its users, its platforms, and its scope, into `product.md`, and the other confirmed decisions that apply to the whole project into the steering, following `shared/steering.md`.
 - Record the investigations that shaped the requirements, such as a standard or the behavior of comparable products, in the capability's `research.md`, or in the steering's when they shaped decisions about the whole product (`shared/documents.md`).
 - When `docs/steering/settings.json` is missing, create it with the defaults (`shared/documents.md`).
@@ -52,6 +53,7 @@ Before presenting the requirements, check that:
 - Vague words such as fast, reliable, or secure are made concrete, or asked about.
 - The main flows, the errors, and the edge cases that users or operators can observe are covered.
 - The documents written describe only what is being built: nothing left out or left for later (`shared/documents.md`).
+- The numbers have no gaps, and every citation in the documents names a current criterion by its current number: search them for each number that changed.
 
 ## 6. Confirm
 

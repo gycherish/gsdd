@@ -34,7 +34,7 @@ req →(user confirms)→ arch →(user confirms)→ design →(user confirms)�
 ## Changes
 
 - A request that changes the requirements, the architecture, or the design of a `done` capability starts a new change: tasks.md is emptied, and the phase goes back to `req`, `arch`, or `design`, the earliest one the request affects.
-- A capability has one change at a time: a request that arrives during a change joins it, and the phase goes back to the earliest phase the request affects.
+- A capability has one change at a time: a request that arrives during a change joins it, and the phase goes back to the earliest phase the request affects. When the request changes the requirements, tasks.md is emptied too: the tasks are planned again from the new requirements.
 - Work that changes neither the requirements, the architecture, nor the design is not a change, and the phase stays as it is.
 - A bug is classified by its root cause. When the code does not follow the design, the fix restores an existing acceptance criterion and is not a change: it needs only the fix and a test that cites the criterion. When the design cannot meet the criterion, it is a design-only change; when the requirements do not cover the case, it is a requirement change. A quick mitigation may go in first, but the capability stays in the change until the full fix is accepted.
 

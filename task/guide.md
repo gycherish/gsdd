@@ -21,11 +21,11 @@ List the phase of every capability (every `spec.json` under `docs/specs/`), then
 ## 2. Find the Gap
 
 - Read the capability's requirements; its design.md and research.md when they exist; the steering; and tasks.md when it holds tasks of the current change.
-- Study the code: for each acceptance criterion, whether the code meets it and which tests cite it (`shared/conventions.md`); which parts of the design the code does not have yet; and which tests cite criteria now marked deleted.
+- Study the code: for each acceptance criterion, whether the code meets it and which tests cite it (`shared/conventions.md`); which parts of the design the code does not have yet; and what in the code, such as its tests and scripts, still follows the requirements or the design as they were before the change (git shows how they changed).
 
 ## 3. Break Down
 
-- Cover the gap and nothing else: each acceptance criterion that the code does not meet or that no test cites, each part of the design that the code does not have, and each test that cites a deleted criterion, which is removed or changed. Work that the requirements and the design do not ask for gets no task.
+- Cover the gap and nothing else: each acceptance criterion that the code does not meet or that no test cites, each part of the design that the code does not have, and whatever in the code still follows them as they were before the change. Work that the requirements and the design do not ask for gets no task.
 - Order the tasks so that each needs only the existing code and the tasks before it. The design's unverified assumptions are checked first, before the tasks that rely on them. Setup comes before the tasks that use it, such as a project skeleton that follows the code organization of the architecture and builds and runs its tests, a new dependency, or a test harness the design calls for.
 - Make each task one piece that can be implemented, tested, and reviewed on its own within one conversation, that leaves the project building with all its tests passing, and whose outcome can be observed.
 - List on each task the acceptance criteria it makes true. Their tests are written in that task, so no task is only for writing tests. A criterion that cannot be tested automatically gets a manual check task: what to check, how, and what result passes.
@@ -37,7 +37,7 @@ List the phase of every capability (every `spec.json` under `docs/specs/`), then
 
 Before writing, check that:
 
-- Each criterion in the gap is listed on a task, and each criterion left out is met by the code and cited by a test.
+- Each criterion in the gap is listed on a task, and each criterion left out is met by the code and cited by a test that verifies it.
 - Each part of the design in the gap is covered by a task.
 - No task needs the work of a later task.
 - No task is too large for one conversation, or too small to show an outcome of its own.

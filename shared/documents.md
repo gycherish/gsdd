@@ -8,7 +8,7 @@ docs/
 │   ├── settings.json           settings
 │   └── *.md                    product.md, tech.md, architecture.md, research.md, and topic files
 └── specs/
-    └── [<group>/]<capability>/ one directory per capability
+    └── <capability>/           one directory per capability
         ├── spec.json           the capability's phase
         ├── requirements.md
         ├── design.md
@@ -23,7 +23,7 @@ docs/
   - `research.md`, written by `req` and `arch`: the evidence behind the decisions they make for the whole project, such as research about the product, compared technologies, or experiments on the target platforms.
   - Topic files: one topic each, such as error handling, written by `arch` or `design` with the user's agreement.
   - `settings.json`: `language`, the language gsdd writes in (`SKILL.md`); and `impl`, how tasks are implemented and committed (`impl/guide.md`). A missing field takes its default. `req` creates the file when it is missing, with the defaults: `{"language": "zh", "impl": {"auto_commit": false, "tasks_per_run": 1}}`.
-- **Capabilities**: each directory under `docs/specs/` that holds a `spec.json` is a capability, and the directory name is the capability's name. A group folder holds capability directories and no documents.
+- **Capabilities**: each directory in `docs/specs/` is a capability, and the directory name is the capability's name.
 - **requirements.md**: why the capability exists, its goals and scope, the capabilities it depends on, and its requirements with acceptance criteria.
 - **design.md**: what implementers and reviewers need to build and check the capability: its structure, interfaces, data, decisions with their reasons, and the risks and unverified assumptions it rests on.
 - **research.md**: the evidence behind decisions, so that they can be traced and checked again when conditions change: a capability's for the decisions made in its requirements and its design, even when a decision is written into the steering, such as a library its design chose; and the steering's for the decisions that `req` and `arch` make for the whole project. It exists once there is something to record, and every subcommand that investigates follows these rules:

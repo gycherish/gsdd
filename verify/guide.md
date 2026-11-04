@@ -25,8 +25,8 @@ For each capability:
 Read the capability's requirements, its design.md and research.md when they exist, tasks.md, and the steering. Experiments that need to change files run outside the project.
 
 - **Evidence**: run all the tests and the checks the steering names, and note the commands and their results. Where the program can run here, use it as its users would, such as by starting it and trying the behavior the capability provides.
-- **Criteria**: each acceptance criterion that is not deleted is met by the code, and is cited by a test that passes (`shared/conventions.md`) or has a recorded manual check. No test cites a deleted criterion.
-- **Design**: the code follows the design as a whole, in its structure, the interfaces between its parts, its data, and its decisions, and the parts work together end to end. It lands in the modules the architecture gives the capability, keeps their dependency direction, and uses no technology that `tech.md` does not name.
+- **Criteria**: each acceptance criterion is met by the code, and is cited by a test that passes (`shared/conventions.md`) or has a recorded manual check. Each citation in the tests names a current criterion, and the test verifies it.
+- **Design**: the code follows the design as a whole, in its structure, the interfaces between its parts, its data, and its decisions, and the parts work together end to end. It lands in the modules the architecture gives the capability, keeps their dependency direction, and uses no technology that `tech.md` does not name. No code remains for behavior the requirements no longer have.
 - **Documents**: no statement in the requirements, the design, research.md, or the steering is untrue, and each assumption the design rests on has been checked.
 - **Tasks**, for a change: every task is checked, and every manual check has its result recorded.
 
