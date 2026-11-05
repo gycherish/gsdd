@@ -19,6 +19,6 @@ This subcommand only reports; it changes nothing.
 ## 2. Report
 
 - First, when capabilities are in `arch`: no design or tasks can start until the architecture is confirmed through `/gsdd arch`.
-- One line per capability: its phase, where it stands, what it waits for, and the command to run next.
+- One line per capability, in the order they are built (`shared/conventions.md`): its phase, where it stands, what it waits for, and the command to run next. A capability that cannot be placed in the order is in a cycle: say so, and suggest `/gsdd req` for it.
 - Then recommend what to do now, such as a confirmation or a commit that other work waits on, or the capability that others depend on.
 - For a capability named in the arguments, also list its unchecked tasks and the capabilities that depend on it.

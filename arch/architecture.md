@@ -32,6 +32,7 @@ Check that:
 
 - **Coverage**: every capability lands somewhere, and each main scenario of the requirements can be traced end to end through the parts.
 - **Boundaries**: no two parts own the same data or behavior, and the dependencies go one way, without cycles.
+- **Capabilities**: no capability depends on another for behavior that the architecture gives to the capability itself, and the capabilities can still be built in order (`shared/capabilities.md`).
 - **Size**: no process, module, or layer exists for needs the requirements do not have.
 - **Level**: it settles what the whole system needs, and leaves to the capabilities' designs what one of them can decide.
 - **Readiness**: each capability can be designed within it without deciding anything at the level of the whole system.
