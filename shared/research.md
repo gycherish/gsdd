@@ -6,6 +6,7 @@ Every command that researches follows these rules: `req` on the product, `ui` on
 
 - Use primary sources: the products themselves, their official documentation and release notes, specifications and standards, and source repositories. What users say about a product is read where they say it: in reviews, forums, and issue trackers.
 - For broad searches, the command's main conversation dispatches subagents in parallel, one question each. Every subagent, whatever it was dispatched for, researches what its work needs itself. Give each the gsdd directory and the language (`SKILL.md`), the path of this file, and its question.
+- As each question is answered, the main conversation tells the user its main findings in a few sentences.
 - Research until the decision it serves can be made: start from the most established sources, and add more while they bring findings that would change the decision.
 - Note the version or the date of each source that changes over time.
 - When a technical fact a decision depends on is uncertain, check it with a small throwaway experiment outside the project before relying on it. When that cannot be done now, write it down as an unverified assumption, with how it will be checked.

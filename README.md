@@ -18,7 +18,7 @@ gsdd started from [cc-sdd](https://github.com/gotalab/cc-sdd) 3.1.0.
 req ─(you decide)→ ui ─(you decide)→ arch ─(you decide)→ design ⇄ impl, piece by piece
 ```
 
-- `req` researches the products of the same kind and what their users need, and writes the requirements: the whole feature set, merged from the products and the research, with the features of the first version (the MVP) specified in full. It points out the features left out of the MVP that would change the architecture's shape if added later. It stops for you to decide the product's form and the features of the MVP.
+- `req` researches the products of the same kind and what their users need, telling you the findings of each question as it is answered. It then shows you the whole feature set, merged from the products and the research, and stops for you to decide the product's form and the features of the first version (the MVP), along with the features left out of it that would change the architecture's shape if added later. Once you decide, it writes the requirements, with the features of the MVP specified in full, and stops again for you to confirm them.
 - `ui` designs the screens, the flows, and the visual style, with an HTML prototype you can open in a browser. It stops for you to choose the style. A product without a user interface skips it.
 - `arch` researches the technology, and designs the architecture for the features of the version being built. It stops for you to choose the technology.
 - `design` writes the detailed design that the next piece to build needs, and skips the simple parts: the product is designed piece by piece, as it is built. It changes the earlier documents only with your agreement, and stops for the choices that are yours.

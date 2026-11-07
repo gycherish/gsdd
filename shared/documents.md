@@ -22,7 +22,7 @@ docs/
         └── research.md
 ```
 
-- `README.md`: one line per document: what it holds, and the work it serves, so that whoever works on a part of the product knows which documents to read first. Update it whenever a document is added, split, or removed.
+- `README.md`: one line per document: what it holds, and the work it serves, so that whoever works on a part of the product knows which documents to read first. Update it whenever a document is added or removed.
 - `requirements.md`: `req/srs.md`. `ux.md`, `style.md`, and the prototype: `ui/guide.md`. `architecture.md`: `arch/architecture.md`. `design.md`: `design/principles.md`.
 - `tech.md`: the technology the user chose and its constraints, the code conventions, and the commands to build, test, and run (`shared/technology.md`).
 - Each `research.md`: the evidence behind the decisions of the documents next to it (`shared/research.md`). It exists once there is something to record.
@@ -32,7 +32,7 @@ docs/
 
 - **Current facts.** Every document states what the product is now: what it does, how it is built, and the reason for each current choice. A change edits the text in place, so that the documents read as a description of the product as it is; git keeps the history, and the reasons for the change go in its commit message.
 - **What the code cannot tell.** Write intent, decisions and their reasons, contracts, constraints, and conventions. What reading the code shows is left to the code.
-- **Shape to fit.** Documents have no templates: choose sections, headings, and order to fit the content. Keep each file short enough to read in full; when one grows beyond that, split it by topic into files in the same directory, and list them in `README.md`.
+- **One file per document**, at the path the tree above shows; the prototype is the pages of its directory. The requirements and the architecture follow their outlines (`req/srs.md`, `arch/architecture.md`); the other documents choose their sections, headings, and order to fit the content.
 - **Paths.** Every directory and file in `docs/`, `README.md` aside, is named in lowercase English words joined by hyphens, whatever language the documents are written in.
 - **Diagrams** are plain Mermaid, next to the text they explain: node IDs of letters, digits, and underscores, and labels without parentheses, brackets, quotes, or slashes.
 - **Secrets** (keys, passwords, credentials, and internal addresses) are never written.

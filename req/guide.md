@@ -23,22 +23,27 @@ Research the product for a new project, and for each feature that `docs/product/
 - Compare the features, and the forms the products take: their platforms, whether they work alone or connected, who uses them, and how they are deployed.
 - Record the research in `docs/product/research.md`.
 
-## 3. Write the Requirements
+## 3. Plan the Features
 
-Write `docs/product/requirements.md` by `req/srs.md`. It describes the product as its users and operators see it.
+Merge the features of the products and the needs the research found into the feature set (`req/srs.md`), and plan the version:
 
 - Each feature comes from the research or from the user. Where products do the same thing in ways that conflict, keep the way that fits the product's purpose and form, and put the choice to the user.
 - For the MVP, recommend the smallest set of features that serves the product's purpose.
 - Among the features not planned for the version, find those that would give the architecture another shape if they were added later. For each, say what it would change, and what adding it later would cost, and recommend whether to plan it for the version. The architecture is then designed for the features of the version alone.
+
+Before writing the requirements, present, in the language of `SKILL.md`: the products researched and what each shows; and the feature set, by area, each feature with its source, or for a change, the features it adds or changes. Then put to the user, as one numbered list, each with your recommendation and its reason: the product's form; each choice between ways that conflict; the features of the version, each on its own; and the features that would change the architecture's shape. Ask the user to decide, and write the requirements once they do.
+
+## 4. Write the Requirements
+
+Write `docs/product/requirements.md` by `req/srs.md`, as the user decided. It describes the product as its users and operators see it.
+
 - A feature planned for a version is described fully enough that its interface, the architecture, and its code can be built from the documents alone (`shared/principles.md`).
-
-When the user leaves a point to you, recommend an answer with its reason; it holds once the user confirms it.
-
-A change edits `requirements.md` in place. Planning a version marks its features, and gives each of them its section in 4.
+- When the user leaves a point to you, recommend an answer with its reason; it holds once the user confirms it.
+- A change edits `requirements.md` in place. Planning a version marks its features, and gives each of them its section in 4.
 
 With the first documents, also write `docs/README.md` (`shared/documents.md`) and the section of `CLAUDE.md` (`shared/instructions.md`).
 
-## 4. Check
+## 5. Check
 
 Before presenting the requirements, check that:
 
@@ -46,7 +51,7 @@ Before presenting the requirements, check that:
 - Every feature planned for a version is described fully enough to build from the documents alone.
 - Each statement comes from the research, the user, or the documents.
 
-## 5. Confirm
+## 6. Confirm
 
-- **After writing**: present, in the language of `SKILL.md`, a summary: the products researched and what they show; the feature set, by area; and the features of the version planned. Then put to the user the decisions that are theirs, as one numbered list, each with your recommendation and its reason: the product's form, each choice between ways that conflict, the features of the version, the features that would change the architecture's shape, and the points they left to you. Ask the user to decide and to confirm.
+- **After writing**: present, in the language of `SKILL.md`, a summary of the requirements: the features of the version and what each does, and the details you decided yourself. Then put to the user, as one numbered list, each with your recommendation and its reason, the points they left to you and any decision of theirs that the writing raised. Ask the user to confirm.
 - **When the user confirms**, apply their answers, and go on at once (`SKILL.md`) to `ui` when the product has a user interface, otherwise to `arch`. After a change, go on to the first of `ui`, `arch`, and `design` whose documents the change affects, and say why; when it affects none of them, suggest `/gsdd impl`.
