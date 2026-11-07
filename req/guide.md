@@ -37,7 +37,7 @@ Before writing the requirements, present, in the language of `SKILL.md`: the pro
 
 Write `docs/product/requirements.md` by `req/srs.md`, as the user decided. It describes the product as its users and operators see it.
 
-- A feature planned for a version is described fully enough that its interface, the architecture, and its code can be built from the documents alone (`shared/principles.md`).
+- A feature planned for a version is described fully enough that its interface, the architecture, and its code are built without guessing (`shared/principles.md`).
 - When the user leaves a point to you, recommend an answer with its reason; it holds once the user confirms it.
 - A change edits `requirements.md` in place. Planning a version marks its features, and gives each of them its section in 4.
 
@@ -48,8 +48,9 @@ With the first documents, also write `docs/README.md` (`shared/documents.md`) an
 Before presenting the requirements, check that:
 
 - Every feature comes from the research or from the user, and every need the research found has its feature.
-- Every feature planned for a version is described fully enough to build from the documents alone.
+- Every feature planned for a version is described fully enough to build without guessing.
 - Each statement comes from the research, the user, or the documents.
+- The requirements are self-contained (`shared/documents.md`).
 
 ## 6. Confirm
 

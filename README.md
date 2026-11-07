@@ -4,7 +4,7 @@ gsdd writes the design documents of a new project for [Claude Code](https://clau
 
 It rests on these principles:
 
-- **The documents alone rebuild the product.** The requirements, the user interface documents, and the architecture are complete enough that an AI given only them could build the same product again. They follow established templates: the requirements follow Karl Wiegers' software requirements specification template, and the architecture follows [arc42](https://arc42.org).
+- **The documents are complete, and stand on their own.** The requirements, the user interface documents, the architecture, and the technology state what the interface, the designs, and the code need, so that these are built without guessing. Each states its reasons itself, and refers only to those of them it builds on, so that reading them needs neither the research nor the designs: the requirements stand on their own, and the architecture refers only to the requirements. The requirements follow Karl Wiegers' software requirements specification template, and the architecture follows [arc42](https://arc42.org).
 - **Research before deciding.** The features come from the products of the same kind and from what their users need, not from guesses. The technology and the designs come from current practice and primary sources.
 - **You decide what binds the product**: its form and the features of each version, the features that would change the architecture's shape included, the visual style, and the technology. Everything else is decided for you, and listed for you to check.
 - **Documents state current facts.** They describe the product as it is now, and are edited in place; git keeps the history, and the reasons for a change go in its commit message.
