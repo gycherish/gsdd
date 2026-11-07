@@ -4,36 +4,48 @@ gsdd's documents live in the project's `docs/` directory:
 
 ```
 docs/
-├── steering/                   project memory
-│   ├── settings.json           settings
-│   └── *.md                    product.md, tech.md, architecture.md, research.md, and topic files
-└── specs/
-    └── <capability>/           one directory per capability
-        ├── spec.json           the capability's phase
-        ├── requirements.md
+├── README.md                index of the documents
+├── product/
+│   ├── requirements.md      the software requirements specification
+│   └── research.md          research on comparable products and the domain
+├── ui/                      for a product with a user interface
+│   ├── ux.md                the screens, the flows, and the states of each screen
+│   ├── style.md             the visual style and the common interactions
+│   └── prototype/           HTML pages that show the screens
+├── architecture/
+│   ├── architecture.md      the architecture, in the arc42 structure
+│   ├── tech.md              the technology, the code conventions, and the commands
+│   └── research.md          research on the technology and the architecture
+└── design/
+    └── <part>/              one directory per module or feature that has a design
         ├── design.md
-        ├── research.md
-        └── tasks.md
+        └── research.md
 ```
 
-- **Steering** holds what applies to the whole project and cannot be learned by reading the code. Only the subcommands named here write it, following `shared/steering.md`.
-  - `product.md`, written by `req`: the product's purpose, its users, its platforms, and its scope.
-  - `architecture.md`, written by `arch`: the shape of the whole system, its processes and modules, how they work together, and how the code is organized (`arch/architecture.md`).
-  - `tech.md`: the technology and its constraints, the code conventions, technical decisions with their reasons and the alternatives rejected, and the commands to build, test, and run. `arch` writes it when the project starts; later, `design` changes it for the capability that needs it, and `req` records the technical constraints the user states.
-  - `research.md`, written by `req` and `arch`: the evidence behind the decisions they make for the whole project, such as research about the product, compared technologies, or experiments on the target platforms.
-  - Topic files: one topic each, such as error handling, written by `arch` or `design` with the user's agreement.
-  - `settings.json`: `language`, the language gsdd writes in (`SKILL.md`); and `impl`, how tasks are implemented and committed (`impl/guide.md`). A missing field takes its default. `req` creates the file when it is missing, with the defaults: `{"language": "zh", "impl": {"auto_commit": false, "tasks_per_run": 1}}`.
-- **Capabilities**: each directory in `docs/specs/` is a capability, and the directory name is the capability's name.
-- **requirements.md**: why the capability exists, its goals and scope, the capabilities it depends on, and its requirements with acceptance criteria.
-- **design.md**: what implementers and reviewers need to build and check the capability: its structure, interfaces, data, decisions with their reasons, and the risks and unverified assumptions it rests on.
-- **research.md**: the evidence behind decisions, so that they can be traced and checked again when conditions change: a capability's for the decisions made in its requirements and its design, even when a decision is written into the steering, such as a library its design chose; and the steering's for the decisions that `req` and `arch` make for the whole project. It exists once there is something to record, and every subcommand that investigates follows these rules:
-  - Organize it by question. For each: the question; the evidence, such as compared alternatives, primary sources with their versions, experiments with their environment, method, and result, or the root-cause analysis of a bug; the conclusion; and the decision it supports.
-  - The other documents state their decisions themselves. research.md holds the comparisons and the evidence, which they do not repeat.
-  - Leave out investigation logs, findings that support no decision, and what the code shows.
-  - Experiment code is thrown away unless the project keeps its experiments: record enough of the method to repeat it, and where the code is when it is kept.
-  - When a decision changes, update its evidence. Remove what no longer supports a current decision, but keep a rejected alternative while it still explains a current choice.
-- **tasks.md**: how the latest change was broken into tasks, and how it was verified.
-- Documents describe what the system does and what is being built; they do not mention features left out or left for later. A rule the system must keep, such as never sending data off the local network, is a requirement, not a feature left out.
-- Documents are edited in place, and git keeps their history. They carry no change logs, version notes, or edit dates.
-- Documents have no templates: choose sections, headings, and order to fit the content. Only the formats in `shared/conventions.md` and the fields of the JSON files are fixed.
-- Diagrams are plain Mermaid, next to the text they explain: node IDs of letters, digits, and underscores, and labels without parentheses, brackets, quotes, or slashes.
+- `README.md`: one line per document: what it holds, and the work it serves, so that whoever works on a part of the product knows which documents to read first. Update it whenever a document is added, split, or removed.
+- `requirements.md`: `req/srs.md`. `ux.md`, `style.md`, and the prototype: `ui/guide.md`. `architecture.md`: `arch/architecture.md`. `design.md`: `design/principles.md`.
+- `tech.md`: the technology the user chose and its constraints, the code conventions, and the commands to build, test, and run (`shared/technology.md`).
+- Each `research.md`: the evidence behind the decisions of the documents next to it (`shared/research.md`). It exists once there is something to record.
+- The project's `CLAUDE.md` holds a section that tells the AI working on the code how to use these documents (`shared/instructions.md`).
+
+## Writing
+
+- **Current facts.** Every document states what the product is now: what it does, how it is built, and the reason for each current choice. A change edits the text in place, so that the documents read as a description of the product as it is; git keeps the history, and the reasons for the change go in its commit message.
+- **What the code cannot tell.** Write intent, decisions and their reasons, contracts, constraints, and conventions. What reading the code shows is left to the code.
+- **Shape to fit.** Documents have no templates: choose sections, headings, and order to fit the content. Keep each file short enough to read in full; when one grows beyond that, split it by topic into files in the same directory, and list them in `README.md`.
+- **Paths.** Every directory and file in `docs/`, `README.md` aside, is named in lowercase English words joined by hyphens, whatever language the documents are written in.
+- **Diagrams** are plain Mermaid, next to the text they explain: node IDs of letters, digits, and underscores, and labels without parentheses, brackets, quotes, or slashes.
+- **Secrets** (keys, passwords, credentials, and internal addresses) are never written.
+- After changing documents, tell the user which files changed, and give a suggested commit message that states what changed and why.
+
+## Names
+
+`requirements.md` names the features, and `architecture.md` the processes and the modules; every document calls them by those names. A feature or a module is named this way:
+
+- The name says what the part acts on, then what it does, the action written as a noun: its lasting behavior or responsibility, without versions or dates. A feature that the product itself names, and its users know by that name, keeps that name when it stands for one behavior.
+- Each word has a clear meaning, in whichever language the name is written. `management`, in any language, says nothing of what a part does, and is never used.
+- A part that no clear action fits holds several parts, and is split by what changes together.
+- A reader who knows the product, but not its documents, can tell from the name which part it is, and tell it apart from the others: a word that could mean several parts is qualified by what it applies to.
+- Names are unique across the project.
+- An English name is two or three lowercase English words joined by hyphens. Every module has one, and its code follows it in the form its language uses. A feature named in another language gets one when it has a directory of its own under `docs/design/`, written next to its name in `requirements.md`. The directory takes the English name.
+- Renaming, splitting, merging, or removing a part updates every reference to it in the documents at once.

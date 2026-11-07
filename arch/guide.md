@@ -1,48 +1,32 @@
 # arch
 
-Read first: `shared/principles.md`, `shared/documents.md`, `shared/phases.md`, `shared/capabilities.md`, `shared/steering.md`, `arch/architecture.md`.
+Read first: `shared/principles.md`, `shared/documents.md`, `shared/research.md`, `shared/technology.md`, `arch/architecture.md`, `req/srs.md`.
 
-This subcommand chooses the technology of a new project and designs the architecture of the whole system, and changes the architecture when capabilities need it.
+This command chooses the technology and designs the architecture of the version being built, and changes them when the requirements or the user interface need it. It writes `docs/architecture/`.
 
-This subcommand writes `architecture.md`, `tech.md`, the steering's `research.md`, and `spec.json`; it never changes code.
+This command writes documents only.
 
-## 1. Check the Phase
+## 1. Understand the Situation
 
-First list the phase of every capability (every `spec.json` under `docs/specs/`). A run works for the capabilities in `arch`, such as every capability of a new project's first release once its requirements are confirmed. The arguments name a capability only when a later phase has found a problem in the architecture.
+- Read the requirements: the features of the version being built.
+- Read the documents of `docs/ui/`, when the product has a user interface.
+- Read the documents of `docs/architecture/` that exist, and the code as far as needed. When they exist, change only what the request, the changed requirements, or the changed interface need, and keep the rest.
 
-- No architecture yet (`docs/steering/architecture.md`), and a capability still in `req`: the first architecture waits until the requirements of the whole first release are confirmed. Suggest `/gsdd req <capability>`, and stop.
-- A capability named in the arguments:
-  - In `design`, `task`, `impl`, `verify`, or `done`: the problem was found there (`shared/phases.md`). Move it to `arch`, and update `updated_at`; a `done` one starts a change, and its `tasks.md` is emptied.
-  - In `req`: its requirements must be confirmed first. Suggest `/gsdd req <capability>`, and stop.
-- No capability in `arch`: the architecture is designed or changed only for the capabilities that need it. Say so, suggest describing what to build, or the change, with `/gsdd <request>`, and stop.
+## 2. Choose the Technology
 
-## 2. Understand the Situation
+- For the first architecture, research the technology the whole project will use, as `shared/technology.md` describes: the language and its version, the build system, the package management, the third-party libraries the architecture relies on, and the code conventions.
+- For a change, research only the items it needs that `tech.md` does not have.
 
-- Read the steering, and the requirements of every capability; those in `arch` are the reason for this run.
-- When the architecture exists, also read the designs of the capabilities the change may affect, and the code as far as needed.
+## 3. Design the Architecture
 
-## 3. Design
+- Design it by `arch/architecture.md`, from the whole system down to its modules, for the features of the version being built, on the technology you recommend.
+- What users will see that a choice of the architecture brings, in behavior or in quality, and that the requirements do not have yet, is put to the user with the decisions of this step. Once they agree, write it into the requirements, and into `ux.md` and the prototype when the product has a user interface.
 
-- **For the first architecture, technology first.** Research the technology the whole project will use, and put it to the user (`shared/steering.md`) as one list that names each item: the version of the language, each third-party library the architecture relies on, and the code conventions, as well as the language and the build. A choice the user has already made is recorded, not asked again. With the build system, settle how the project is built, tested, and run. When a fact a choice depends on is uncertain, such as whether a library supports the target platform, check it in primary sources or with a small throwaway experiment outside the project.
-- **Then the architecture**, by `arch/architecture.md`, from the whole system down to its modules, covering every capability. Ask the user about the choices that are theirs, such as how the product is deployed, and recommend an answer.
-- The architecture serves the requirements that are written. When a need they leave out is likely to come soon and would give the architecture another shape, point it out, and recommend whether to add it to the requirements first; the user decides. When they add it, suggest `/gsdd req`, and stop: the architecture waits for its requirements.
-- Behavior the user will see that a choice of the architecture brings, such as an icon that shows the program is running and a menu to quit it, needs requirements too, or no task will build it. Put it to the user before the architecture relies on it, with the capability it could join; when they want it, suggest `/gsdd req`, and stop.
-- When the architecture shows that dependencies between capabilities are wrong, such as a capability that depends on another for behavior the architecture gives to itself, or capabilities that cannot be built in order (`shared/capabilities.md`), the architecture goes on: present the fix to their requirements with the architecture, and move those capabilities back to `req` when the user confirms.
-- **A change** to a confirmed architecture changes only what the capabilities in `arch` need, and keeps the rest. Technology it needs that `tech.md` does not have is put to the user as for the first architecture.
-- Once the choices that are the user's are made, and before writing the change, present the whole change to the user: what changes, why, and the capabilities it affects. A capability is affected when its design or its code no longer fits the changed architecture, such as when a module it lands in takes on other responsibilities or other dependencies, even when its behavior stays the same. Write the change once the user agrees, so that capabilities still in `impl` or `verify` never read a change the user has not agreed to.
+## 4. Review
 
-## 4. Write
+Have a subagent with a fresh context review the architecture by the Review section of `arch/architecture.md`. Give it the gsdd directory and the language (`SKILL.md`), the path of that file, and the paths of the documents and the code, not your conclusions. Fix what it finds that holds, and tell the user what you did not fix and why.
 
-- Before writing `tech.md`, check each decision in it against what the user answered. Put each one the user has not chosen to them, such as a library or a way of building that came up after the list, and write it once they choose. Leave out what is still open, such as what may be added later.
-- Write `architecture.md`, and the technology into `tech.md`, following `shared/steering.md`.
-- Record the evidence behind these decisions, such as the alternatives compared and the experiments run, in the steering's `research.md` (`shared/documents.md`).
+## 5. Confirm
 
-## 5. Review
-
-- Have a subagent with a fresh context review the architecture by `arch/architecture.md`, unless the change leaves the processes, the modules, and their dependencies as they are. Give it the gsdd directory and the language (`SKILL.md`), the path of that file, and the paths of the documents and the code, not your conclusions. Fix what it finds that holds, and tell the user what you did not fix and why.
-
-## 6. Confirm
-
-- Present a summary: for the first architecture, the technology the user chose; the processes and modules, and where each capability lands; the main decisions, including those you made; for a change, what changed and the capabilities it affects; and the risks and unverified assumptions. Ask the user to confirm the architecture; it needs their confirmation even when they have said to go ahead without asking.
-- When the user confirms, move the capabilities in `arch` to `design`, and update `updated_at`. Move each other capability the change affects back to `design`, and each whose requirements must change back to `req`, as the user decides; a `done` one starts a change, and its `tasks.md` is emptied (`shared/phases.md`).
-- Suggest designing the capabilities in the order of their dependencies, starting with `/gsdd design <capability>`.
+- **After writing**: present, in the language of `SKILL.md`, a summary: the processes and modules, and where each feature area lands; the main decisions, including those you made; and the risks and unverified assumptions. Then put to the user, as one numbered list, the decisions that are theirs: the technology (`shared/technology.md`), and what users will see that the architecture brings. Ask the user to decide and to confirm.
+- **When the user confirms**, write the technology into `tech.md`, and revise the architecture where a choice differs from your recommendation. Then go on at once (`SKILL.md`) to `design`. After a change, go on to `design` when the designs of the parts it affects need to change, and say why; otherwise, suggest `/gsdd impl`.
