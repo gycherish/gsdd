@@ -35,7 +35,7 @@ Before writing the requirements, present, in the language of `SKILL.md`: the pro
 
 ## 4. Write the Requirements
 
-Write `docs/product/requirements.md` by `req/srs.md`, as the user decided. It describes the product as its users and operators see it.
+Write `docs/product/requirements.md` by `req/srs.md`, as the user decided. It describes what the product does for its users and operators, apart from its user interface.
 
 - A feature planned for a version is described fully enough that its interface, the architecture, and its code are built without guessing (`shared/principles.md`).
 - When the user leaves a point to you, recommend an answer with its reason; it holds once the user confirms it.
@@ -51,6 +51,7 @@ Before presenting the requirements, check that:
 - Every feature planned for a version is described fully enough to build without guessing.
 - Each statement comes from the research, the user, or the documents.
 - The requirements are self-contained (`shared/documents.md`).
+- The requirements state what the product does, apart from its user interface (`req/srs.md`).
 
 ## 6. Confirm
 

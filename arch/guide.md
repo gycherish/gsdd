@@ -20,7 +20,7 @@ This command writes documents only.
 ## 3. Design the Architecture
 
 - Design it by `arch/architecture.md`, from the whole system down to its modules, for the features of the version being built, on the technology you recommend.
-- What users will see that a choice of the architecture brings, in behavior or in quality, and that the requirements do not have yet, is put to the user with the decisions of this step. Once they agree, write it into the requirements, and into `ux.md` and the prototype when the product has a user interface.
+- What users will see that a choice of the architecture brings, in behavior or in quality, and that the requirements do not have yet, is put to the user with the decisions of this step. Once they agree, write it into the requirements, and, when the product has a user interface, into its design and `docs/ui/` (`ui/guide.md`).
 
 ## 4. Review
 
