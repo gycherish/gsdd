@@ -18,7 +18,7 @@ When the design needs it, research how products of the same kind present the sam
 
 ## 3. Design Step by Step
 
-The interface is designed in steps, and the user confirms each step before the next one begins: first the foundation of the interface, then the main screen, then each other screen, one at a time. A step builds on those confirmed before it.
+The interface is designed in steps, and the user confirms each step before the next one begins: the layout of the main screen, the visual style, what the main screen holds, and then each other screen, one at a time. A step builds on those confirmed before it.
 
 For each step:
 
@@ -27,20 +27,23 @@ For each step:
 - Present, in the language of `SKILL.md`, where to open the step in the design, and what it shows. Put to the user, as one numbered list, each with your recommendation and its reason: the choices the step leaves open, and its additions to the requirements. Ask the user to confirm.
 - When the user confirms, apply their answers in the design, write the additions they agree to into the requirements, as behavior of the features (`req/srs.md`), record the step in `docs/ui/` (below), and go on at once to the next step.
 
-### The Foundation
+### The Layout
 
-- **The layout**: the frame the screens sit in, how users move between the screens, and how each screen opens.
-- **The screens** of the version being built, each with the features it serves, and the main flows across them, from start to end.
-- **The visual style**: the real alternatives, side by side on the frame, for the user to choose. A product that runs natively on a platform follows that platform's interface guidelines.
-- **The common interactions**: how actions are confirmed, and how errors, progress, and notifications are shown.
+The layout of the main screen, the screen users see most: how its window is divided into regions, each region drawn empty. Show its real alternatives side by side.
+
+With the layout, present the screens of the version being built, each with the features it serves, and the main flows across them, from start to end, so that the user sees what the layout must hold. You arrange the screens and the flows yourself, and they are recorded with the layout.
+
+### The Visual Style
+
+The real alternatives of the visual style, side by side on the layout, for the user to choose, with the common interactions: how actions are confirmed, and how errors, progress, and notifications are shown. A product that runs natively on a platform follows that platform's interface guidelines.
 
 ### The Main Screen
 
-The screen users see most: how its features are arranged on it, and what the part of each feature looks like, with what users can do there, the feedback for each action, and its states.
+What each region of the layout holds: the features in it, and how they are arranged; what the part of each feature looks like; what users can do there, and the feedback for each action; and its states.
 
 ### The Other Screens
 
-Each other screen of the version, one at a time, in the order you choose: what it shows; what users can do on it, and the feedback for each action; and its states: empty, loading, error, and each other state its features have.
+Each other screen of the version, one at a time, in the order you choose: what it holds, and how it is arranged; what users can do on it, and the feedback for each action; and its states: empty, loading, error, and each other state its features have.
 
 ## 4. Record the Design
 
@@ -54,4 +57,4 @@ Record each step in `docs/ui/` once the user confirms it, so that the project ho
 
 When the user has confirmed every screen of the version, present, in the language of `SKILL.md`, a summary: the screens and the main flows, the style, the path of `docs/ui/prototype/index.html`, and the files that changed. Go on at once (`SKILL.md`) to `arch`.
 
-A change goes through the steps it affects: the foundation when it changes the layout, the screens, or the style, and then each screen it changes. Then go on to the first of `arch` and `design` whose documents the change affects, and say why; when it affects neither, suggest `/gsdd impl`.
+A change goes through the steps it affects: the layout or the visual style when it changes them, and then each screen it changes. Then go on to the first of `arch` and `design` whose documents the change affects, and say why; when it affects neither, suggest `/gsdd impl`.
