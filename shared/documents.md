@@ -9,7 +9,7 @@ docs/
 │   ├── requirements.md      the software requirements specification
 │   └── research.md          research on comparable products and the domain
 ├── ui/                      for a product with a user interface
-│   ├── ux.md                the screens, the flows, and the states of each screen
+│   ├── ux.md                the layout, the screens, the flows, and the states of each screen
 │   ├── style.md             the visual style and the common interactions
 │   └── prototype/           HTML pages that show the screens
 ├── architecture/

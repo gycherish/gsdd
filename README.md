@@ -19,7 +19,7 @@ req ─(you decide)→ ui ─(you decide)→ arch ─(you decide)→ design ⇄ 
 ```
 
 - `req` researches the products of the same kind and what their users need, telling you the findings of each question as it is answered. It then shows you the whole feature set, merged from the products and the research, and stops for you to decide the product's form and the features of the first version (the MVP), along with the features left out of it that would change the architecture's shape if added later. Once you decide, it writes the requirements, with the features of the MVP specified in full, and stops again for you to confirm them.
-- `ui` designs the screens, the flows, and the visual style, with an HTML prototype you can open in a browser, or in a design tool you name, and records them in `docs/ui/`. It stops for you to confirm the screens and the flows, plain, without a style, and then for you to choose the style. A product without a user interface skips it.
+- `ui` designs every screen of the version, step by step, with an HTML prototype you can open in a browser, or in a design tool you name, and records them in `docs/ui/`. It starts with the foundation: the layout, the screens and how users move between them, the visual style, and the common interactions; then the main screen; then each other screen, one at a time. It stops for you to confirm each step. A product without a user interface skips it.
 - `arch` researches the technology, and designs the architecture for the features of the version being built. It stops for you to choose the technology.
 - `design` writes the detailed design that the next piece to build needs, and skips the simple parts: the product is designed piece by piece, as it is built. It changes the earlier documents only with your agreement, and stops for the choices that are yours.
 - `impl` builds what you name, or the next piece of the version, from the documents, writing first the design it needs when it has none, and updates the documents when the work changes what they state.
@@ -79,7 +79,7 @@ docs/
 │   ├── requirements.md      the software requirements specification
 │   └── research.md          research on comparable products and the domain
 ├── ui/                      for a product with a user interface
-│   ├── ux.md                the screens, the flows, and the states of each screen
+│   ├── ux.md                the layout, the screens, the flows, and the states of each screen
 │   ├── style.md             the visual style and the common interactions
 │   └── prototype/           HTML pages that show the screens
 ├── architecture/
