@@ -20,7 +20,7 @@ req ─(you decide)→ ui ─(you decide)→ arch ─(you decide)→ design ⇄ 
 
 - `req` researches the products of the same kind and what their users need, telling you the findings of each question as it is answered. It then shows you the whole feature set, merged from the products and the research, and stops for you to decide the product's form and the features of the first version (the MVP), along with the features left out of it that would change the architecture's shape if added later. Once you decide, it writes the requirements, with the features of the MVP specified in full, and stops again for you to confirm them.
 - `ui` designs every screen of the version, step by step, with an HTML prototype you can open in a browser, or in a design tool you name, and records them in `docs/ui/`. It starts with the layout of the main screen, its regions still empty; then the visual style; then what each region of the main screen holds; then each other screen, one at a time. It stops for you to confirm each step. A product without a user interface skips it.
-- `arch` researches the technology, and designs the architecture for the features of the version being built. It stops for you to choose the technology.
+- `arch` researches the technology, and designs the architecture for the features of the version being built. It stops for you to choose the technology. For a project in C++, its recommendations weigh the research with the technology you prefer, as `shared/cpp.md` states it; edit that file to state your own.
 - `design` writes the detailed design that the next piece to build needs, and skips the simple parts: the product is designed piece by piece, as it is built. It changes the earlier documents only with your agreement, and stops for the choices that are yours.
 - `impl` builds what you name, or the next piece of the version, from the documents, writing first the design it needs when it has none, and updates the documents when the work changes what they state.
 
@@ -112,6 +112,7 @@ arch/architecture.md     the outline of the architecture, and how it is reviewed
 design/principles.md     what a design covers
 design/review.md         how a design is reviewed
 shared/                  rules that several commands share: principles, documents, research, technology, and the CLAUDE.md section
+shared/cpp.md            the technology preferred for a project in C++
 ```
 
 When you change it:
