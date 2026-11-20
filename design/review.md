@@ -6,8 +6,9 @@ Check that:
 
 - **Coverage**: every feature the part serves is served: its main flow, its errors and edge cases, and its quality targets.
 - **Fit**: the design works within the architecture: it keeps the modules' responsibilities, their dependency direction, and the mechanisms every module follows, and decides nothing at the level of the whole system. It uses the interfaces of other parts as their designs define them, and follows `tech.md` and the project's conventions.
-- **Readiness**: the pieces and contracts are concrete enough to implement without guessing, and every unverified assumption is listed with how it will be checked.
+- **Readiness**: what other parts depend on, and how the part works, are concrete enough to implement without guessing, and every unverified assumption is listed with how it will be checked.
 - **Size**: every piece, layer, and abstraction serves a need of the requirements.
+- **Contracts, not code**: the design holds no code (`design/principles.md`).
 - **Failures**: the failures that matter are handled and logged.
 - **Requirements**: the requirements the part serves are consistent and complete for it.
 

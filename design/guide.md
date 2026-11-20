@@ -9,7 +9,7 @@ This command writes documents only.
 ## 1. Choose the Parts
 
 - A part is a module of the architecture, or a feature whose implementation spans modules, called by the name the architecture or the requirements give it. Its directory under `docs/design/` takes its English name (`shared/documents.md`).
-- A part needs a design when building it means making decisions that other parts or later work depend on: data or state of its own, a protocol or a format, concurrency, an algorithm of its own, a choice between real alternatives, or failures to handle. The other parts are built straight from the requirements and the architecture: list them in the summary as needing no design.
+- A part needs a design when it has what a design holds (`design/principles.md`): what other parts depend on, or what takes thought to get right. The other parts are built straight from the requirements and the architecture: list them in the summary as needing no design.
 - Design the parts that others use before the parts that use them, so that each builds on the interfaces its providers define. Subagents can design independent parts in parallel: give each the gsdd directory and the language (`SKILL.md`), the path of this guide, and its part. Each writes only its part's directory, and returns the choices of Investigate that its design rests on.
 
 ## 2. Understand the Situation
